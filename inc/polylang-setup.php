@@ -123,6 +123,44 @@ function hello_child_register_customizer_strings() {
         // (เผื่อไว้) ถ้าอยากแปลคำว่า Submit ปุ่มส่ง
         pll_register_string( 'Review Submit Btn', 'Submit', 'Hello Child Review' );
 
+
+
+        $acc_group = 'Hello Child My Account';
+
+        // Avatar System
+        pll_register_string( 'Avatar Help', 'แตะไอคอนกล้องเพื่อเปลี่ยนรูป', $acc_group );
+        pll_register_string( 'Avatar Change', 'เปลี่ยนรูป', $acc_group );
+        pll_register_string( 'Avatar Remove', 'ลบรูป', $acc_group );
+        pll_register_string( 'Avatar Upload Success', 'อัปโหลดเรียบร้อย!', $acc_group );
+        pll_register_string( 'Avatar Remove Success', 'ลบรูปเรียบร้อย', $acc_group );
+        pll_register_string( 'Avatar File Too Large', 'ไฟล์ใหญ่เกินไป (Max 2MB)', $acc_group );
+        pll_register_string( 'Avatar Server Error', 'Server Error', $acc_group );
+
+        // Edit Account Form Headers
+        pll_register_string( 'Acc Info Title', 'ข้อมูลส่วนตัว', $acc_group );
+        pll_register_string( 'Acc Contact Title', 'ช่องทางติดต่อ', $acc_group );
+        pll_register_string( 'Acc Social Title', 'โซเชียลมีเดีย', $acc_group );
+        pll_register_string( 'Acc Password Title', 'Password change', $acc_group ); // WooCommerce เดิมมีอยู่แล้ว แต่ลงทะเบียนเผื่อไว้
+
+        // Custom Fields Labels
+        pll_register_string( 'Acc Label Birth', 'วันเกิด (DD/MM/YYYY)', $acc_group );
+        pll_register_string( 'Acc Label Phone', 'เบอร์โทรศัพท์', $acc_group );
+        pll_register_string( 'Acc Label Line', 'Line ID', $acc_group );
+        pll_register_string( 'Acc Label FB', 'Facebook Profile URL', $acc_group );
+        pll_register_string( 'Acc Label IG', 'Instagram (IG)', $acc_group );
+        pll_register_string( 'Acc Label X', 'X (Twitter)', $acc_group );
+        pll_register_string( 'Acc Label TikTok', 'TikTok', $acc_group );
+        pll_register_string( 'Acc Label WeChat', 'WeChat ID (微信)', $acc_group );
+
+        // Dashboard & Nav
+        pll_register_string( 'Dash Hello', 'สวัสดี', $acc_group );
+        pll_register_string( 'Dash Orders', 'คำสั่งซื้อ', $acc_group );
+        pll_register_string( 'Dash Address', 'ที่อยู่', $acc_group );
+        pll_register_string( 'Dash Account', 'ข้อมูลส่วนตัว', $acc_group );
+        pll_register_string( 'Dash Logout', 'ออกจากระบบ', $acc_group );
+        pll_register_string( 'Dash Downloads', 'ดาวน์โหลด', $acc_group );
+        pll_register_string( 'Dash Payment', 'วิธีการชำระเงิน', $acc_group );
+
     }
 }
 add_action( 'init', 'hello_child_register_customizer_strings' );

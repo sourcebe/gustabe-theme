@@ -14,7 +14,7 @@ add_filter('login_title', function ($login_title) {
 add_action('login_enqueue_scripts', 'gustabe_custom_login_logo');
 function gustabe_custom_login_logo() {
     $logo_url = '/wp-content/uploads/2025/07/LOGOWEBHEAD.webp';
-    $background_url = '/wp-content/uploads/2025/07/fasicare-Bg.webp';
+    $background_url = '';
     $creditdev = 'GUSTABE';
     $url_dev = 'https://gustabe.com';
 

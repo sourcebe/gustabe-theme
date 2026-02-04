@@ -2368,7 +2368,7 @@ label.cr-upload-images-status {
     box-shadow: none !important; /* เอาเงาออก */
 }
 
-/* เนื้อกราฟ (สีเขียว Fasicare) */
+/* เนื้อกราฟ (สีเขียว) */
 .ivole-meter-bar {
     background-color: #00A69C !important;
     border-radius: 10px !important;
@@ -2982,3 +2982,47 @@ label.cr-upload-images-status {
         height: 100%;
         position: relative !important; /* ★ เพิ่มบรรทัดนี้: เพื่อคุมเขตลิงก์ */
     }
+
+
+
+/* --- FIX AUTO COMPLETE DROPDOWN --- */
+.tt-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 9999 !important; /* ดันให้ลอยเหนือทุกอย่าง */
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 10px 0;
+    margin: 5px 0 0;
+    list-style: none;
+    font-size: 14px;
+    text-align: left;
+    background-color: #ffffff; /* พื้นหลังสีขาว */
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    width: 100%; /* ให้กว้างเท่าช่อง Input */
+}
+
+.tt-suggestion {
+    display: block;
+    padding: 8px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333333;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.tt-suggestion:hover,
+.tt-suggestion.tt-cursor {
+    color: #ffffff;
+    background-color: #04a39c; /* สีธีมของเรา */
+}
