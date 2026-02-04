@@ -1,4 +1,3 @@
-/* โค้ด CSS ที่มีอยู่เดิมของคุณทั้งหมดจะอยู่ด้านบนนี้ */
 /*
 Theme Name: Hello Elementor Child
 Theme URI: http://your-website.com/hello-elementor-child/
@@ -14,30 +13,30 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: custom theme, Gustabe.com
 */
 
-/* เพิ่ม CSS ของคุณเองที่นี่ */
-
-/* นำเข้าสไตล์จากธีมหลัก (สำคัญสำหรับธีมลูก) */
-/* ถ้ามีบรรทัดนี้อยู่แล้วในไฟล์ ให้ข้ามไป ไม่ต้องใส่ซ้ำ */
+/* นำเข้าสไตล์จากธีมหลัก */
 @import url("../hello-elementor/style.css");
 
-/* โค้ด CSS เดิมของคุณใน style.css */
-body, h1, h2, h3, h4, h5, h6, p, a:not([class*="fa-"]) { /* เพิ่ม :not([class*="fa-"]) เพื่อยกเว้นแท็กที่มีคลาส fa- */
+/* =========================================
+   Global Styles & Fonts
+   ========================================= */
+body, h1, h2, h3, h4, h5, h6, p, a:not([class*="fa-"]) { 
     font-family: 'VT323', 'Noto Sans Thai', sans-serif !important;
 }
 
-
-/*กฎเฉพาะสำหรับ Font Awesome */
-
-.fas, .far, .fal, .fab { /* สำหรับ Font Awesome 5/6 */
-    font-family: "Font Awesome 6 Free" !important; /* หรือ "Font Awesome 6 Brands" สำหรับ icon brands */
-    font-weight: 900 !important; /* สำหรับ fas icons */
+/* กฎเฉพาะสำหรับ Font Awesome */
+.fas, .far, .fal, .fab { 
+    font-family: "Font Awesome 6 Free" !important; 
+    font-weight: 900 !important; 
 }
 
-
-
+/* สีลิงก์ทั่วไป */
 body a {
     color: rgb(2, 135, 135);
 }
+
+/* =========================================
+   Comments Section
+   ========================================= */
 .comment-form-cookies-consent {
     clear: both;
     margin-top: 15px;
@@ -101,9 +100,9 @@ body a {
     }
 }
 
-/* --- โค้ดใหม่สำหรับ Header ที่คุณจะเพิ่มเข้ามาตรงนี้ --- */
-
-/* สไตล์ทั่วไปสำหรับ Header */
+/* =========================================
+   Header Structure
+   ========================================= */
 .gustabe-header-full-width {
     position: sticky;
     top: 0;
@@ -113,13 +112,25 @@ body a {
     padding-block-end: 0;
 }
 
-/* New CSS for the new wrapper */
 .header-wrapper {
     margin: 0 auto;
 }
 
+/* Top Bar */
+.header-top-bar {
+    background-color: #f8f9fa;
+    width: 100%;
+}
 
-/* สไตล์สำหรับปุ่ม "เข้าสู่ระบบ/สมัครสมาชิก" ใหม่ */
+/* Main Nav Background */
+.header-main-nav {
+    background-color: #ffffff;
+    width: 100%;
+}
+
+/* =========================================
+   Buttons & Links (Login/Register)
+   ========================================= */
 .my-account-link-split-text {
     background-color: #04a49c;
     color: #fff !important;
@@ -148,8 +159,7 @@ body a {
     margin-right: 8px;
 }
 
-
-/* สไตล์สำหรับผู้ใช้ที่ล็อกอินแล้ว */
+/* Logged In User Display */
 .my-account-link-logged-in-split-text {
     text-decoration: none;
     display: flex;
@@ -184,8 +194,9 @@ body a {
     color: #333;
 }
 
-
-/* สไตล์สำหรับ Dropdown menu */
+/* =========================================
+   Dropdown Menu (Desktop Default)
+   ========================================= */
 .dropdown-menu {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -198,7 +209,9 @@ body a {
     padding: 0.5rem 1rem;
 }
 
-/* สไตล์สำหรับปุ่มค้นหา */
+/* =========================================
+   Search Trigger Icon
+   ========================================= */
 .search-icon-link {
     color: #555;
     font-size: 1.2em;
@@ -209,34 +222,46 @@ body a {
     color: #04a39c;
 }
 
-/* สไตล์สำหรับฟอร์มค้นหาใน Modal */
-/* ปรับ Modal ให้เป็น Pop-up ขนาดกลาง */
+/* =========================================
+   MODERN SEARCH MODAL STYLING (NEW UPDATE)
+   ========================================= */
+
+/* 1. ปรับฉากหลังให้เบลอ (Glassmorphism Effect) */
+.modal-backdrop.show {
+    opacity: 0.7; /* ความเข้มของสีดำพื้นหลัง */
+    backdrop-filter: blur(5px); /* เบลอฉากหลัง */
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* 2. ปรับตัวกล่อง Modal */
 #search-popup-modal .modal-dialog {
-    max-width: 500px;
-    margin: 1.75rem auto;
+    max-width: 600px; /* ขยายให้กว้างขึ้น */
+    margin-top: 10vh; /* ดันลงมาจากข้างบนหน่อย */
 }
 
 #search-popup-modal .modal-content {
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: none; /* ลบเส้นขอบ */
+    border-radius: 24px; /* มุมมนใหญ่ๆ ทันสมัย */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* เงาฟุ้งๆ */
+    overflow: hidden;
 }
 
 #search-popup-modal .modal-header {
-    border-bottom: none;
-    padding-bottom: 0;
+    border-bottom: none; /* ลบเส้นแบ่ง */
+    padding: 25px 25px 5px 25px;
 }
 
 #search-popup-modal .modal-title {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #333;
 }
 
 #search-popup-modal .modal-body {
-    padding-top: 1rem;
-    padding-bottom: 1.5rem;
+    padding: 20px 30px 40px 30px;
 }
 
-/* สไตล์สำหรับช่องค้นหาและไอคอนภายใน Modal ตามภาพตัวอย่าง */
+/* 3. ช่องกรอกข้อมูล (Input) */
 .search-input-container {
     position: relative;
     width: 100%;
@@ -244,81 +269,102 @@ body a {
 
 .search-input-container .search-input-field {
     width: 100%;
-    padding: 12px 40px 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 50px;
-    font-size: 1rem;
+    background-color: #f5f7f9; /* สีพื้นหลังเทาอ่อนๆ */
+    border: 2px solid transparent; /* ซ่อนเส้นขอบไว้ก่อน */
+    border-radius: 16px; /* มุมมน */
+    padding: 15px 60px 15px 20px; /* เว้นที่ขวาไว้ให้ปุ่มกด */
+    font-size: 1.1rem;
     color: #333;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    height: 60px; /* สูงใหญ่ กดง่าย */
 }
 
 .search-input-container .search-input-field:focus {
-    border-color: #007bff;
+    background-color: #ffffff;
+    border-color: #04a39c; /* สีธีมเมื่อกดพิมพ์ */
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 4px rgba(4, 163, 156, 0.1); /* เงาเรืองแสง */
 }
 
+.search-input-container .search-input-field::placeholder {
+    color: #adb5bd;
+}
+
+/* 4. ปุ่มกดค้นหา (แว่นขยายใน Modal) */
 .search-input-container .search-submit-button-internal {
     position: absolute;
-    right: 5px;
+    right: 15px; /* ขยับเข้ามาหน่อย */
     top: 50%;
     transform: translateY(-50%);
-    background: transparent;
+    background-color: #04a39c; /* ใส่สีพื้นหลังให้ปุ่ม */
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
-    color: #888;
-    font-size: 1.3em;
+    color: #fff !important; /* ไอคอนสีขาว */
     cursor: pointer;
     z-index: 2;
-    padding: 5px;
-    border-radius: 50%;
-    transition: color 0.3s ease;
+    transition: all 0.2s;
 }
 
 .search-input-container .search-submit-button-internal:hover {
-    color: #04a39c;
+    background-color: #038a83;
+    transform: translateY(-50%) scale(1.05); /* ขยายเล็กน้อย */
 }
 
+.search-input-container .search-submit-button-internal i.huge {
+    font-size: 20px !important; /* ขนาดไอคอน */
+}
 
-/* สไตล์สำหรับปุ่มตัวเลือกประเภทการค้นหาภายใน Modal */
+/* 5. ตัวเลือกประเภท (Radio Buttons -> Chips) */
 .search-filter-label {
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 0.5rem;
-}
-
-.search-filter-buttons .btn {
-    border-radius: 50px;
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 10px;
     font-weight: 500;
+    margin-top: 1rem;
 }
 
-.search-filter-buttons .btn-outline-primary {
-    color: #007bff;
-    border-color: #007bff;
+/* ซ่อนปุ่ม Radio เดิม */
+.search-filter-buttons .btn-check {
+    position: absolute;
+    clip: rect(0,0,0,0);
 }
 
-.search-filter-buttons .btn-outline-primary:hover,
-.search-filter-buttons .btn-check:checked + .btn-outline-primary {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
+/* ปรับแต่งปุ่ม Chips */
+.search-filter-buttons .btn {
+    border: 1px solid #e0e0e0;
+    color: #666;
+    background-color: #fff;
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-right: 5px;
 }
 
-
-/* แถบด้านบน (Top-bar) */
-.header-top-bar {
+.search-filter-buttons .btn-outline-primary:hover {
     background-color: #f8f9fa;
-    width: 100%;
+    border-color: #ccc;
+    color: #333;
 }
 
-/* แถบเมนูหลัก (Main-nav) */
-.header-main-nav {
-    background-color: #ffffff;
-    width: 100%;
+/* เมื่อถูกเลือก (Active State) */
+.search-filter-buttons .btn-check:checked + .btn-outline-primary {
+    background-color: #e6fffd; /* พื้นหลังสีเขียวอ่อนๆ */
+    border-color: #04a39c;
+    color: #04a39c;
+    box-shadow: none;
+    font-weight: 600;
 }
 
-/* สไตล์สำหรับโลโก้ของเว็บไซต์ (สำหรับ Desktop) */
+/* =========================================
+   Logo & Branding
+   ========================================= */
 .gustabe-header-full-width .site-branding .custom-logo-link img.custom-logo.desktop-logo {
     max-height: 50px;
     width: auto;
@@ -326,7 +372,6 @@ body a {
     height: auto;
 }
 
-/* สไตล์สำหรับโลโก้มือถือ */
 .gustabe-header-full-width .custom-logo-mobile {
     max-height: 40px;
     width: auto;
@@ -335,13 +380,11 @@ body a {
     display: block;
 }
 
-/* สไตล์สำหรับชื่อเว็บไซต์ที่แสดงแทนโลโก้ mobile (ถ้าไม่ได้ใช้รูป) */
 .gustabe-header-full-width .site-branding .site-title.mobile-logo {
     font-size: 1.5em;
     line-height: 1;
 }
 
-/* สไตล์สำหรับชื่อเว็บไซต์และ Tagline (ถ้าแสดงแทนโลโก้ Desktop) */
 .gustabe-header-full-width .site-branding .site-title.desktop-logo a,
 .gustabe-header-full-width .site-branding .site-description.desktop-logo {
     color: #333;
@@ -351,8 +394,9 @@ body a {
     color: #508c60;
 }
 
-
-/* สไตล์สำหรับเมนูนำทางหลัก (บนคอมพิวเตอร์/หน้าจอใหญ่) */
+/* =========================================
+   Navigation Menus
+   ========================================= */
 .gustabe-header-full-width .main-navigation ul {
     list-style: none;
     margin: 0;
@@ -372,13 +416,14 @@ body a {
     transition: color 0.3s ease;
 }
 
-/* สไตล์เมื่อนำเมาส์ไปชี้ (hover) หรือเป็นเมนูที่กำลังใช้งาน */
 .gustabe-header-full-width .main-navigation ul li a:hover,
 .gustabe-header-full-width .main-navigation ul li.current-menu-item a {
     color: #04a39c;
 }
 
-/* สไตล์สำหรับไอคอนตะกร้าสินค้าและไอคอนบัญชีผู้ใช้ */
+/* =========================================
+   Header Actions (Cart / Account Icons)
+   ========================================= */
 .gustabe-header-full-width .header-actions .cart-contents,
 .gustabe-header-full-width .header-actions .my-account-link {
     color: #555;
@@ -388,13 +433,11 @@ body a {
     transition: color 0.3s ease;
 }
 
-/* สไตล์เมื่อนำเมาส์ไปชี้ที่ไอคอน */
 .gustabe-header-full-width .header-actions .cart-contents:hover,
 .gustabe-header-full-width .header-actions .my-account-link:hover {
     color: #04a39c;
 }
 
-/* สไตล์สำหรับตัวเลขจำนวนสินค้าในตะกร้า */
 .gustabe-header-full-width .cart-count {
     font-size: 0.7em;
     background-color: #dc3545;
@@ -408,19 +451,19 @@ body a {
     white-space: nowrap;
 }
 
-/* สไตล์สำหรับปุ่ม Toggle เมนูบนมือถือ (Hamburger) */
+/* =========================================
+   Mobile Hamburger Menu
+   ========================================= */
 .gustabe-header-full-width .navbar-toggler {
     border: none;
     background-color: transparent;
     padding: 0;
 }
 
-/* สไตล์สำหรับไอคอน Hamburger */
 .gustabe-header-full-width .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* สไตล์สำหรับเมนูมือถือที่ซ่อนอยู่และจะแสดงเมื่อกด Hamburger */
 .gustabe-header-full-width #mobileMenu {
     background-color: #F8F9FA;
     padding: 15px;
@@ -446,16 +489,12 @@ body a {
     transition: background-color 0.3s ease;
 }
 
-/* สไตล์เมื่อนำเมาส์ไปชี้ที่เมนูมือถือ */
 .gustabe-header-full-width #mobileMenu ul li a:hover {
     background-color: #e9ecef;
 }
 
-
-/* ควบคุมการแสดงผลโลโก้และปุ่ม Hamburger ตามขนาดหน้าจอ */
-
-/* ซ่อนโลโก้มือถือบนหน้าจอ Desktop (ขนาดใหญ่กว่า 991.98px) */
-@media (min-width: 992px) { /* สำหรับหน้าจอขนาด lg ขึ้นไป */
+/* Responsive Display Logic */
+@media (min-width: 992px) {
     .gustabe-header-full-width .site-branding .mobile-logo {
         display: none !important;
     }
@@ -463,14 +502,12 @@ body a {
         display: flex !important;
         align-items: center;
     }
-    /* ซ่อนปุ่ม Hamburger บน Desktop */
     .gustabe-header-full-width .navbar-toggler {
         display: none !important;
     }
 }
 
-/* ซ่อนโลโก้ Desktop บนหน้าจอมือถือ (ขนาดเล็กกว่า 992px) */
-@media (max-width: 991.98px) { /* สำหรับหน้าจอขนาดเล็กกว่า lg breakpoint */
+@media (max-width: 991.98px) {
     .gustabe-header-full-width .site-branding .desktop-logo {
         display: none !important;
     }
@@ -478,7 +515,6 @@ body a {
         display: flex !important;
         align-items: center;
     }
-    /* แสดงปุ่ม Hamburger บนมือถือ */
     .gustabe-header-full-width .navbar-toggler {
         display: block !important;
         visibility: visible !important;
@@ -486,7 +522,2463 @@ body a {
     }
 }
 
-/* คุณอาจจะต้องปรับตำแหน่งของปุ่ม Hamburger ให้เหมาะสมด้วย margin */
 .gustabe-header-full-width .header-actions .navbar-toggler {
     margin-left: 10px;
 }
+
+/* =========================================
+   Language Switcher (Polylang)
+   ========================================= */
+/* Desktop */
+.language-switcher-desktop ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.language-switcher-desktop ul li {
+    display: inline-block;
+    line-height: 1;
+}
+
+.language-switcher-desktop ul li:not(:last-child):after {
+    content: "|";
+    margin-left: 10px;
+    color: #ddd;
+    font-weight: 300;
+}
+
+.language-switcher-desktop ul li a {
+    text-decoration: none;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.95em;
+    transition: color 0.3s ease;
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+
+.language-switcher-desktop ul li.current-lang a {
+    color: #04a39c;
+    font-weight: 700;
+    cursor: default;
+    pointer-events: none;
+}
+
+.language-switcher-desktop ul li a:hover {
+    color: #04a39c;
+}
+
+/* Mobile */
+.language-switcher-mobile {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.language-switcher-mobile .lang-label {
+    font-size: 0.85em;
+    color: #aaa;
+    margin-bottom: 12px;
+    display: block;
+    font-weight: 500;
+}
+
+.language-switcher-mobile ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.language-switcher-mobile ul li {
+    margin-bottom: 0;
+}
+
+.language-switcher-mobile ul li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    background: #f8f9fa;
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+}
+
+.language-switcher-mobile ul li.current-lang a {
+    background: #e6fffd;
+    border-color: #04a39c;
+    color: #04a39c;
+}
+
+.language-switcher-mobile ul li img {
+    margin-right: 8px;
+    width: 22px;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    vertical-align: middle;
+}
+
+/* =========================================
+   Mobile Hamburger Icon (Huge Icons) 
+   ========================================= */
+.gustabe-header-full-width .navbar-toggler {
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+.gustabe-header-full-width .navbar-toggler:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.gustabe-header-full-width .navbar-toggler i.huge {
+    vertical-align: middle;
+    transition: color 0.3s ease;
+}
+
+.gustabe-header-full-width .navbar-toggler:hover i.huge,
+.gustabe-header-full-width .navbar-toggler[aria-expanded="true"] i.huge {
+    color: #04a39c !important;
+}
+
+/* =========================================
+   Mobile User Menu (Bottom Sheet Style) - FIXED VERSION
+   ========================================= */
+@media (max-width: 991.98px) {
+    /* 1. ปรับปุ่ม Avatar */
+    .my-account-link-logged-in-split-text {
+        background-color: transparent !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .my-account-link-logged-in-split-text .d-flex.flex-column {
+        display: none !important;
+    }
+
+    .my-account-link-logged-in-split-text .avatar-wrapper img {
+        margin-right: 0 !important;
+        width: 42px; 
+        height: 42px;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+
+    /* 2. บังคับ Dropdown เป็น Bottom Sheet */
+    .header-actions .dropdown-menu {
+        display: none;
+        position: fixed !important;
+        inset: auto 0 0 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        transform: none !important;
+        border-radius: 20px 20px 0 0 !important;
+        border: none !important;
+        padding: 20px 15px 30px 15px !important;
+        z-index: 10000 !important;
+        background: #fff !important;
+        animation: none;
+        transition: transform 0.3s ease-out;
+    }
+
+    .header-actions .dropdown-menu.show {
+        display: block !important;
+        animation: slideUpMobile 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 -5px 30px rgba(0,0,0,0.2) !important;
+    }
+
+    .header-actions .dropdown-menu:before {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 4px;
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        margin: 0 auto 20px auto;
+    }
+    
+    .header-actions .dropdown-menu:after {
+        content: "เมนูสมาชิก";
+        display: block;
+        text-align: center;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+    }
+
+    .header-actions .dropdown-item {
+        padding: 12px 10px !important;
+        font-size: 1.1em !important;
+        border-bottom: 1px solid #f5f5f5;
+        color: #333 !important;
+        display: flex;
+        align-items: center;
+    }
+    
+    .header-actions .dropdown-item:active, 
+    .header-actions .dropdown-item:hover {
+        background-color: #f9f9f9 !important;
+        color: #04a39c !important;
+    }
+
+    .header-actions .dropdown-divider {
+        display: none;
+    }
+    
+    .header-actions .dropdown-item i.huge {
+        font-size: 1.5em !important;
+        width: 40px;
+        text-align: center;
+        color: #666;
+    }
+    
+    .dropdown-menu.show::after {
+        content: "";
+        position: fixed;
+        top: -100vh;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: -1;
+        pointer-events: none;
+    }
+}
+
+@keyframes slideUpMobile {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+
+
+/* =========================================
+   Fix & Style Modal Close Button
+   ========================================= */
+
+/* เจาะจงไปที่ปุ่มปิดใน Modal เพื่อทับค่าของ Theme */
+#search-popup-modal .btn-close {
+    /* 1. ล้างค่าเดิมของ Hello Elementor (ขอบชมพู/ตัวหนังสือชมพู) */
+    border: none !important;
+    color: #333 !important; /* เปลี่ยนเป็นสีเทาเข้ม */
+    background-color: #f0f2f5 !important; /* ใส่พื้นหลังสีเทาอ่อน */
+    opacity: 1 !important; /* ปรับให้ชัด ไม่ต้องจาง */
+    padding: 0 !important; /* ลบ Padding เดิมที่กว้างเกินไป */
+    
+    /* 2. จัดขนาดและรูปทรงใหม่ */
+    width: 32px;
+    height: 32px;
+    border-radius: 50%; /* ทำเป็นวงกลม */
+    box-shadow: none !important;
+    
+    /* 3. จัดตำแหน่ง (ถ้าต้องการให้เป๊ะ) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    
+    /* 4. ปรับขนาดไอคอน X (Bootstrap ใช้ background-image) */
+    background-size: 12px; 
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* เอฟเฟกต์ตอนชี้เมาส์ */
+#search-popup-modal .btn-close:hover {
+    background-color: #e4e6e9 !important; /* สีเข้มขึ้นนิดนึง */
+    transform: rotate(90deg); /* หมุนไอคอนเล่นๆ ให้ดูมีลูกเล่น */
+    color: #000 !important;
+}
+
+/* เอฟเฟกต์ตอนกด */
+#search-popup-modal .btn-close:active {
+    transform: scale(0.9); /* ย่อลงนิดนึง */
+}
+
+
+
+/* =========================================
+   UNIVERSAL Styles (พื้นฐาน)
+   ========================================= */
+ul.products::before, ul.products::after { content: none !important; display: none !important; }
+ul.products {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important; padding: 10px !important; margin: 0 !important;
+}
+@media (min-width: 768px) { ul.products { grid-template-columns: repeat(4, 1fr) !important; gap: 20px !important; } }
+ul.products li.product { width: 100% !important; margin: 0 !important; padding: 0 !important; background: transparent !important; }
+
+/* Base Card */
+.mp-card-inner {
+    background: #fff; border-radius: 8px; overflow: hidden; position: relative;
+    height: 100%; display: flex; flex-direction: column; border: 1px solid #f1f1f1;
+}
+.mp-img-box { position: relative; width: 100%; padding-top: 100%; background: #f9f9f9; overflow: hidden; }
+.mp-img-box img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.mp-content { padding: 10px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.mp-title { font-size: 13px !important; line-height: 1.3 !important; color: #333 !important; margin: 0 0 5px !important; font-weight: 500 !important; overflow: hidden; height: 34px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
+.mp-title-link { text-decoration: none !important; }
+.mp-price { font-size: 15px; font-weight: 700; color: #04a39c; }
+.mp-price del { font-size: 12px; color: #ccc; margin-right: 5px; font-weight: normal; }
+.mp-badge-sale { position: absolute; top: 0; right: 0; background: #ffc107; color: #000; font-size: 10px; font-weight: 800; padding: 3px 6px; z-index: 5; }
+
+/* =========================================
+   STYLE 1: MARKETPLACE (With View Button)
+   ========================================= */
+.style-1 .mp-card-inner { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.style-1 .mp-sales { font-size: 10px; color: #999; margin-bottom: 5px; }
+
+/* จัดราคาซ้าย ปุ่มขวา */
+.style-1 .mp-footer-row { display: flex; justify-content: space-between; align-items: center; }
+
+/* จัดกลุ่มปุ่มให้อยู่ติดกัน */
+.style-1 .mp-action-group { display: flex; gap: 6px; }
+
+/* ทรงปุ่มวงกลม (ใช้ร่วมกัน) */
+.style-1 .circle-btn {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s; cursor: pointer;
+}
+.style-1 .circle-btn:active { transform: scale(0.9); }
+.style-1 .circle-btn svg { width: 16px; height: 16px; }
+
+/* สีปุ่มดูสินค้า (สีเทาจางๆ) */
+.style-1 .mp-view-btn {
+    background: #f3f3f3; color: #666;
+}
+.style-1 .mp-view-btn:hover { background: #e0e0e0; color: #333; }
+
+/* สีปุ่มสั่งซื้อ (สีธีม) */
+.style-1 .mp-add-btn {
+    background: #04a39c; color: #fff;
+    box-shadow: 0 2px 5px rgba(4,163,156,0.3);
+}
+.style-1 .mp-add-btn:hover { background: #03857f; }
+
+/* =========================================
+   STYLE 2: SUPERMARKET (Compact Row)
+   ========================================= */
+.style-2 .mp-card-inner { border: 1px solid #e0e0e0; }
+.style-2 .mp-content { padding: 10px; display: flex; flex-direction: column; justify-content: flex-end; }
+.style-2 .big-price { font-weight: 700; color: #333; }
+
+/* กล่องครอบให้เป็นแถวเดียวกัน */
+.style-2-action-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px; /* ระยะห่างระหว่างปุ่มเลข กับ ปุ่มตะกร้า */
+    margin-top: auto;
+}
+
+/* กลุ่มปุ่ม +/- (ปรับให้มนๆ เล็กๆ) */
+.style-2 .qty-selector-compact {
+    display: flex; align-items: center;
+    border: 1px solid #ddd; border-radius: 20px; /* ทรงแคปซูล */
+    overflow: hidden; height: 32px;
+    flex: 1; /* ให้ยืดเต็มพื้นที่ที่เหลือ */
+    max-width: 100px; /* จำกัดความกว้างไม่ให้ยาวเกิน */
+}
+
+.style-2 .qty-btn {
+    width: 28px; height: 100%; border: none; background: #fff;
+    color: #04a39c; font-weight: bold; cursor: pointer; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+}
+.style-2 .qty-btn:active { background: #f0f0f0; }
+
+.style-2 .qty-input {
+    width: 100%; height: 100%; border: none; text-align: center;
+    font-size: 13px; font-weight: 600; padding: 0;
+    background: #fff; color: #333;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.style-2 .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ปุ่มใส่ตะกร้า (เป็นปุ่มเขียวขวาสุด) */
+.style-2 .compact-add-btn {
+    width: 36px; height: 32px; /* สูงเท่าปุ่มเลข */
+    background: #04a39c; color: #fff;
+    border-radius: 8px; /* มนนิดหน่อย */
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; /* ห้ามหด */
+    transition: 0.2s;
+}
+.style-2 .compact-add-btn:active { transform: scale(0.95); }
+.style-2 .compact-add-btn svg { width: 18px; height: 18px; }
+
+/* =========================================
+   STYLE 3: FASHION (NEW FIX!)
+   ========================================= */
+.style-3 .portrait-img { padding-top: 133%; /* รูปแนวตั้ง 3:4 */ }
+.style-3 .mp-content { text-align: left; justify-content: flex-end; }
+.style-3 .fashion-cat { font-size: 10px; color: #999; text-transform: uppercase; margin-bottom: 2px; }
+.style-3 .fashion-cat a { color: #999; text-decoration: none; }
+.style-3 .mp-title { margin-bottom: 2px !important; font-weight: normal !important; height: auto; -webkit-line-clamp: 1; line-clamp: 1; }
+.style-3 .mp-price { color: #333; font-weight: 600; }
+
+/* =========================================
+   STYLE 4: MINIMAL
+   ========================================= */
+.style-4 .mp-card-inner { border: none; background: transparent; }
+.style-4 .radius-img { border-radius: 12px; }
+.style-4 .mp-content { padding: 10px 0; }
+.style-4 .mp-footer-row { display: flex; justify-content: space-between; gap: 10px; }
+.style-4 .insta-wishlist { position: absolute; top: 10px; right: 10px; color: #fff; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+
+
+/* =========================================
+   CUSTOM FILTER CSS (App Style Bottom Sheet)
+   ========================================= */
+
+/* 1. ฉากหลัง (Overlay) */
+.custom-filter-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); /* สีดำโปร่งแสง */
+    z-index: 9990;
+    opacity: 0; visibility: hidden; transition: 0.3s ease;
+    backdrop-filter: blur(2px); /* เบลอฉากหลังนิดๆ ดูแพง */
+}
+.custom-filter-overlay.is-visible { opacity: 1; visibility: visible; }
+
+/* 2. ตัวกล่อง Panel */
+.custom-filter-panel {
+    position: fixed; bottom: -100%; left: 0; width: 100%; height: 80vh; /* สูง 80% ของจอ */
+    background: #fff; z-index: 9999;
+    border-radius: 20px 20px 0 0; /* ขอบมนด้านบน */
+    box-shadow: 0 -5px 30px rgba(0,0,0,0.15);
+    display: flex; flex-direction: column;
+    transition: bottom 0.4s cubic-bezier(0.19, 1, 0.22, 1); /* Animation เด้งสมูท */
+}
+.custom-filter-panel.is-visible { bottom: 0; }
+
+/* ห้ามเลื่อนหน้าจอหลักตอนเปิด Filter */
+body.no-scroll { overflow: hidden; }
+
+/* Header */
+.filter-header {
+    padding: 15px 20px; border-bottom: 1px solid #f0f0f0;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.filter-header h3 { margin: 0; font-size: 18px; font-weight: 700; color: #333; }
+.close-icon { font-size: 28px; color: #999; cursor: pointer; line-height: 1; }
+
+/* Body (Scroll ได้) */
+.filter-body {
+    flex: 1; overflow-y: auto; padding: 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Sections */
+.filter-section { margin-bottom: 25px; }
+.section-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px; }
+
+/* Inputs ราคา */
+.price-range-inputs { display: flex; align-items: center; gap: 10px; }
+.price-range-inputs input {
+    width: 100%; text-align: center; border: 1px solid #ddd;
+    border-radius: 8px; padding: 8px; font-size: 14px; background: #f9f9f9;
+}
+.price-range-inputs .sep { color: #999; }
+
+/* ตัวเลือกแบบปุ่ม (Chips/Pills) */
+.options-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.option-pill { cursor: pointer; position: relative; margin: 0; }
+.option-pill input { position: absolute; opacity: 0; width: 0; height: 0; } /* ซ่อน Checkbox จริง */
+
+/* หน้าตาปุ่มปกติ */
+.option-pill span {
+    display: block; padding: 8px 16px;
+    background: #f5f5f5; border: 1px solid transparent;
+    border-radius: 30px; font-size: 13px; color: #666;
+    transition: 0.2s;
+}
+
+/* หน้าตาปุ่มตอนเลือก (Active) */
+.option-pill input:checked + span {
+    background: #e6fffa; /* พื้นเขียวอ่อน */
+    border-color: #04a39c;
+    color: #04a39c;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+
+
+/* =========================================
+   2. APP ACTION BAR ปุ่มคู่แฝด (จัดแถวเดียวกัน + สวยงาม)
+   ========================================= */
+.app-action-bar {
+    display: flex;
+    justify-content: space-between; /* ซ้าย-ขวา ชนขอบ */
+    align-items: center;
+    padding: 10px 15px;
+    background: #fff;
+    border-bottom: 1px solid #f1f1f1;
+    gap: 10px;
+}
+
+/* ฝั่งซ้าย (จำนวนสินค้า) */
+.action-left .result-count-text {
+    font-size: 12px; color: #888; white-space: nowrap;
+}
+
+/* ฝั่งขวา (Filter + Sort) */
+.action-right {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* ระยะห่างระหว่างปุ่ม Filter กับ Sort */
+    flex: 1; /* ให้ยืดพื้นที่ได้เต็มที่ */
+    justify-content: flex-end; /* ดันไปขวาสุด */
+}
+
+/* --- A. ปุ่ม Filter (แต่งใหม่ให้สวย) --- */
+.app-action-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 15px; background: #fff; border-bottom: 1px solid #f1f1f1;
+}
+.action-right { display: flex; gap: 8px; }
+
+/* ดีไซน์ปุ่มมาตรฐาน (ใช้ทั้ง Filter และ Sort) */
+.app-action-btn {
+    display: flex; align-items: center; gap: 6px;
+    height: 36px; padding: 0 16px;
+    background: #fff; border: 1px solid #e0e0e0;
+    border-radius: 20px; /* ทรงแคปซูล */
+    font-size: 13px; color: #333; font-weight: 500;
+    cursor: pointer; transition: 0.2s; white-space: nowrap;
+}
+.app-action-btn:active { background: #f5f5f5; transform: scale(0.98); }
+.app-action-btn svg { color: #555; }
+
+/* Sort Panel (เฉพาะส่วนลิสต์รายการ) */
+.sort-panel-height { height: auto !important; max-height: 60vh; } /* ไม่ต้องสูงมาก */
+.sort-options-list { list-style: none; margin: 0; padding: 0; }
+.sort-options-list li { border-bottom: 1px solid #f9f9f9; }
+
+.sort-option-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 0;
+    text-decoration: none; color: #333; font-size: 14px;
+}
+.sort-option-item.active {
+    font-weight: 700; color: #04a39c; /* สีธีม */
+}
+.sort-option-item .check-icon { stroke: #04a39c; }
+
+
+/* =========================================
+   CATEGORY SCROLLER (Drag Fix Version)
+   ========================================= */
+
+.app-category-scroller {
+    width: 100%;
+    overflow-x: auto;
+    padding: 15px 0 5px 0; /* เว้นบนเยอะหน่อยให้เงาไม่ขาด */
+    background: #fff;
+    
+    /* ซ่อน Scrollbar */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; 
+
+    /* ★ เพิ่ม: เปลี่ยนเมาส์เป็นรูปมือจับ */
+    cursor: grab;
+    cursor: -webkit-grab;
+    user-select: none; /* ห้ามคลุมดำ */
+}
+.app-category-scroller::-webkit-scrollbar { display: none; }
+
+/* ตอนกำลังกำมือลาก (JS จะเติม class นี้ให้) */
+.app-category-scroller.active {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.cat-scroll-track {
+    display: flex; /* เรียงแนวนอน */
+    padding: 0 15px; /* เว้นขอบซ้ายขวา */
+    gap: 15px; /* ระยะห่างระหว่างการ์ด */
+}
+
+/* ตัวการ์ด (Card) */
+.cat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    width: 70px; /* ความกว้างของการ์ด */
+    flex-shrink: 0; /* ห้ามหด */
+    gap: 6px;
+    
+    /* ป้องกันการลาก Link */
+    -webkit-user-drag: none;
+}
+
+/* กล่องรูปภาพ (วงกลมมนๆ) */
+.cat-img-box {
+    width: 55px; height: 55px;
+    background: #f7f7f7;
+    border-radius: 18px; /* ปรับเป็น 50% ถ้าอยากได้วงกลม */
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+    transition: 0.2s;
+    position: relative;
+}
+
+/* รูปภาพข้างใน */
+.cat-img-box img {
+    width: 100%; height: 100%;
+    object-fit: cover; /* บังคับรูปให้เต็มกล่องสวยๆ */
+    
+    /* ★ สำคัญมาก: ป้องกันเมาส์ไปจับโดนรูป ไม่งั้นลากไม่ไป */
+    pointer-events: none; 
+}
+
+/* ไอคอน (สำหรับปุ่ม All หรือหมวดไม่มีรูป) */
+.cat-img-box svg { 
+    width: 24px; height: 24px; stroke: #888; 
+    pointer-events: none; /* กันจับโดนไอคอนด้วย */
+}
+
+.cat-img-box.all-items { background: #e0f7fa; border-color: #b2ebf2; }
+.cat-img-box.all-items svg { stroke: #04a39c; }
+
+/* ชื่อหมวดหมู่ */
+.cat-name {
+    font-size: 11px; color: #666;
+    text-align: center;
+    line-height: 1.2;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* ตัดคำถ้ายาวเกิน */
+}
+
+/* Active State (เมื่อเลือกหมวดนั้นอยู่) */
+.cat-card.active .cat-img-box {
+    border-color: #04a39c;
+    box-shadow: 0 0 0 2px rgba(4,163,156,0.2); /* มีเงาเรืองแสงนิดๆ */
+    background: #fff;
+}
+.cat-card.active .cat-name {
+    color: #04a39c;
+    font-weight: 700;
+}
+
+/* =========================================
+   MINIMAL FILTER & DUAL SLIDER (Final Version)
+   ========================================= */
+
+/* 1. Reset พื้นฐาน (กัน Theme แม่แทรก) */
+.custom-filter-panel.minimal-theme * {
+    box-sizing: border-box;
+}
+/* ล้างค่า Input เดิมของ Theme */
+.custom-filter-panel input, 
+.custom-filter-panel button {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* 2. Slider Track (หลอดสไลด์แบบหลอดคู่) */
+.range-slider-wrapper {
+    position: relative;
+    width: 100%;
+    padding: 10px 0 25px 0; /* เว้นที่ด้านล่างให้ปุ่มลาก */
+}
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 6px; /* ความหนาหลอด */
+    margin-top: 15px;
+}
+/* เส้นพื้นหลัง (สีเทา) */
+.slider-track {
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    position: absolute;
+    top: 0; bottom: 0;
+    z-index: 1;
+}
+
+/* ตัวก้อนกลมๆ (Thumb) - ซ้อนกัน 2 อัน */
+.slider-container input[type="range"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    outline: none;
+    position: absolute;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    background-color: transparent;
+    pointer-events: none; /* เพื่อให้คลิกทะลุได้ */
+    z-index: 2;
+    height: 6px; /* สูงเท่าหลอด */
+    border: none !important;
+}
+
+/* แต่งปุ่มลาก (Chrome/Safari) */
+.slider-container input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px; width: 24px; /* ขนาดปุ่มลาก */
+    background-color: #fff;
+    border: 2px solid #04a39c; /* สีขอบปุ่ม */
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto; /* ให้ลากได้ */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    margin-top: 0; /* ปรับให้ตรงกลาง */
+}
+/* แต่งปุ่มลาก (Firefox) */
+.slider-container input[type="range"]::-moz-range-thumb {
+    height: 24px; width: 24px;
+    background-color: #fff;
+    border: 2px solid #04a39c;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* 3. กล่องตัวเลขราคา (Minimal Inputs) */
+.price-display {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 5px;
+}
+.price-box {
+    display: flex; align-items: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    transition: 0.2s;
+    width: 45%;
+}
+/* เวลาคลิกพิมพ์ ให้กรอบเป็นสีเขียว */
+.price-box:focus-within {
+    background: #fff; border-color: #04a39c;
+}
+.price-box .currency {
+    font-size: 14px; color: #999; margin-right: 5px; font-family: sans-serif;
+}
+.price-box input {
+    border: none !important; background: transparent !important;
+    padding: 0 !important; margin: 0 !important;
+    font-size: 15px; font-weight: 600; color: #333;
+    width: 100%;
+    -moz-appearance: textfield; /* ซ่อนลูกศรขึ้นลง */
+    appearance: textfield;
+    height: auto !important;
+}
+.price-box input::-webkit-outer-spin-button,
+.price-box input::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+}
+.sep { color: #ccc; font-weight: 300; }
+
+
+/* =========================================
+   1. ส่วนสวิตช์ (ลดราคา/พร้อมส่ง) - แบบแนวนอนคู่
+   ========================================= */
+.toggle-row {
+    display: flex;
+    gap: 12px; /* ระยะห่างระหว่าง 2 กล่อง */
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.minimal-toggle {
+    flex: 1; /* แบ่งพื้นที่กันคนละครึ่ง (50/50) */
+    display: flex;
+    justify-content: space-between; /* ตัวหนังสือซ้าย สวิตช์ขวา */
+    align-items: center;
+    padding: 12px 15px; /* เพิ่มพื้นที่หายใจ */
+    border: 1px solid #eee; /* ใส่กรอบบางๆ */
+    border-radius: 16px; /* มุมมนสวยๆ */
+    background: #fff;
+    margin: 0; /* ลบระยะเดิม */
+    transition: 0.2s;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้ */
+.minimal-toggle:hover {
+    border-color: #04a39c;
+    background: #fcfcfc;
+}
+
+.minimal-toggle .label-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+}
+
+/* ปรับขนาดสวิตช์ให้พอดีกับกล่อง */
+.switch-box {
+    width: 40px; height: 22px;
+}
+.switch-box .slider:before {
+    height: 16px; width: 16px; left: 3px; bottom: 3px;
+}
+.switch-box input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+
+/* =========================================
+   2. ส่วนปุ่ม Footer (Clear / Apply) - แก้ทับธีมแม่ 100%
+   ========================================= */
+.filter-footer {
+    padding: 20px;
+    border-top: 1px solid #f5f5f5;
+    display: flex;
+    gap: 12px;
+    background: #fff;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+/* สไตล์พื้นฐานของทั้ง 2 ปุ่ม */
+.custom-filter-panel .btn-reset, 
+.custom-filter-panel .btn-apply {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px !important;       /* บังคับความสูง */
+    border-radius: 12px !important; /* บังคับความมน (แก้ 3px ของธีม) */
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 0 20px !important;    /* จัด Padding ใหม่ */
+    line-height: normal !important;
+    
+    /* ล้างค่าเดิมของ Hello Elementor */
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* ปุ่มล้างค่า (สีเทาอ่อน) */
+.custom-filter-panel .btn-reset {
+    flex: 1;
+    background: #f5f7f9 !important;      /* ทับค่า transparent */
+    color: #666 !important;              /* ทับสีชมพู #c36 */
+    border: 1px solid transparent !important; /* ทับขอบสีชมพู */
+}
+.custom-filter-panel .btn-reset:hover {
+    background: #e9ecef !important;
+    color: #333 !important;
+}
+
+/* ปุ่มดูผลลัพธ์ (สีเขียว) */
+.custom-filter-panel .btn-apply {
+    flex: 2;
+    /* ทับค่าพื้นหลังและขอบด้วย !important */
+    background: linear-gradient(135deg, #04a39c, #03857f) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(4,163,156,0.25) !important;
+}
+.custom-filter-panel .btn-apply:active {
+    transform: scale(0.98);
+    box-shadow: none !important;
+}
+
+
+/* =========================================
+   1. ส่วนสถานะแบบปุ่มกด (Button Pills)
+   ========================================= */
+.status-btn-row {
+    display: flex;
+    gap: 10px; /* ระยะห่างระหว่างปุ่ม */
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.status-btn-pill {
+    flex: 1; /* ขยายเต็มพื้นที่เท่าๆ กัน */
+    cursor: pointer;
+    margin: 0;
+}
+
+/* ซ่อน Checkbox ของจริง */
+.status-btn-pill input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* ดีไซน์ตัวปุ่ม (สถานะปกติ = ยังไม่เลือก) */
+.status-btn-pill .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* ระยะห่างไอคอนกับตัวหนังสือ */
+    width: 100%;
+    padding: 12px 10px;
+    background-color: #f5f7f9; /* สีเทาอ่อน */
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* สถานะเมื่อเอาเมาส์ชี้ (Hover) */
+.status-btn-pill:hover .btn-content {
+    background-color: #eee;
+    border-color: #ccc;
+}
+
+/* --- สถานะเมื่อถูกเลือก (Checked) --- */
+/* เปลี่ยนสีพื้นหลังเป็นสีธีม (เขียว) ตัวหนังสือขาว */
+.status-btn-pill input:checked + .btn-content {
+    background-color: #e6fffa; /* สีพื้นเขียวอ่อนๆ (ดูสบายตากว่าเขียวทึบ) */
+    color: #04a39c;            /* สีตัวหนังสือเขียวเข้ม */
+    border-color: #04a39c;     /* ขอบสีเขียว */
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(4, 163, 156, 0.15); /* เงาเรืองแสง */
+}
+
+/* จัดไอคอนให้สวย */
+.status-btn-pill .btn-content svg {
+    stroke-width: 2px;
+    transition: 0.2s;
+}
+
+/* พอเลือกแล้ว ไอคอนขยับนิดนึงให้รู้ว่ากดแล้ว */
+.status-btn-pill input:checked + .btn-content svg {
+    transform: scale(1.1);
+}
+
+
+
+/* =========================================
+   SHOP PAGE COVER (Clean Full Width)
+   ========================================= */
+.shop-cover-wrapper {
+    width: 100%;           /* เต็มจอโดยธรรมชาติ */
+    height: 250px;         /* ความสูง */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #f1f1f1;
+    margin-bottom: 0;      /* ติดกับส่วนล่าง */
+}
+
+/* ตัวรูปภาพ (IMG Tag) */
+.shop-cover-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center center; /* จัดกลางรูป */
+    z-index: 1;
+}
+
+/* กล่องข้อความ */
+.shop-cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.shop-cover-title {
+    color: #fff !important;
+    font-size: 36px !important;
+    font-weight: 800;
+    margin: 0 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+}
+
+.shop-cover-desc {
+    color: #fff;
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 500;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+
+/* =========================================
+   SINGLE PRODUCT LAYOUT (FIXED STICKY)
+   ========================================= */
+
+/* 1. จัด Layout เฉพาะโซนบน (รูป + ข้อมูล) */
+@media (min-width: 768px) {
+    .product-top-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        align-items: flex-start; /* สำคัญ: ให้กล่องสูงเท่าเนื้อหาตัวเอง */
+        position: relative;      /* เป็นจุดอ้างอิงให้ Sticky */
+    }
+    
+    .product-gallery-wrapper {
+        flex: 1;
+        max-width: 50%;
+        width: 50%;              /* บังคับความกว้าง */
+    }
+    
+    .product-info-wrapper {
+        flex: 1;
+        max-width: 50%;
+        width: 50%;
+        padding-top: 20px;
+        
+        /* Sticky Settings */
+        position: -webkit-sticky;
+        position: sticky;
+        top: 100px;              /* ระยะห่างจากขอบบน */
+        z-index: 10;
+        
+        /* ป้องกันทะลุเกินความสูงจอ */
+      
+    }
+}
+
+/* 2. ชื่อสินค้า (Title) */
+.product-info-wrapper .product_title {
+    font-size: 28px !important;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.3;
+    margin-bottom: 10px;
+}
+
+/* 3. ราคาสินค้า (Price) */
+.product-info-wrapper .price {
+    font-size: 24px !important;
+    color: #04a39c !important; /* สีธีมของคุณ */
+    font-weight: 800;
+    margin-bottom: 20px;
+    display: block;
+}
+.product-info-wrapper .price del {
+    color: #aaa;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+/* 4. คำอธิบายสั้น (Short Description) */
+.product-info-wrapper .woocommerce-product-details__short-description {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+/* 5. ปุ่ม Add to Cart (Desktop) */
+.product-info-wrapper form.cart {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.product-info-wrapper button.single_add_to_cart_button {
+    background: #265175 !important; /* สีน้ำเงินเข้มตามธีม */
+    color: #fff;
+    padding: 12px 40px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* 6. ส่วน Tabs (อยู่ข้างล่าง ไม่เกี่ยวกับ Flex ข้างบนแล้ว) */
+.product-tabs-wrapper {
+    width: 100%;
+    margin-top: 60px;
+    clear: both;
+}
+
+/* Mobile: ให้เรียงแนวตั้งปกติ */
+@media (max-width: 767px) {
+    .product-top-section {
+        display: block;
+    }
+    .product-gallery-wrapper, 
+    .product-info-wrapper {
+        max-width: 100%;
+        width: 100%;
+    }
+    .product-info-wrapper .product_title {
+        font-size: 22px !important;
+    }
+    .product-info-wrapper .price {
+        font-size: 20px !important;
+    }
+}
+
+
+/* =========================================
+   GUSTABE DYNAMIC GALLERY ENGINE
+   ========================================= */
+
+/* โครงสร้างหลัก */
+.gustabe-gallery-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* -----------------------------------------
+   TYPE 1: SLIDER (Standard App Style)
+   ----------------------------------------- */
+.layout-slider .swiper-slide img {
+    width: 100%; height: auto; object-fit: cover; border-radius: 8px;
+}
+.layout-slider .gallery-thumbs-row {
+    display: flex; gap: 10px; margin-top: 10px; overflow-x: auto;
+}
+.layout-slider .thumb-item {
+    width: 60px; height: 60px; flex-shrink: 0; cursor: pointer;
+    border: 1px solid transparent; border-radius: 4px; overflow: hidden;
+}
+.layout-slider .thumb-item:hover { border-color: #04a39c; }
+.layout-slider .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+
+/* -----------------------------------------
+   TYPE 2: FASHION VERTICAL (Scroll ยาวลงมา)
+   ----------------------------------------- */
+.layout-vertical .gallery-grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.layout-vertical img {
+    width: 100%; height: auto; display: block;
+}
+
+/* -----------------------------------------
+   TYPE 3: MOSAIC GRID (ตาราง)
+   ----------------------------------------- */
+.layout-grid .gallery-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* แบ่ง 2 คอลัมน์ */
+    gap: 10px;
+}
+/* รูปแรกเต็มจอเสมอ */
+.layout-grid .item-index-0 {
+    grid-column: span 2; 
+}
+.layout-grid img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 4px;
+}
+
+/* -----------------------------------------
+   TYPE 4: STICKY SPLIT SUPPORT (Gallery Side)
+   ----------------------------------------- */
+.product-layout-sticky .gustabe-gallery-wrapper .gallery-grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.product-layout-sticky img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* --- MOBILE RESPONSIVE (Gallery) --- */
+@media (max-width: 767px) {
+    /* ในมือถือ ไม่ว่าจะเลือกแบบไหน ขอให้รูปเรียงสวยๆ หรือเป็น Slider ก็ได้ */
+    .layout-grid .gallery-grid-container {
+        grid-template-columns: 1fr;
+    }
+    .layout-grid .item-index-0 {
+        grid-column: span 1;
+    }
+}
+
+
+/* =========================================
+   CUSTOM SALE BADGE (Yellow Style)
+   ========================================= */
+
+/* 1. สั่งให้กล่องรูปภาพเป็นจุดอ้างอิง (สำคัญมาก! ถ้าไม่มีอันนี้ป้ายจะลอยมั่ว) */
+.product-gallery-wrapper {
+    position: relative !important;
+    z-index: 5;
+}
+
+/* 2. ดีไซน์ป้าย Sale ใหม่ (แบบป้ายเหลือง Card สินค้า) */
+.custom-product-layout .onsale {
+    /* ล้างค่าเดิมของธีม */
+    min-height: auto !important;
+    min-width: auto !important;
+    line-height: 1.2 !important;
+    border-radius: 4px !important; /* มุมมนนิดๆ เหมือนในรูปตัวอย่าง */
+    margin: 0 !important;
+    
+    /* สไตล์สีเหลือง-ดำ แบบที่ชอบ */
+    background-color: #ffc107 !important; /* สีเหลืองสด */
+    color: #000000 !important;            /* ตัวหนังสือดำ */
+    font-size: 14px !important;
+    font-weight: 800 !important;          /* ตัวหนา */
+    padding: 6px 12px !important;         /* ความอ้วนของป้าย */
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* เงาให้ดูลอยเด่น */
+    
+    /* ตำแหน่ง: มุมขวาบน ของรูปภาพ */
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    left: auto !important;                /* ยกเลิกชิดซ้าย */
+    z-index: 99 !important;               /* ให้ลอยเหนือทุกอย่าง */
+}
+
+/* Mobile: ปรับให้เล็กลงนิดนึงจะได้ไม่บังรูป */
+@media (max-width: 767px) {
+    .custom-product-layout .onsale {
+        top: 10px !important;
+        right: 10px !important;
+        font-size: 12px !important;
+        padding: 4px 8px !important;
+    }
+}
+
+
+/* =========================================
+   SMART STATUS BUTTONS (Buy Now Logic)
+   ========================================= */
+
+/* 1. สถานะ: สินค้าหมด (SOLD OUT) -> ปุ่มสีเทา */
+.ps-buy-btn.status-soldout {
+    background: #e0e0e0 !important;   /* พื้นหลังสีเทา */
+    color: #999 !important;           /* ตัวหนังสือสีเทาเข้ม */
+    cursor: not-allowed;              /* เมาส์เป็นรูปห้ามกด */
+    pointer-events: none;             /* ห้ามกดจริงๆ (กันเหนียว) */
+    box-shadow: none !important;
+}
+
+/* 2. สถานะ: สั่งจอง (PRE-ORDER) -> ปุ่มสีส้มทอง */
+.ps-buy-btn.status-preorder {
+    background: linear-gradient(90deg, #f39c12 0%, #d35400 100%) !important; /* สีส้มไล่เฉด */
+    color: #fff !important;
+}
+
+/* ปรับไอคอนให้เข้ากับสถานะ */
+.ps-buy-btn.status-soldout i {
+    color: #999 !important;
+}
+
+
+
+/* =========================================
+   GUSTABE: FORCED PRODUCT LAYOUT FIX
+   ========================================= */
+
+/* 1. บังคับโครงสร้างหลักให้เรียงลงมาแนวตั้ง */
+form.variations_form {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+}
+
+/* 2. ระเบิดตาราง (Table Reset) ให้เป็นชั้นๆ */
+table.variations, 
+table.variations tbody, 
+table.variations tr, 
+table.variations td, 
+table.variations th {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* ระยะห่างระหว่างหัวข้อ */
+table.variations tr {
+    margin-bottom: 20px !important;
+}
+
+/* จัด Label (หัวข้อ) ให้ตัวหนาและอยู่บรรทัดบน */
+table.variations th.label {
+    margin-bottom: 10px !important;
+    text-align: left !important;
+}
+table.variations th.label label {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+    margin: 0 !important;
+}
+
+/* 3. กล่องปุ่มเลือก (Swatches Container) */
+.gustabe-swatches-wrap {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+/* สไตล์ปุ่มตัวหนังสือ (รุ่น/ไซส์) */
+.gustabe-swatch-item {
+    border: 1px solid #ddd !important;
+    background: #fff !important;
+    color: #555 !important;
+    padding: 10px 20px !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    transition: all 0.2s !important;
+}
+.gustabe-swatch-item:hover { border-color: #999 !important; }
+.gustabe-swatch-item.selected {
+    border-color: #04a39c !important;
+    background-color: #04a39c !important; /* สีเขียวธีม */
+    color: #fff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 10px rgba(4,163,156,0.2) !important;
+}
+
+/* สไตล์ปุ่มสี (วงกลม) - เฉพาะอันที่เป็นสี */
+.gustabe-swatch-item.is-color {
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    border: 2px solid #fff !important;
+    box-shadow: 0 0 0 1px #ddd !important;
+    position: relative !important;
+}
+.gustabe-swatch-item.is-color.selected {
+    box-shadow: 0 0 0 2px #04a39c !important; /* วงแหวนเลือกสีเขียว */
+    transform: scale(1.1) !important;
+}
+/* เครื่องหมายถูกบนสี */
+.gustabe-swatch-item.is-color.selected::after {
+    content: '\2713';
+    color: #fff;
+    font-size: 18px;
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* 4. ส่วน Quantity และ Add to Cart (บังคับลงล่างสุด) */
+.single_variation_wrap {
+    display: block !important;
+    width: 100% !important;
+    margin-top: 30px !important;
+    border-top: 1px solid #eee !important;
+    padding-top: 20px !important;
+}
+
+.woocommerce-variation-add-to-cart {
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+    flex-wrap: wrap !important;
+}
+
+/* แก้ไขกล่องจำนวน (ที่ขอบแดงๆ ให้หายไป) */
+.product .quantity {
+    display: inline-flex !important;
+    align-items: center !important;
+    border: 1px solid #ddd !important; /* เปลี่ยนขอบเป็นสีเทา */
+    border-radius: 8px !important;
+    height: 50px !important;
+    background: #fff !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* ปุ่ม - และ + */
+.qty-btn {
+    width: 45px !important;
+    height: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 20px !important;
+    color: #555 !important;
+    cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    padding: 0 !important;
+}
+.qty-btn:hover { background: #f9f9f9 !important; }
+
+/* ตัวเลขตรงกลาง */
+.product .quantity input.qty {
+    width: 50px !important;
+    border: none !important;
+    border-left: 1px solid #eee !important;
+    border-right: 1px solid #eee !important;
+    text-align: center !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+    padding: 0 !important;
+    height: 100% !important;
+    background: transparent !important;
+    box-shadow: none !important; /* ลบเงาแดง */
+}
+
+/* ปุ่มหยิบใส่ตะกร้า */
+.single_add_to_cart_button {
+    flex-grow: 1 !important; /* ยืดเต็มพื้นที่ที่เหลือ */
+    height: 50px !important;
+    padding: 0 40px !important;
+    border-radius: 8px !important;
+    background-color: #265175 !important; /* น้ำเงินเข้ม */
+    color: #fff !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    border: none !important;
+    max-width: 400px !important; /* ไม่ให้กว้างเกินไปบนจอใหญ่ */
+}
+.single_add_to_cart_button:hover {
+    background-color: #1d3e5a !important;
+    transform: translateY(-2px);
+}
+
+/* ซ่อน Dropdown เดิม (กันเหนียว) */
+.gustabe-hide-select {
+    display: none !important;
+}
+
+
+
+
+
+
+/* =========================================
+   GUSTABE: PRODUCT CONTENT & LAYOUT (FINAL)
+   ========================================= */
+
+/* 1. จัดตัวหนังสือให้อ่านง่าย (Typography) */
+.product-description, 
+.product-section-stacked p {
+    font-size: 16px;       
+    line-height: 1.8;      
+    color: #4a4a4a;        
+    margin-bottom: 20px;   
+}
+
+/* 2. รายการ Bullet Points (เปลี่ยนเป็นเครื่องหมายถูก ✅) */
+.product-description ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 20px 0;
+}
+.product-description ul li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+.product-description ul li::before {
+    content: '\2713';      /* เครื่องหมายถูก */
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #04a39c;        /* สีเขียวธีม */
+    font-weight: 900;
+    font-size: 18px;
+}
+
+/* 3. รูปภาพในเนื้อหา (ให้ดูแพง) */
+.product-description img {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    display: block;
+}
+
+/* 4. หัวข้อย่อย (h3, h4) */
+.product-description h3, 
+.product-description h4 {
+    font-weight: 700;
+    color: #222;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+/* 5. จัดระยะห่างแต่ละส่วน (Layout) */
+.product-section-stacked {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #f1f1f1; /* เส้นคั่นบางๆ */
+    padding-top: 20px;
+}
+.product-section-stacked:last-child {
+    border-bottom: none; /* ตัวสุดท้ายไม่ต้องมีเส้น */
+}
+
+/* 6. ดีไซน์หัวข้อหลัก (Modern Bar Style) */
+.product-section-stacked .section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 25px;
+    
+    /* แถบสีเขียวด้านซ้าย */
+    border-left: 5px solid #04a39c; 
+    padding-left: 15px; 
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+}
+/* ลบขีดเส้นใต้ที่อาจติดมาจากธีมเดิม */
+.product-section-stacked .section-title::after {
+    display: none !important;
+}
+
+/* 7. ปรับตารางสเปค (Table Attributes) */
+.woocommerce-product-attributes {
+    border: none !important;
+    background: #f9f9f9; 
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0 !important;
+}
+.woocommerce-product-attributes th {
+    background: #fff !important;
+    width: 30%;
+    color: #666;
+    border-bottom: 1px solid #eee;
+    padding: 12px 15px !important;
+}
+.woocommerce-product-attributes td {
+    background: transparent !important;
+    font-weight: 500;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding: 12px 15px !important;
+}
+/* ลบเส้นแถวสุดท้าย */
+.woocommerce-product-attributes tr:last-child th,
+.woocommerce-product-attributes tr:last-child td {
+    border-bottom: none;
+}
+
+
+
+
+/* =========================================
+   PRO LAYOUT (Name & Email Fixed)
+   ========================================= */
+
+/* 1. โครงสร้างหลัก: ให้เรียงลงมาตามปกติ (เต็มจอ) */
+#reviews {
+    display: block !important; /* เอา Flex ออกตามที่ขอครับ */
+    padding-top: 20px;
+}
+
+#comments, #review_form_wrapper {
+    width: 100% !important; /* กว้างเต็ม 100% */
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* 2. จัดระเบียบ "ชื่อ" และ "อีเมล" (หัวใจสำคัญ) */
+@media (min-width: 768px) {
+    /* ชื่อ: กว้าง 48% + เว้นขวา 4% */
+    p.comment-form-author {
+        float: left;
+        width: 48% !important;
+        margin-right: 4% !important; /* ช่องไฟ */
+        margin-bottom: 20px;
+        clear: none !important;
+    }
+
+    /* อีเมล: กว้าง 48% */
+    p.comment-form-email {
+        float: left;
+        width: 48% !important;
+        margin-right: 0 !important;
+        margin-bottom: 20px;
+        clear: none !important;
+    }
+
+    /* ตัวแก้บั๊ก: สั่งให้ดาวและช่องข้อความ ลงไปบรรทัดใหม่ */
+    p.comment-form-rating,
+    p.comment-form-comment,
+    .cr-upload-local-images,
+    p.form-submit,
+    p.comment-form-cookies-consent {
+        clear: both;
+        width: 100%;
+        display: block;
+    }
+}
+
+/* บนมือถือ: ให้เรียงลงมาปกติ */
+@media (max-width: 767px) {
+    p.comment-form-author,
+    p.comment-form-email {
+        width: 100% !important;
+        float: none !important;
+        margin-right: 0 !important;
+    }
+}
+
+/* 3. ตกแต่งช่องกรอกข้อมูล (ให้ดูสะอาดตา) */
+#review_form input[type="text"],
+#review_form input[type="email"],
+#review_form textarea {
+    width: 100%;
+    padding: 12px 15px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important; /* มุมมนนิดหน่อย */
+    background-color: #fff !important;
+    margin-top: 5px;
+}
+
+/* ตอนคลิกพิมพ์ */
+#review_form input:focus,
+#review_form textarea:focus {
+    border-color: #00A69C !important; /* สีเขียว */
+    outline: none;
+}
+
+/* Label หัวข้อ */
+#review_form label {
+    font-weight: 600;
+    color: #444;
+}
+
+/* 4. ปุ่มกดส่ง */
+#review_form #submit {
+    background-color: #222 !important;
+    color: #fff !important;
+    padding: 12px 30px !important;
+    border-radius: 4px !important;
+    border: none;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#review_form #submit:hover {
+    background-color: #00A69C !important;
+}
+
+.comment-notes { display: none; } 
+
+
+
+/* =========================================
+   (ปรับปุ่มอัปโหลด)
+   ========================================= */
+
+/* 1. สร้างพื้นที่ Dropzone สวยๆ */
+.cr-upload-local-images {
+    border: 2px dashed #ccc !important; /* เส้นปะสีเทา ดูเป็นพื้นที่ลากวาง */
+    background-color: #fafafa !important; /* พื้นหลังเทาจางๆ สะอาดตา */
+    padding: 30px 20px !important; /* พื้นที่ภายในกว้างขวาง */
+    text-align: center;
+    border-radius: 12px !important; /* มุมมน */
+    margin-bottom: 25px !important;
+    position: relative; /* จำเป็นสำหรับเทคนิคซ่อนปุ่ม */
+    transition: all 0.3s ease;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ไปชี้ */
+.cr-upload-local-images:hover {
+    border-color: #00A69C !important; /* เปลี่ยนเส้นปะเป็นสีเขียวแบรนด์ */
+    background-color: #f0fdfc !important; /* พื้นหลังอมเขียวจางๆ */
+}
+
+/* 2. เทคนิคซ่อนปุ่มอัปโหลดเดิมๆ ที่ไม่สวย */
+/* เราจะขยายปุ่มใสๆ ให้เต็มพื้นที่ เพื่อให้คลิกตรงไหนก็ได้ในกล่อง */
+.cr-upload-local-images input[type="file"] {
+    opacity: 0 !important; /* ทำให้ใส มองไม่เห็น */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็นรูปมือ */
+    z-index: 10; /* อยู่ชั้นบนสุด */
+}
+
+/* 3. แต่งข้อความ Label ตรงกลางให้ดูดี */
+label.cr-upload-images-status {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #555 !important;
+    display: inline-block !important;
+    pointer-events: none; /* ให้การคลิกทะลุไปโดน input ที่ซ่อนอยู่ */
+    position: relative;
+    z-index: 1;
+}
+
+/* เพิ่มไอคอนกล้องถ่ายรูปด้านบนข้อความ 📷 */
+label.cr-upload-images-status::before {
+    content: '📷'; /* ใช้อีโมจิกล้อง (หรือเปลี่ยนเป็น 📁 ก็ได้) */
+    display: block;
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #00A69C; /* ไอคอนสีเขียว */
+}
+
+/* ปรับข้อความ "Upload up to..." ให้ดูเป็นคำเชิญชวน */
+label.cr-upload-images-status {
+    color: #2c3e50 !important;
+}
+
+/* 4. จัดการพื้นที่แสดงรูปตัวอย่าง (Preview) เมื่อเลือกรูปแล้ว */
+.cr-upload-images-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px; /* เว้นระยะห่างจากข้อความ */
+}
+
+/* แต่งรูปตัวอย่างเล็กๆ */
+.cr-upload-images-preview img {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #eee;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+
+
+/* =========================================
+   MINIMAL SUMMARY (Clean & Flat)
+   ========================================= */
+
+/* 1. กล่องรวม: เน้นความคลีน ตัดเส้นขอบรกรุงรังออก */
+.cr-summaryBox-wrap {
+    background-color: #fff; /* พื้นขาว */
+    /* border: 1px solid #f0f0f0; เอาขอบออก หรือใส่จางๆ พอ */
+    border-radius: 8px;
+    padding: 20px 0; /* เว้นบนล่าง ไม่ต้องตีกรอบข้าง */
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+/* 2. ฝั่งซ้าย: คะแนน (Big Score) */
+.cr-overall-rating-wrap {
+    text-align: center;
+    min-width: 140px;
+    padding-right: 30px;
+    border-right: 1px solid #eee; /* เส้นแบ่งบางมากๆ */
+}
+
+/* ตัวเลขคะแนน (4.8) แบบฟอนต์บางทันสมัย */
+.cr-average-rating span {
+    font-size: 56px !important;
+    font-weight: 500; /* ลดความหนาลง */
+    color: #2c3e50; /* สีเทาเข้มเกือบดำ */
+    line-height: 1;
+    display: block;
+    margin-bottom: 8px;
+    letter-spacing: -1px; /* บีบตัวเลขให้ชิดกันนิดนึง ดูแพง */
+}
+
+/* ดาวฝั่งซ้าย */
+.cr-average-rating-stars .cr-rating-icon-frnt svg {
+    color: #FFC107 !important; /* ทอง */
+    width: 20px; /* ลดขนาดลงนิดนึงให้ดูผู้ดี */
+    height: 20px;
+}
+
+/* ข้อความจำนวนรีวิว */
+.cr-total-rating-count {
+    font-size: 13px;
+    color: #999; /* สีเทาจาง */
+    margin-top: 8px;
+    font-weight: 400;
+}
+
+/* 3. ฝั่งขวา: กราฟแท่ง (Histogram) */
+.ivole-summaryBox {
+    width: 100%;
+    max-width: 500px; /* จำกัดความกว้างไม่ให้ยืดเกิน */
+}
+
+.ivole-histogramTable {
+    width: 100%;
+}
+
+.ivole-histogramRow td {
+    padding: 4px 0 !important; /* ลดช่องไฟแนวตั้งให้กระชับ */
+    vertical-align: middle;
+}
+
+/* ตัวหนังสือในตาราง (5 star, 100%) */
+.ivole-histogramCell1, 
+.ivole-histogramCell3 {
+    font-size: 13px;
+    color: #777;
+    font-weight: 400;
+}
+.ivole-histogramCell1 { width: 50px; }
+.ivole-histogramCell3 { width: 40px; text-align: right; }
+
+/* --- 4. กราฟแท่งแบบ "Minimal Slim" --- */
+/* รางพื้นหลัง */
+.ivole-meter {
+    background-color: #f1f1f1 !important; /* เทาอ่อนมาก */
+    height: 6px !important; /* ★ ทำให้เส้นบางลง (Minimal) */
+    border-radius: 10px !important;
+    overflow: hidden;
+    margin: 0 12px;
+    box-shadow: none !important; /* เอาเงาออก */
+}
+
+/* เนื้อกราฟ (สีเขียว Fasicare) */
+.ivole-meter-bar {
+    background-color: #00A69C !important;
+    border-radius: 10px !important;
+    height: 100% !important;
+}
+
+/* 5. Responsive: มือถือ */
+@media (max-width: 767px) {
+    .cr-summaryBox-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px;
+        background: #fcfcfc; /* ใส่พื้นหลังจางๆ ให้มือถือดูเป็นสัดส่วน */
+        border-radius: 12px;
+    }
+
+    .cr-overall-rating-wrap {
+        border-right: none;
+        padding-right: 0;
+        text-align: left; /* มือถือชิดซ้าย */
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .cr-average-rating span { font-size: 42px !important; margin-bottom: 0; }
+}
+
+
+/* =========================================
+   CUSTOM STAR RATING (Fix Hover & Color)
+   ========================================= */
+
+.custom-criteria-container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.custom-criteria-container h4 {
+    margin-top: 0;
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.custom-criteria-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.criteria-label {
+    font-weight: 600;
+    color: #555;
+    width: 40%;
+    font-size: 14px;
+}
+
+/* --- LOGIC ดาว (Flex Reverse) --- */
+.criteria-stars {
+    display: flex;
+    flex-direction: row-reverse; /* เรียงขวาไปซ้าย */
+    justify-content: flex-end;
+    width: 60%;
+}
+
+/* ซ่อน Radio */
+.criteria-stars input[type="radio"] {
+    display: none !important;
+}
+
+/* ตัวดาว (ปกติเป็นสีเทา) */
+.criteria-stars label {
+    font-size: 28px !important;
+    color: #ddd !important; /* สีเทา */
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+    transition: color 0.2s ease;
+    margin: 0 !important; /* ลบ margin เดิมของธีม */
+}
+
+/* --- ไฮไลท์สีทอง (ต้องทำงาน!) --- */
+/* 1. เมื่อกดแล้ว (Checked) */
+.criteria-stars input[type="radio"]:checked ~ label {
+    color: #FFC107 !important; /* ทอง */
+}
+
+/* 2. เมื่อเอาเมาส์ชี้ (Hover) */
+.criteria-stars label:hover,
+.criteria-stars label:hover ~ label {
+    color: #FFC107 !important; /* ทอง */
+}
+
+/* --- ส่วนแสดงผล --- */
+.custom-review-breakdown-list {
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+    display: block;
+}
+
+.breakdown-item {
+    font-size: 13px;
+    display: inline-block;
+    color: #555;
+    margin-right: 15px;
+}
+
+.bd-stars {
+    margin-left: 5px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+
+
+
+/* =========================================
+   GUSTABEDEV: FINAL CUSTOM SYSTEM CSS
+   ========================================= */
+
+/* 1. Reset Layout */
+.gustabedev-review-layout, .review-col-left { display: block !important; width: 100% !important; }
+#reviews ol.commentlist {
+    display: flex !important; flex-wrap: nowrap !important; overflow-x: auto !important;
+    gap: 20px !important; padding: 10px 5px 30px 5px !important; margin: 0 !important;
+    scrollbar-width: none; scroll-snap-type: x mandatory;
+}
+#reviews ol.commentlist::-webkit-scrollbar { display: none; }
+
+/* 2. Card Style */
+#reviews li.review {
+    flex: 0 0 300px !important; width: 300px !important; max-width: 85vw !important;
+    border: none !important; background: transparent !important; margin: 0 !important;
+    padding: 0 !important; scroll-snap-align: start;
+}
+.gustabedev-review-card {
+    background: #fff; border: 1px solid #e0e0e0; border-radius: 12px;
+    padding: 20px; height: 100%; display: flex; flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+/* 3. Layer 1: Header */
+.gustabe-layer-header {
+    display: flex; align-items: center; gap: 15px;
+    padding-bottom: 12px; margin-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0; /* เส้นคั่นที่ 1 */
+}
+.gustabe-avatar img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; }
+.gustabe-name { display: flex; flex-direction: column; line-height: 1.3; font-size: 15px; color: #333; }
+.gustabe-name .date { font-size: 12px; color: #999; font-weight: normal; }
+
+/* 4. Layer 2: Main Rating */
+.gustabe-layer-rating {
+    padding-bottom: 12px; margin-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0; /* เส้นคั่นที่ 2 */
+}
+
+/* 5. Layer 3: Breakdown (ดาวแยก) */
+.gustabe-layer-breakdown .custom-review-breakdown-list {
+    display: block !important;
+    background: #fcfcfc !important; /* พื้นหลังเทาจางๆ */
+    padding: 10px 12px !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
+    border: 1px solid #f0f0f0 !important; /* เส้นคั่นที่ 3 (กรอบ) */
+}
+/* ปรับระยะบรรทัด breakdown */
+.breakdown-item {
+    display: flex !important; justify-content: space-between !important; align-items: center !important;
+    font-size: 13px !important; margin-bottom: 5px !important; color: #555;
+}
+.breakdown-item:last-child { margin-bottom: 0 !important; }
+
+/* 6. Layer 4: Text */
+.gustabe-layer-text p {
+    margin: 0 !important; padding-bottom: 12px !important; margin-bottom: 12px !important;
+    border-bottom: 1px solid #f0f0f0 !important; /* เส้นคั่นที่ 4 */
+    font-size: 14px; color: #555; word-break: break-word !important;
+}
+
+/* 7. Layer 5: Images */
+.gustabe-layer-images .cr-comment-images {
+    display: flex !important; flex-wrap: nowrap !important; overflow-x: auto !important;
+    gap: 8px !important; padding: 0 !important; margin: 0 !important; border: none !important;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+.gustabe-layer-images .cr-comment-images::-webkit-scrollbar { display: none; }
+
+.gustabe-layer-images .cr-comment-images div,
+.gustabe-layer-images .cr-comment-images a {
+    flex: 0 0 60px !important; width: 60px !important; height: 60px !important; display: block !important;
+}
+.gustabe-layer-images .cr-comment-images img {
+    width: 100% !important; height: 100% !important; object-fit: cover !important;
+    border-radius: 8px !important; border: 1px solid #eee !important;
+}
+
+
+
+
+/* =========================================
+   GUSTABEDEV: FIX HEADER OVERLAP & SPACING
+   ========================================= */
+
+/* 1. กล่องครอบส่วนหัว (จัดให้อยู่กึ่งกลาง และมีช่องว่าง) */
+.gustabe-layer-header {
+    display: flex !important;       /* สั่งให้เรียงแนวนอน */
+    align-items: center !important; /* จัดให้อยู่กึ่งกลางแนวตั้งเป๊ะๆ */
+    gap: 15px !important;           /* เว้นระยะห่างระหว่าง รูป กับ ชื่อ (ไม่ให้ชิดกัน) */
+    
+    /* จัดระยะห่างจากขอบบนและล่าง */
+    margin-top: 5px !important;     /* ดันลงมาจากขอบบนการ์ดนิดนึง */
+    padding-bottom: 15px !important;
+    margin-bottom: 15px !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    position: relative !important;  /* สำคัญ: บอกให้เป็นจุดอ้างอิงหลัก */
+}
+
+/* 2. ตัวการสำคัญ! แก้รูป Avatar ทับชื่อ */
+.gustabe-avatar {
+    /* ล้างค่าเดิมของธีมที่อาจทำให้รูปลอย */
+    position: relative !important; 
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    flex-shrink: 0 !important; /* ห้ามรูปหดตัวเด็ดขาด */
+}
+
+/* ปรับแต่งตัวรูปภาพ */
+.gustabe-avatar img {
+    /* ย้ำอีกครั้งให้รูปไม่ลอย */
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    float: none !important;
+    
+    /* จัดขนาดและดีไซน์ */
+    width: 55px !important; 
+    height: 55px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    border: 2px solid #fff !important; /* ขอบขาวช่วยให้ดูเด้งออกมา */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important; /* เงาเบาๆ */
+    margin: 0 !important; /* ล้าง margin ที่ทำให้ชิดขอบซ้ายเกินไป */
+}
+
+/* 3. จัดระเบียบก้อนชื่อ */
+.gustabe-name {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    line-height: 1.3 !important; /* ระยะบรรทัดกำลังดี ไม่ห่างเกิน */
+}
+
+.gustabe-name strong {
+    font-size: 15px !important;
+    color: #333 !important;
+    margin-bottom: 2px !important;
+}
+
+
+/* =========================================
+   GUSTABEDEV: NAVIGATION ARROWS STYLE
+   ========================================= */
+
+/* Wrapper ที่สคริปต์สร้างขึ้นมาครอบ */
+.gustabedev-slider-wrapper {
+    position: relative !important;
+    width: 100% !important;
+}
+
+/* --- ส่วนสำคัญ: แก้ไขการลากเมาส์ (Drag Fix) --- */
+
+/* 1. สถานะปกติ */
+#reviews ol.commentlist {
+    cursor: grab;           /* เมาส์เป็นรูปมือแบ */
+    user-select: none;      /* ห้ามคลุมดำตัวหนังสือ */
+    touch-action: pan-y;    /* ให้มือถือยังเลื่อนลงได้ */
+}
+
+/* 2. สถานะตอนกำลังกดลาก (Active) */
+#reviews ol.commentlist.active {
+    cursor: grabbing;                  /* เมาส์เป็นรูปมือกำ */
+    scroll-behavior: auto !important;  /* ปิด smooth ชั่วคราว */
+    scroll-snap-type: none !important; /* ★ หัวใจสำคัญ: ปิดระบบแม่เหล็กดูดชั่วคราว ไม่งั้นลากไม่ไป */
+}
+
+/* 3. ป้องกันการลากรูปภาพติดมือ (Ghost Image) */
+/* ถ้าไม่ใส่ browser จะคิดว่าเราจะเอารูปไปวางที่อื่น ทำให้สไลด์ไม่ขยับ */
+.gustabedev-review-card img {
+    -webkit-user-drag: none;
+    pointer-events: none; /* ป้องกันเมาส์ไปจับโดนรูปโดยตรง */
+}
+
+/* --- จบส่วนแก้ไขการลาก --- */
+
+/* ดีไซน์ปุ่มลูกศร */
+.gustabedev-nav-btn {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 10 !important;
+    
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50% !important;
+    
+    background: #fff !important;
+    border: 1px solid #eee !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    
+    color: #333 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    padding: 0 !important;
+}
+
+/* ตำแหน่งปุ่ม */
+.gustabedev-nav-btn.prev-btn { left: -20px !important; }
+.gustabedev-nav-btn.next-btn { right: -20px !important; }
+
+/* Effect ตอนเอาเมาส์ชี้ */
+.gustabedev-nav-btn:hover {
+    background: #333 !important; 
+    color: #fff !important;
+    border-color: #333 !important;
+    transform: translateY(-50%) scale(1.1) !important; 
+}
+
+/* ซ่อนปุ่มบนมือถือ (ให้ใช้นิ้วปัดเอาธรรมชาติกว่า) */
+@media (max-width: 767px) {
+    .gustabedev-nav-btn { display: none !important; }
+}
+
+
+
+
+/* =========================================
+   GUSTABE: FLOATING ACTION BUTTON (FAB)
+   ========================================= */
+
+/* 1. กล่องคลุม (อยู่ขวาล่าง) */
+.gustabe-fab-wrapper {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column-reverse; /* ให้เมนูย่อยเด้งขึ้นด้านบน */
+    align-items: flex-end; /* ชิดขวา */
+    gap: 15px;
+}
+
+/* 2. ปุ่มหลัก (Main Button) */
+.gustabe-fab-main-btn {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    
+    /* ★ บังคับสีพื้นหลังเป็นเขียว และไอคอนสีขาว ★ */
+    background: #04a39c !important; 
+    color: #fff !important;
+    
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(4, 163, 156, 0.4) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    padding: 0 !important;
+    z-index: 9999 !important;
+}
+
+/* บังคับสีเส้นไอคอนให้เป็นสีขาวแน่ๆ */
+.gustabe-fab-main-btn svg {
+    stroke: #fff !important;
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.gustabe-fab-main-btn:active {
+    transform: scale(0.9);
+}
+
+/* ไอคอนสลับไปมา (Menu <-> Close) */
+.gustabe-fab-main-btn .icon-menu,
+.gustabe-fab-main-btn .icon-close {
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+/* ปกติ: โชว์ Menu, ซ่อน Close */
+.gustabe-fab-main-btn .icon-close { opacity: 0; transform: rotate(-90deg); }
+.gustabe-fab-main-btn .icon-menu  { opacity: 1; transform: rotate(0); }
+
+/* ตอนเปิด (Active): ซ่อน Menu, โชว์ Close */
+.gustabe-fab-wrapper.active .gustabe-fab-main-btn .icon-close { opacity: 1; transform: rotate(0); }
+.gustabe-fab-wrapper.active .gustabe-fab-main-btn .icon-menu  { opacity: 0; transform: rotate(90deg); }
+.gustabe-fab-wrapper.active .gustabe-fab-main-btn { background: #333; } /* เปลี่ยนสีปุ่มเป็นเทาเข้มตอนเปิด */
+
+
+/* 3. ปุ่มย่อย (Sub Items) */
+.gustabe-fab-items {
+    display: flex;
+    flex-direction: column-reverse; /* เรียงจากล่างขึ้นบน */
+    gap: 12px;
+    align-items: flex-end;
+    padding-bottom: 5px;
+    pointer-events: none; /* ห้ามกดตอนปิด */
+}
+
+.fab-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.2s ease;
+    pointer-events: none; /* ห้ามกดตอนซ่อน */
+}
+
+/* กล่องไอคอนย่อย */
+.fab-item .fab-icon {
+    width: 45px;
+    height: 45px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    transition: 0.2s;
+}
+
+.fab-item:hover .fab-icon {
+    color: #04a39c;
+    border-color: #04a39c;
+}
+
+/* ป้ายข้อความ (Label) */
+.fab-item .fab-label {
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateX(10px);
+    transition: 0.2s;
+}
+
+/* แสดงป้ายข้อความเมื่อเอาเมาส์ชี้ (เฉพาะ Desktop) */
+@media (min-width: 992px) {
+    .fab-item:hover .fab-label {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 4. Animation ตอนเปิดเมนู (Active State) */
+.gustabe-fab-wrapper.active .gustabe-fab-items {
+    pointer-events: auto;
+}
+
+.gustabe-fab-wrapper.active .fab-item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* เรียงลำดับการเด้ง (Delay) ให้ดูมีลูกเล่น */
+.gustabe-fab-wrapper.active .fab-item:nth-child(1) { transition-delay: 0.05s; }
+.gustabe-fab-wrapper.active .fab-item:nth-child(2) { transition-delay: 0.1s; }
+.gustabe-fab-wrapper.active .fab-item:nth-child(3) { transition-delay: 0.15s; }
+.gustabe-fab-wrapper.active .fab-item:nth-child(4) { transition-delay: 0.2s; }
+
+
+
+/* Custom Ajax Search Styling */
+.gustabe-search-item {
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+.gustabe-search-item:hover {
+    background-color: #f9f9f9;
+}
+/* ซ่อน Default State เมื่อมีผลลัพธ์ (ใช้ JS สั่งก็ได้ แต่นี่เผื่อไว้) */
+#gustabe-search-results:not(:empty) + #search-default-state {
+    display: none;
+}
+
+
+/* ============================================================
+   FORCE OVERRIDE: BUTTON STYLES (Kill Parent Theme Styles)
+   บังคับใช้ดีไซน์ Bootstrap ในส่วนที่เราสร้างใหม่เท่านั้น
+   (ใส่ต่อท้ายสุด เพื่อให้ทับทุกอย่าง)
+   ============================================================ */
+
+/* 1. เจาะจงพื้นที่: ใน Modal ค้นหา และ หน้าผลลัพธ์การค้นหา */
+#search-popup-modal .btn,
+.search-header .btn,
+.no-results-state .btn,
+.search-filter-buttons .btn {
+    /* ล้างค่าเดิมของ Hello Elementor / Elementor Global */
+    background-image: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-radius: 50rem !important; /* บังคับ Pill Shape (วงรี) */
+    font-family: inherit !important;   /* ให้ใช้ฟอนต์ตามที่เราตั้ง */
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+    line-height: 1.5 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important; /* ล้าง margin เดิม */
+}
+
+/* 2. บังคับปุ่มสีเขียว (Primary) ให้เป็นสีธีมเรา */
+#search-popup-modal .btn-primary,
+.no-results-state .btn-primary {
+    background-color: #04a39c !important;
+    border: 1px solid #04a39c !important;
+    color: #ffffff !important;
+    padding: 10px 30px !important;
+}
+#search-popup-modal .btn-primary:hover,
+.no-results-state .btn-primary:hover {
+    background-color: #03857f !important; /* สีเขียวเข้มขึ้นตอน Hover */
+    border-color: #03857f !important;
+    transform: translateY(-2px); /* ลอยขึ้นนิดนึง */
+}
+
+/* 3. บังคับปุ่มขอบเส้น (Outline - ปุ่มค้นหาอีกครั้งหน้า Search) */
+#search-popup-modal .btn-outline-dark,
+.search-header .btn-outline-dark {
+    background-color: transparent !important;
+    border: 1px solid #ddd !important;
+    color: #333 !important;
+}
+#search-popup-modal .btn-outline-dark:hover,
+.search-header .btn-outline-dark:hover {
+    background-color: #333 !important;
+    color: #fff !important;
+    border-color: #333 !important;
+}
+
+/* 4. บังคับปุ่มตัวเลือก (Radio Buttons / Chips) ใน Modal */
+#search-popup-modal .btn-outline-success {
+    border: 1px solid #ddd !important;
+    color: #555 !important;
+    background-color: #fff !important;
+    box-shadow: none !important;
+}
+/* ตอนกดเลือก (Checked) */
+#search-popup-modal .btn-check:checked + .btn-outline-success {
+    background-color: #e6fffa !important; /* เขียวอ่อน */
+    border-color: #04a39c !important;
+    color: #04a39c !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 10px rgba(4, 163, 156, 0.2) !important;
+}
+
+/* 5. แก้ Link ใน Tab หน้า Search ไม่ให้ติดสไตล์ธีมแม่ */
+.search-tabs .nav-link {
+    background: none !important;
+    border: none !important;
+    border-bottom: 3px solid transparent !important;
+    border-radius: 0 !important;
+    margin-bottom: -2px !important;
+    padding: 12px 20px !important;
+}
+.search-tabs .nav-link.active {
+    background: none !important;
+    border-bottom-color: #04a39c !important;
+    color: #04a39c !important;
+}
+
+/* Article Card Design */
+    .search-article-card {
+        border: 1px solid #f0f0f0;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: 0.3s;
+        height: 100%;
+        position: relative !important; /* ★ เพิ่มบรรทัดนี้: เพื่อคุมเขตลิงก์ */
+    }
