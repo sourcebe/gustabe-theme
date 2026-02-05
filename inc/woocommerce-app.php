@@ -257,3 +257,363 @@ function hello_child_render_mobile_sort_popup() {
     </script>
     <?php
 }
+
+
+
+// 7. [SCRIPT] Toast Notification Auto Close (จัดการ Animation การแจ้งเตือน)
+add_action( 'wp_footer', 'hello_child_toast_notification_script' );
+function hello_child_toast_notification_script() {
+    // โหลดเฉพาะหน้าที่มีโอกาสเกิด Toast (My Account / Checkout / Edit Address)
+    if ( is_account_page() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
+        ?>
+        <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            // ตรวจสอบว่ามี Toast Wrapper เกิดขึ้นไหม
+            if ( $('.gustabe-toast-wrapper').length > 0 ) {
+                
+                // ตั้งเวลา 4 วินาที
+                setTimeout(function(){
+                    // 1. เพิ่ม class ให้จางหาย (CSS fade-out ต้องมีใน style.css)
+                    $('.gustabe-toast-item').addClass('fade-out');
+                    
+                    // 2. รอ Animation จบ 0.5 วิ แล้วลบ Element ทิ้งจาก DOM
+                    setTimeout(function(){
+                        $('.gustabe-toast-wrapper').remove();
+                    }, 500);
+                    
+                }, 4000); 
+            }
+        });
+        </script>
+        <?php
+    }
+}
+
+
+// 8. [TRANSLATION] Custom Toast Message (Polylang Support)
+// แปลงข้อความ "Address changed successfully." ให้เป็นข้อความของเราและรองรับการแปล
+add_filter( 'gettext', 'hello_child_translate_toast_message', 20, 3 );
+function hello_child_translate_toast_message( $translated_text, $text, $domain ) {
+    
+    // ดักจับเฉพาะข้อความของ WooCommerce
+    if ( 'woocommerce' === $domain ) {
+        // เช็คข้อความต้นฉบับภาษาอังกฤษของ WooCommerce
+        if ( $text === 'Address changed successfully.' ) {
+            
+            // ถ้ามี Polylang ให้ดึงคำแปลมาแสดง
+            if ( function_exists( 'pll__' ) ) {
+                $translated_text = pll__( 'Address saved successfully' );
+            } else {
+                // ถ้าไม่มี Polylang ให้โชว์ภาษาอังกฤษเป็นค่าตั้งต้น
+                $translated_text = 'Address saved successfully';
+            }
+        }
+    }
+    return $translated_text;
+}
+
+
+// 9. [FEATURE] Confirm Receipt Button (ปุ่มยืนยันรับสินค้า)
+// ส่วนที่ 1: Javascript สำหรับกดปุ่ม
+add_action( 'wp_footer', 'gustabe_confirm_receipt_script' );
+function gustabe_confirm_receipt_script() {
+    if ( ! is_account_page() ) return;
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('.btn-confirm-receipt').on('click', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var order_id = $btn.data('order-id');
+            var nonce = $btn.data('nonce');
+
+            if (confirm('ยืนยันว่าคุณได้รับสินค้าและตรวจสอบเรียบร้อยแล้ว?')) {
+                $btn.addClass('loading').prop('disabled', true).html('<i class="huge huge-loading-02"></i> กำลังบันทึก...');
+                
+                $.ajax({
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    type: 'POST',
+                    data: {
+                        action: 'gustabe_confirm_order_receipt',
+                        order_id: order_id,
+                        nonce: nonce
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // โหลดหน้าใหม่เพื่อโชว์สถานะสำเร็จ
+                            location.reload(); 
+                        } else {
+                            alert('เกิดข้อผิดพลาด: ' + response.data);
+                            $btn.removeClass('loading').prop('disabled', false).html('<i class="huge huge-checkmark-circle-02"></i> ลองอีกครั้ง');
+                        }
+                    },
+                    error: function() {
+                        alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
+                        $btn.removeClass('loading').prop('disabled', false);
+                    }
+                });
+            }
+        });
+    });
+    </script>
+    <style>
+        /* ปุ่มยืนยันรับสินค้า สีส้มเด่นๆ */
+        .btn-confirm-receipt {
+            background: #ff9800 !important;
+            color: #fff !important;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+        .btn-confirm-receipt:hover { background: #f57c00 !important; transform: translateY(-2px); }
+        .btn-confirm-receipt.loading { opacity: 0.7; pointer-events: none; }
+    </style>
+    <?php
+}
+
+// ส่วนที่ 2: PHP จัดการเปลี่ยนสถานะเป็น Completed
+add_action( 'wp_ajax_gustabe_confirm_order_receipt', 'gustabe_handle_confirm_receipt' );
+function gustabe_handle_confirm_receipt() {
+    // ตรวจสอบความปลอดภัย
+    $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+    $nonce = isset($_POST['nonce']) ? $_POST['nonce'] : '';
+
+    if ( ! wp_verify_nonce( $nonce, 'confirm-receipt-' . $order_id ) ) {
+        wp_send_json_error( 'Invalid request' );
+    }
+
+    $order = wc_get_order( $order_id );
+    if ( ! $order ) {
+        wp_send_json_error( 'Order not found' );
+    }
+
+    // ตรวจสอบว่าเป็นเจ้าของออเดอร์จริงไหม
+    if ( $order->get_user_id() !== get_current_user_id() ) {
+        wp_send_json_error( 'Permission denied' );
+    }
+
+    // เปลี่ยนสถานะเป็น Completed
+    $order->update_status( 'completed', 'ลูกค้ากดยืนยันรับสินค้าผ่านหน้าเว็บ' );
+    
+    wp_send_json_success();
+}
+
+
+// 10. [SYSTEM] เพิ่มสถานะ "อยู่ระหว่างขนส่ง" (Shipped) ในหลังบ้าน
+add_action( 'init', 'gustabe_register_shipped_order_status' );
+function gustabe_register_shipped_order_status() {
+    register_post_status( 'wc-shipped', array(
+        'label'                     => '🚚 อยู่ระหว่างขนส่ง', // ชื่อที่จะโชว์
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop( 'อยู่ระหว่างขนส่ง <span class="count">(%s)</span>', 'อยู่ระหว่างขนส่ง <span class="count">(%s)</span>' )
+    ) );
+}
+
+// เพิ่มเข้าไปใน Dropdown รายการสถานะ
+add_filter( 'wc_order_statuses', 'gustabe_add_shipped_to_order_statuses' );
+function gustabe_add_shipped_to_order_statuses( $order_statuses ) {
+    $new_order_statuses = array();
+    foreach ( $order_statuses as $key => $status ) {
+        $new_order_statuses[ $key ] = $status;
+        // แทรกต่อจาก "กำลังดำเนินการ" (Processing)
+        if ( 'wc-processing' === $key ) {
+            $new_order_statuses['wc-shipped'] = _x( '🚚 อยู่ระหว่างขนส่ง', 'Order status', 'gustabe' );
+        }
+    }
+    return $new_order_statuses;
+}
+
+// (แถม) ทำให้สถานะนี้ถือว่า "จ่ายเงินแล้ว" (ดาวน์โหลดของได้ / ตัดสต็อก)
+add_filter( 'woocommerce_order_is_paid_statuses', 'gustabe_shipped_is_paid' );
+function gustabe_shipped_is_paid( $statuses ) {
+    $statuses[] = 'shipped';
+    return $statuses;
+}
+
+
+// 11. [SCRIPT] Order Quick View Popup (Slide-up Sheet)
+add_action( 'wp_footer', 'gustabe_quick_view_script' );
+function gustabe_quick_view_script() {
+    if ( ! is_account_page() ) return;
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        // เปิด Popup
+        $('.trigger-popup').on('click', function(e) {
+            e.preventDefault();
+            var targetID = $(this).data('target');
+            $('#' + targetID).addClass('is-visible');
+            $('body').addClass('no-scroll'); // ล็อคไม่ให้หลังบ้านเลื่อน
+        });
+
+        // ปิด Popup (กดปุ่ม X หรือ กดพื้นหลังดำ)
+        $('.close-popup-btn, .gustabe-popup-overlay').on('click', function(e) {
+            if (e.target !== this && !$(e.target).hasClass('close-popup-btn')) return; // ถ้ากดโดนเนื้อหาข้างในไม่ต้องปิด
+            $('.gustabe-popup-overlay').removeClass('is-visible');
+            $('body').removeClass('no-scroll');
+        });
+    });
+    </script>
+    <?php
+}
+
+
+
+// ==========================================
+// 12. [SYSTEM] AJAX Order Quick View (The Fix)
+// ==========================================
+
+// ส่วนที่ 1: สร้าง Popup เปล่าๆ ไว้ที่ Footer (รอรับข้อมูล)
+add_action( 'wp_footer', 'gustabe_render_global_order_popup' );
+function gustabe_render_global_order_popup() {
+    if ( ! is_account_page() ) return;
+    ?>
+    <div id="gustabe-global-order-popup" class="gustabe-popup-overlay">
+        <div class="gustabe-popup-content slide-up-sheet">
+            <div class="popup-header">
+                <div class="ph-left" id="gop-header-info">
+                    <h3>Loading...</h3>
+                </div>
+                <button class="close-popup-btn">&times;</button>
+            </div>
+            
+            <div class="popup-body scrollable" id="gop-body-content">
+                <div class="gop-loading"><i class="huge huge-loading-02 spin"></i> กำลังโหลดข้อมูล...</div>
+            </div>
+
+            <div class="popup-footer" id="gop-footer-content">
+                </div>
+        </div>
+    </div>
+    <?php
+}
+
+// ส่วนที่ 2: AJAX Handler (PHP) ดึงข้อมูลออเดอร์
+add_action( 'wp_ajax_gustabe_get_order_details', 'gustabe_ajax_get_order_details' );
+function gustabe_ajax_get_order_details() {
+    // ... (ส่วนตรวจสอบ Security คงเดิม) ...
+    $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+    $nonce = isset($_POST['nonce']) ? $_POST['nonce'] : '';
+    if ( ! wp_verify_nonce( $nonce, 'view-order-' . $order_id ) ) wp_send_json_error( 'Invalid request' );
+    $order = wc_get_order( $order_id );
+    if ( ! $order || $order->get_user_id() !== get_current_user_id() ) wp_send_json_error( 'Order not found' );
+
+    // 1. Header (Translatable)
+    ob_start();
+    ?>
+    <h3><?php esc_html_e( 'รายการสินค้า', 'gustabe' ); ?></h3>
+    <span><?php printf( esc_html__( 'Order #%s', 'gustabe' ), $order->get_order_number() ); ?></span>
+    <?php
+    $header_html = ob_get_clean();
+
+    // 2. Body (Translatable)
+    ob_start();
+    ?>
+    <ul class="quick-order-items">
+        <?php foreach ( $order->get_items() as $item_id => $item ) : 
+            $product = $item->get_product(); ?>
+            <li class="qo-item">
+                <div class="qo-img"><?php echo $product ? $product->get_image(array(60,60)) : ''; ?></div>
+                <div class="qo-info">
+                    <span class="qo-name"><?php echo esc_html( $item->get_name() ); ?></span>
+                    <div class="qo-meta">
+                        <span class="qo-qty">x <?php echo esc_html( $item->get_quantity() ); ?></span>
+                        <span class="qo-price"><?php echo wc_price( $order->get_item_total( $item, false, true ) ); ?></span>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php
+    $body_html = ob_get_clean();
+
+    // 3. Footer (Translatable)
+    ob_start();
+    ?>
+    <div class="pf-summary">
+        <span><?php esc_html_e( 'ยอดสุทธิ', 'gustabe' ); ?></span>
+        <strong><?php echo $order->get_formatted_order_total(); ?></strong>
+    </div>
+    <a href="<?php echo esc_url( $order->get_view_order_url() ); ?>" class="btn-full-action">
+        <?php esc_html_e( 'ดูรายละเอียดเต็ม', 'gustabe' ); ?>
+    </a>
+    <?php
+    $footer_html = ob_get_clean();
+
+    wp_send_json_success( array(
+        'header' => $header_html,
+        'body'   => $body_html,
+        'footer' => $footer_html
+    ));
+}
+
+// ส่วนที่ 3: Javascript (ควบคุมการทำงาน)
+add_action( 'wp_footer', 'gustabe_ajax_quick_view_script' );
+function gustabe_ajax_quick_view_script() {
+    if ( ! is_account_page() ) return;
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        var $popup = $('#gustabe-global-order-popup');
+        var $header = $('#gop-header-info');
+        var $body = $('#gop-body-content');
+        var $footer = $('#gop-footer-content');
+        var loadingHTML = '<div class="gop-loading"><i class="huge huge-loading-02 spin"></i> กำลังโหลดข้อมูล...</div>';
+
+        // เปิด Popup และเรียก AJAX
+        $('.trigger-popup-ajax').on('click', function(e) {
+            e.preventDefault();
+            var order_id = $(this).data('order-id');
+            var nonce = $(this).data('nonce');
+
+            // Reset เป็นสถานะ Loading ก่อน
+            $header.html('<h3>Loading...</h3>');
+            $body.html(loadingHTML);
+            $footer.empty();
+            $popup.addClass('is-visible');
+            $('body').addClass('no-scroll');
+
+            // เรียกข้อมูล
+            $.ajax({
+                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                type: 'POST',
+                data: { action: 'gustabe_get_order_details', order_id: order_id, nonce: nonce },
+                success: function(response) {
+                    if (response.success) {
+                        $header.html(response.data.header);
+                        $body.html(response.data.body);
+                        $footer.html(response.data.footer);
+                    } else {
+                        $body.html('<p class="gop-error">เกิดข้อผิดพลาด: ' + response.data + '</p>');
+                    }
+                }
+            });
+        });
+
+        // ปิด Popup
+        $('.close-popup-btn, .gustabe-popup-overlay').on('click', function(e) {
+            if (e.target !== this && !$(e.target).hasClass('close-popup-btn')) return;
+            $popup.removeClass('is-visible');
+            $('body').removeClass('no-scroll');
+        });
+    });
+    </script>
+    <style>
+        /* เพิ่ม CSS สำหรับ Loading */
+        .gop-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; color: #999; gap: 15px; }
+        .gop-loading i { font-size: 30px; color: #04a39c; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .spin { animation: spin 1s linear infinite; }
+        .gop-error { color: red; text-align: center; padding: 20px; }
+    </style>
+    <?php
+}

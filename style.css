@@ -3026,3 +3026,623 @@ label.cr-upload-images-status {
     color: #ffffff;
     background-color: #04a39c; /* สีธีมของเรา */
 }
+
+
+
+
+
+
+/* --- Gustabe Toast Notification --- */
+
+/* ตัวคลุม (Wrapper) - จัดตำแหน่งให้ลอยอยู่ด้านล่าง */
+.gustabe-toast-wrapper {
+    position: fixed;
+    bottom: 30px; /* ลอยจากขอบล่าง 30px */
+    left: 50%;
+    transform: translateX(-50%); /* จัดกึ่งกลางจอ */
+    z-index: 99999; /* อยู่บนสุดเสมอ */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    max-width: 400px; /* ไม่กว้างเกินไปบนจอคอม */
+    pointer-events: none; /* เพื่อให้คลิกทะลุได้ถ้าไม่มีข้อความ */
+}
+
+/* ตัวกล่องข้อความ (Item) */
+.gustabe-toast-item {
+    background: rgba(30, 30, 30, 0.95); /* สีดำโปร่งแสงสไตล์ Apple/Android */
+    backdrop-filter: blur(10px); /* เอฟเฟกต์เบลอ */
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 50px; /* ทรงแคปซูลมนๆ */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    pointer-events: auto; /* ให้กดปุ่มปิดได้ */
+    
+    /* Animation ตอนเด้งขึ้นมา */
+    animation: slideUpFade 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* ไอคอน */
+.gustabe-toast-item .toast-icon {
+    color: #00e676; /* สีเขียวสว่าง */
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* เนื้อหาข้อความ */
+.gustabe-toast-item .toast-content {
+    flex: 1;
+    line-height: 1.4;
+}
+.gustabe-toast-item a { 
+    color: #81c784 !important; /* เปลี่ยนสี Link ในนั้นให้เด่น */
+    text-decoration: underline;
+}
+
+/* ปุ่มปิด (X) */
+.gustabe-toast-item .toast-close {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    margin-left: 5px;
+}
+.gustabe-toast-item .toast-close:hover { color: #fff; }
+
+/* Animation: เด้งขึ้น */
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Animation: จางหาย (ใช้คู่กับ JS) */
+.gustabe-toast-item.fade-out {
+    animation: fadeOutDrop 0.5s ease forwards;
+}
+@keyframes fadeOutDrop {
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+/* ซ่อนกล่องแจ้งเตือนเดิมของ WooCommerce (เผื่อมันเด้งซ้อน) */
+.woocommerce-message:not(.gustabe-toast-item), 
+.woocommerce-info:not(.gustabe-toast-item),
+.woocommerce-error:not(.gustabe-toast-item) {
+    /* display: none; <-- อย่าเพิ่งเปิดบรรทัดนี้ จนกว่าจะแน่ใจว่า Toast ทำงานครบทุกหน้า */
+}
+
+
+
+
+/* --- Gustabe Address Card (Modern Design) --- */
+
+/* 1. Grid Layout (จัดเรียง) */
+.gustabe-address-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ปรับขนาดอัตโนมัติ (มือถือ 1 แถว, จอใหญ่ 2 แถว) */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* 2. Card Base (ตัวการ์ดพื้นฐาน) */
+.gustabe-address-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03); /* เงาบางๆ ดูแพง */
+    border: 1px solid #f0f0f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+    min-height: 160px;
+}
+.gustabe-address-card:hover {
+    transform: translateY(-5px); /* ลอยขึ้นนิดนึงตอนชี้ */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    border-color: #04a39c; /* เส้นขอบเปลี่ยนสีตามธีม */
+}
+
+/* 3. Icon (ด้านซ้าย) */
+.card-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background: #e0f2f1; /* สีพื้นหลังไอคอน (เขียวอ่อน) */
+    color: #04a39c;      /* สีไอคอน */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+/* 4. Content (ตรงกลาง) */
+.card-content {
+    flex: 1;
+}
+.card-title {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+.card-address-text {
+    font-style: normal;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* 5. Edit Button (ปุ่มดินสอขวาบน) */
+.card-edit-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    border-radius: 50%;
+    background: #f9f9f9;
+    transition: 0.2s;
+    text-decoration: none !important;
+}
+.card-edit-btn:hover {
+    background: #04a39c;
+    color: #fff;
+}
+
+/* --- Empty State Design (ปุ่มเพิ่มที่อยู่) --- */
+.gustabe-address-card.is-empty {
+    padding: 0;
+    border: 2px dashed #ddd; /* เส้นปะ */
+    background: #fafafa;
+    box-shadow: none;
+    align-items: center;
+    justify-content: center;
+}
+.gustabe-address-card.is-empty:hover {
+    border-color: #04a39c;
+    background: #fff;
+}
+.empty-state-link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    color: #999;
+    padding: 20px;
+}
+.empty-icon-circle {
+    width: 50px;
+    height: 50px;
+    background: #eee;
+    color: #bbb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 12px;
+    transition: 0.3s;
+}
+.empty-state-link:hover .empty-icon-circle {
+    background: #04a39c;
+    color: #fff;
+    transform: scale(1.1);
+}
+.empty-text {
+    font-weight: 600;
+    font-size: 15px;
+    transition: 0.3s;
+}
+.empty-state-link:hover .empty-text {
+    color: #04a39c;
+}
+
+
+
+/* =========================================================
+   GUSTABE ORDER HISTORY (Complete Version)
+   - Timeline Card
+   - Popup System (V2)
+   - Product Box & Button Fix
+   ========================================================= */
+
+.gustabe-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+/* --- 1. Card Base --- */
+.gustabe-order-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #eee;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    transition: all 0.2s ease;
+}
+.gustabe-order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-color: #04a39c;
+}
+
+/* --- 2. Header --- */
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f9f9f9;
+    padding-bottom: 15px;
+}
+.order-info { display: flex; flex-direction: column; }
+.order-id { font-size: 16px; font-weight: 800; color: #333; }
+.order-date { font-size: 12px; color: #999; }
+
+.order-status-badge {
+    font-size: 12px; padding: 5px 12px; border-radius: 20px;
+    font-weight: 600; text-transform: capitalize;
+}
+/* สีตามสถานะ */
+.status-processing { background: #e3f2fd; color: #1976d2; }
+.status-completed { background: #e8f5e9; color: #2e7d32; }
+.status-on-hold, .status-pending { background: #fff8e1; color: #f57f17; }
+.status-cancelled { background: #ffebee; color: #c62828; }
+
+/* --- 3. Timeline --- */
+.order-timeline {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 25px; position: relative; padding: 0 10px;
+}
+.timeline-step {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 5px; z-index: 2; width: 60px;
+}
+.step-circle {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #f0f0f0; color: #bbb;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; transition: 0.3s; border: 2px solid #fff;
+}
+.step-label { font-size: 10px; color: #bbb; font-weight: 500; }
+.step-line {
+    flex: 1; height: 3px; background: #f0f0f0;
+    margin: 0 -15px; margin-bottom: 15px; z-index: 1; border-radius: 10px;
+}
+/* Active State */
+.timeline-step.active .step-circle {
+    background: #04a39c; color: #fff;
+    box-shadow: 0 0 0 4px rgba(4, 163, 156, 0.15);
+}
+.timeline-step.active .step-label { color: #04a39c; font-weight: 700; }
+.step-line.active { background: #04a39c; }
+
+/* --- 4. Products Preview & Button (แก้ไขใหม่: ให้กล่องหดเข้า และปุ่มเกาะติด) --- */
+.order-products-preview {
+    position: relative; /* สำคัญ! */
+    display: inline-flex; /* ★ แก้ให้กล่องหดเท่าเนื้อหา (ไม่ยืดเต็มจอ) */
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    padding-bottom: 20px; /* เว้นที่ด้านล่างให้ปุ่ม */
+    background: #f8f9fa;
+    border: 1px dashed #e0e0e0;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.2s ease;
+    max-width: 100%;
+}
+.order-products-preview:hover {
+    background: #fff;
+    border-color: #04a39c;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.preview-thumb img, .preview-more {
+    width: 50px; height: 50px;
+    border-radius: 10px; object-fit: cover;
+    border: 1px solid #eee; background: #fff;
+}
+.preview-more {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #888; background: #f9f9f9;
+}
+
+/* --- แบบที่ 1: Smart Icon (ยืดหดได้) --- */
+
+.click-hint {
+    position: absolute;
+    right: -8px; 
+    bottom: -8px;
+    
+    background: #04a39c;
+    color: #fff;
+    height: 32px; /* กำหนดความสูงแน่นอน */
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(4, 163, 156, 0.4);
+    
+    display: flex;
+    align-items: center;
+    padding: 0 10px; /* ระยะห่างในปุ่ม */
+    gap: 0; /* เริ่มต้นไม่มีช่องว่าง */
+    
+    z-index: 10;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    max-width: 32px; /* ★ บังคับให้เริ่มที่วงกลมเล็กๆ */
+    white-space: nowrap; /* ห้ามตัวหนังสือขึ้นบรรทัดใหม่ */
+}
+
+/* ไอคอน */
+.click-hint i {
+    font-size: 14px;
+    min-width: 12px; /* จองพื้นที่ให้ไอคอน */
+}
+
+/* ตัวหนังสือ (ซ่อนไว้ก่อน) */
+.click-hint span {
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 0;
+}
+
+/* Effect ตอนชี้ที่กล่องรูป: ยืดออก */
+.order-products-preview:hover .click-hint {
+    max-width: 120px; /* ยืดออก */
+    padding-right: 15px;
+    background: #03857f;
+    transform: translateY(-2px);
+}
+
+.order-products-preview:hover .click-hint span {
+    opacity: 1; /* โชว์ตัวหนังสือ */
+    transform: translateX(5px); /* เลื่อนเข้ามาสวยๆ */
+}
+
+/* --- 5. Footer & Buttons --- */
+.order-card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid #f9f9f9; padding-top: 15px;
+}
+.total-wrapper { display: flex; flex-direction: column; }
+.total-price { font-size: 18px; color: #04a39c; }
+.gustabe-btn.view {
+    background: #04a39c; color: #fff; padding: 8px 20px;
+    border-radius: 50px; font-size: 13px; font-weight: 600;
+    text-decoration: none; transition: 0.3s;
+}
+.gustabe-btn.view:hover {
+    background: #03857f; box-shadow: 0 4px 10px rgba(4, 163, 156, 0.3);
+}
+
+/* --- 6. POPUP SYSTEM (V2: The Fix) --- */
+.gustabe-popup-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 999999 !important;
+    opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    display: flex; align-items: flex-end; justify-content: center;
+    backdrop-filter: blur(3px);
+    padding: 0 !important; margin: 0 !important;
+}
+.gustabe-popup-overlay.is-visible { opacity: 1; visibility: visible; }
+
+.gustabe-popup-content {
+    background: #fff; width: 100%; max-width: 500px;
+    border-radius: 20px 20px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex; flex-direction: column;
+    max-height: 85vh; position: relative;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+}
+.gustabe-popup-overlay.is-visible .gustabe-popup-content { transform: translateY(0); }
+
+/* Desktop Style */
+@media (min-width: 768px) {
+    .gustabe-popup-overlay { align-items: center; padding: 20px !important; }
+    .gustabe-popup-content {
+        border-radius: 20px; transform: scale(0.95); opacity: 0;
+        max-width: 450px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    .gustabe-popup-overlay.is-visible .gustabe-popup-content {
+        transform: scale(1); opacity: 1;
+    }
+}
+
+/* Popup Inner */
+.popup-header {
+    padding: 20px; border-bottom: 1px solid #f0f0f0;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.ph-left h3 { margin: 0; font-size: 18px; font-weight: 700; color: #333; }
+.ph-left span { font-size: 13px; color: #888; }
+.close-popup-btn {
+    background: #f5f5f5; border: none; width: 32px; height: 32px; border-radius: 50%;
+    font-size: 20px; cursor: pointer; color: #666;
+    display: flex; align-items: center; justify-content: center;
+}
+.popup-body { padding: 0 20px; overflow-y: auto; flex: 1; }
+.quick-order-items { list-style: none; padding: 0; margin: 0; }
+.qo-item { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f9f9f9; }
+.qo-img img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; background: #f9f9f9; }
+.qo-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.qo-name { font-weight: 600; font-size: 14px; color: #333; margin-bottom: 5px; line-height: 1.4; }
+.qo-meta { display: flex; justify-content: space-between; font-size: 13px; }
+.qo-qty { color: #888; }
+.qo-price { color: #04a39c; font-weight: 700; }
+
+.popup-footer { padding: 20px; border-top: 1px solid #f0f0f0; background: #fff; }
+.pf-summary { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.pf-summary span { font-size: 14px; color: #666; }
+.pf-summary strong { font-size: 20px; color: #04a39c; }
+.btn-full-action {
+    display: block; width: 100%; text-align: center;
+    background: #333; color: #fff; padding: 12px; border-radius: 50px;
+    text-decoration: none; font-weight: 600; transition: 0.2s;
+}
+.btn-full-action:hover { background: #000; }
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .order-timeline { padding: 0; }
+    .step-label { font-size: 9px; }
+    .step-circle { width: 28px; height: 28px; font-size: 12px; }
+    .order-card-footer { gap: 10px; }
+}
+
+
+
+
+/* =========================================
+   GUSTABE DOWNLOADS PAGE
+   ========================================= */
+
+/* Container */
+.gustabe-download-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* --- Card Design --- */
+.gustabe-download-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+.gustabe-download-card:hover {
+    border-color: #04a39c;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+/* Left: Image */
+.dl-card-img {
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+    background: #fafafa;
+}
+.dl-card-img img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+.dl-card-img .no-img {
+    width: 100%; height: 100%; display: flex; 
+    align-items: center; justify-content: center; color: #ccc;
+}
+
+/* Middle: Info */
+.dl-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.dl-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.3;
+}
+.dl-product-ref {
+    font-size: 12px;
+    color: #888;
+    display: flex; align-items: center; gap: 5px;
+}
+.dl-meta-group {
+    display: flex; gap: 10px; margin-top: 5px; flex-wrap: wrap;
+}
+.dl-meta {
+    font-size: 11px;
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.status-success { color: #2e7d32; background: #e8f5e9; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+.status-warning { color: #f57f17; background: #fff8e1; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+.dl-expire { color: #999; }
+
+/* Right: Action Button */
+.dl-card-action { flex-shrink: 0; }
+.gustabe-btn-download {
+    display: flex; align-items: center; gap: 8px;
+    background: #04a39c; color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+}
+.gustabe-btn-download:hover {
+    background: #03857f;
+    box-shadow: 0 4px 10px rgba(4, 163, 156, 0.3);
+    color: #fff;
+}
+
+/* --- Empty State (หน้าว่าง) --- */
+.gustabe-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px dashed #e0e0e0;
+    margin-top: 20px;
+}
+.empty-icon {
+    font-size: 60px;
+    color: #eee;
+    margin-bottom: 20px;
+}
+.gustabe-empty-state h3 { font-size: 18px; margin: 0 0 10px; color: #333; }
+.gustabe-empty-state p { font-size: 14px; color: #888; margin: 0 0 25px; max-width: 400px; margin-left: auto; margin-right: auto; }
+.gustabe-btn.primary {
+    background: #333; color: #fff; padding: 12px 30px; 
+    border-radius: 50px; text-decoration: none; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: 0.2s;
+}
+.gustabe-btn.primary:hover { background: #000; transform: translateY(-2px); }
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .gustabe-download-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .dl-card-img { width: 100%; height: 150px; } /* รูปเต็มจอบนมือถือ */
+    .dl-card-action { width: 100%; }
+    .gustabe-btn-download { width: 100%; justify-content: center; }
+}
