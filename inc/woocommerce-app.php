@@ -260,33 +260,31 @@ function hello_child_render_mobile_sort_popup() {
 
 
 
-// 7. [SCRIPT] Toast Notification Auto Close (จัดการ Animation การแจ้งเตือน)
+// 7. [SCRIPT] Toast Notification Auto Close (แก้ไข: ให้ทำงานทุกหน้า)
 add_action( 'wp_footer', 'hello_child_toast_notification_script' );
 function hello_child_toast_notification_script() {
-    // โหลดเฉพาะหน้าที่มีโอกาสเกิด Toast (My Account / Checkout / Edit Address)
-    if ( is_account_page() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
-        ?>
-        <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            // ตรวจสอบว่ามี Toast Wrapper เกิดขึ้นไหม
-            if ( $('.gustabe-toast-wrapper').length > 0 ) {
+    // ลบเงื่อนไข if (...) ทิ้งไปเลยครับ เพื่อให้มันทำงานทุกหน้าที่มีการแจ้งเตือน
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        // ตรวจสอบว่ามี Toast Wrapper เกิดขึ้นไหม
+        if ( $('.gustabe-toast-wrapper').length > 0 ) {
+            
+            // ตั้งเวลา 4 วินาที
+            setTimeout(function(){
+                // 1. เพิ่ม class ให้จางหาย
+                $('.gustabe-toast-item').addClass('fade-out');
                 
-                // ตั้งเวลา 4 วินาที
+                // 2. รอ Animation จบ 0.5 วิ แล้วลบ Element ทิ้ง
                 setTimeout(function(){
-                    // 1. เพิ่ม class ให้จางหาย (CSS fade-out ต้องมีใน style.css)
-                    $('.gustabe-toast-item').addClass('fade-out');
-                    
-                    // 2. รอ Animation จบ 0.5 วิ แล้วลบ Element ทิ้งจาก DOM
-                    setTimeout(function(){
-                        $('.gustabe-toast-wrapper').remove();
-                    }, 500);
-                    
-                }, 4000); 
-            }
-        });
-        </script>
-        <?php
-    }
+                    $('.gustabe-toast-wrapper').remove();
+                }, 500);
+                
+            }, 4000); 
+        }
+    });
+    </script>
+    <?php
 }
 
 
@@ -617,3 +615,58 @@ function gustabe_ajax_quick_view_script() {
     </style>
     <?php
 }
+
+
+
+/**
+ * GUSTABE AJAX CART UPDATE
+ * รับค่าจาก JS -> อัปเดตตะกร้า -> ส่ง HTML กลับไปแปะหน้าเว็บ
+ */
+add_action( 'wp_ajax_gustabe_update_cart_qty', 'gustabe_ajax_update_cart_qty' );
+add_action( 'wp_ajax_nopriv_gustabe_update_cart_qty', 'gustabe_ajax_update_cart_qty' );
+
+function gustabe_ajax_update_cart_qty() {
+    // 1. เช็คความปลอดภัย
+    if ( ! isset($_POST['nonce']) || ! wp_verify_nonce($_POST['nonce'], 'gustabe_cart_nonce') ) {
+        wp_send_json_error( 'Security check failed' );
+    }
+
+    $cart_item_key = sanitize_text_field( $_POST['key'] );
+    $qty = intval( $_POST['qty'] );
+
+    // 2. อัปเดตจำนวนสินค้าในตะกร้าจริง
+    if ( $cart_item_key && $qty >= 0 ) {
+        WC()->cart->set_quantity( $cart_item_key, $qty, true );
+        WC()->cart->calculate_totals();
+        WC()->cart->calculate_shipping();
+    }
+
+    // 3. เตรียมข้อมูลส่งกลับ (HTML ก้อนใหม่)
+    
+    // 3.1: ราคารวม (Cart Totals) - ดึงไฟล์ cart-totals.php ที่เราเพิ่งสร้าง
+    ob_start();
+    woocommerce_cart_totals(); 
+    $cart_totals_html = ob_get_clean();
+
+    // 3.2: ราคารายชิ้น (Item Subtotal)
+    $cart_item = WC()->cart->get_cart_item( $cart_item_key );
+    $item_subtotal = '';
+    if ( $cart_item ) {
+        $item_subtotal = WC()->cart->get_product_subtotal( $cart_item['data'], $cart_item['quantity'] );
+    }
+
+    // 3.3: ข้อความ Rewards (Progress Bar)
+    // (เราต้องเขียน Logic ดึง HTML ส่วนนี้ใหม่ หรือส่งแค่ยอดรวมไปคำนวณใน JS ก็ได้)
+    // เพื่อความง่าย ให้ส่งยอดรวมไปอัปเดตหลอด
+    $cart_subtotal_float = WC()->cart->get_subtotal();
+
+    wp_send_json_success( array(
+        'cart_totals'   => $cart_totals_html,
+        'item_subtotal' => $item_subtotal,
+        'cart_total_float' => $cart_subtotal_float,
+        'msg' => 'Updated'
+    ));
+}
+
+
+

@@ -1,5 +1,7 @@
 <?php
 /**
+ * dir  /
+ * functions.php
  * Child theme functions
  * แยกไฟล์ระบบ (Modular) เพื่อความสะอาดและดูแลง่าย
  */
@@ -19,10 +21,11 @@ require_once get_stylesheet_directory() . '/inc/enqueue-scripts.php'; // สค�
 require_once get_stylesheet_directory() . '/inc/theme-setup.php';     // ตั้งค่าธีม, เมนู, ค้นหา
 require_once get_stylesheet_directory() . '/inc/polylang-setup.php';  // แปลภาษา
 require_once get_stylesheet_directory() . '/inc/woocommerce-app.php'; // ฟีเจอร์ร้านค้า (Cards, Filter, Logic)
-require_once get_stylesheet_directory() . '/inc/woo-siggleproduct.php'; // ปรับแต่ง (siggle-page)
+require_once get_stylesheet_directory() . '/inc/woo-singleproduct.php'; // ปรับแต่ง (siggle-page)
 require_once get_stylesheet_directory() . '/inc/ajax-search.php'; //คันหาแบบปรับแต่ง
 require_once get_stylesheet_directory() . '/inc/gustabe-avatar.php'; // เรียกใช้ระบบ Custom Avatar
 require_once get_stylesheet_directory() . '/inc/gustabe-auto-address.php'; // เรียกใช้ระบบ auto-address
+require_once get_stylesheet_directory() . '/inc/admin-rewards.php'; // เรียกใช้ระบบตั้งค่า Rewards
 
 // 3. เรียกใช้ไฟล์ Includes เดิมของคุณ (Admin Login, CPT)
 // (ถ้าคุณย้ายไฟล์พวกนี้ไปไว้ใน inc แล้ว ก็แก้ path ให้ตรงนะครับ)

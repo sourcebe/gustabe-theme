@@ -1,7 +1,10 @@
 <?php
 /**
+ * theme name hello-elementor-child
+ * dir template-parts\
+ * file dynamic-header.php
  * The template for displaying header.
- * Update: Added Polylang Logic using English base strings
+ * Update: Added Polylang Logic & Safe Currency Switcher Integration
  */
 if ( ! defined( 'ABSPATH' ) ) {
     exit; 
@@ -94,6 +97,12 @@ if ( $mobile_logo_id ) {
                 <?php endif; ?>
 
                 <div class="header-actions d-flex align-items-center">
+                    <?php if ( shortcode_exists( 'gustab_currency_switcher' ) ) : ?>
+                        <div class="currency-switcher-desktop me-3 d-none d-lg-block">
+                            <?php echo do_shortcode( '[gustab_currency_switcher]' ); ?>
+                        </div>
+                    <?php endif; ?>
+
                     <?php if ( function_exists( 'pll_the_languages' ) ) : ?>
                         <div class="language-switcher-desktop me-3 d-none d-lg-block">
                             <ul class="d-flex list-unstyled m-0 gap-2 align-items-center" style="font-size: 14px; font-weight: 500;">
@@ -244,6 +253,17 @@ if ( $mobile_logo_id ) {
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="<?php echo esc_attr__( 'Close', 'hello-elementor' ); ?>"></button>
         </div>
         <div class="offcanvas-body">
+
+            <?php if ( shortcode_exists( 'gustab_currency_switcher' ) ) : ?>
+                <div class="currency-switcher-mobile mt-4 border-top pt-3">
+                    <span class="text-muted small mb-2 d-block">
+                        <?php echo esc_html( function_exists('pll__') ? pll__('สกุลเงิน / Currency') : 'Currency' ); ?>
+                    </span>
+                    <div class="d-flex list-unstyled gap-3 m-0">
+                        <?php echo do_shortcode( '[gustab_currency_switcher]' ); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <?php if ( function_exists( 'pll_the_languages' ) ) : ?>
                 <div class="language-switcher-mobile mt-4 border-top pt-3">

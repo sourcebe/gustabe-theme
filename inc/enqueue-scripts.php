@@ -18,6 +18,24 @@ function hello_elementor_child_enqueue_all_assets() {
     // Bootstrap JS
     wp_enqueue_script( 'bootstrap-js', get_stylesheet_directory_uri() . '/js/bootstrap.bundle.min.js', array( 'jquery' ), '5.3.0', true );
 
+    // ในไฟล์ inc/enqueue-scripts.php
+
+    if ( is_cart() ) {
+        wp_enqueue_script( 
+            'gustabe-cart-qty', 
+            get_stylesheet_directory_uri() . '/js/cart-qty.js', 
+            array( 'jquery' ), 
+            time(), 
+            true 
+        );
+
+        // ★★★ เพิ่มท่อนนี้ครับ (สำคัญมาก!) ★★★
+        wp_localize_script( 'gustabe-cart-qty', 'gustabe_ajax', array(
+            'url'   => admin_url( 'admin-ajax.php' ),
+            'nonce' => wp_create_nonce( 'gustabe_cart_nonce' )
+        ));
+    }
+
     // ------------------------------------------------------------------
     // ★★★ GUSTABE AJAX SEARCH SETUP (รองรับ Polylang) ★★★
     // ------------------------------------------------------------------

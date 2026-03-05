@@ -209,6 +209,43 @@ function hello_child_register_customizer_strings() {
         pll_register_string( 'dl_empty_desc', 'ไฟล์คู่มือ หรือเอกสารดิจิทัลจากการสั่งซื้อ จะปรากฏที่นี่', $group_order );
         pll_register_string( 'dl_btn_shop', 'เลือกซื้อสินค้า', $group_order );
 
+
+        pll_register_string( 'dl_btn_shop', 'เลือกซื้อสินค้า', 'Gustabe Custom Order' );
+
+        // =========================================================
+        // ★★★ เพิ่มส่วนนี้เข้าไปครับ (Rewards Dynamic Registration) ★★★
+        // =========================================================
+        // ดึงข้อความ "รางวัล" ที่ตั้งค่าไว้ในหน้า Rewards มาลงทะเบียน
+        for ( $i = 1; $i <= 4; $i++ ) {
+            $reward_label = get_option( "gustabe_rewards_tier_{$i}_label" );
+            if ( ! empty( $reward_label ) ) {
+                // Name: Reward Tier X, Group: Gustabe Rewards
+                pll_register_string( "Reward Tier {$i} Label", $reward_label, 'Gustabe Rewards' );
+            }
+        }
+
+
+
+        // --- 9. Cart Page Timeline & Messages (เพิ่มใหม่) ---
+        $group_cart = 'Gustabe Cart';
+        
+        // Timeline Steps
+        pll_register_string( 'Cart Step 1', 'ตะกร้า', $group_cart );
+        pll_register_string( 'Cart Step 2', 'ชำระเงิน', $group_cart );
+        pll_register_string( 'Cart Step 3', 'สำเร็จ', $group_cart );
+
+        // Reward Messages (ใช้ %s แทนตัวเลขและชื่อรางวัล)
+        pll_register_string( 'Reward Buy More', 'ซื้ออีก %s จะได้รับ %s', $group_cart );
+        pll_register_string( 'Reward Max', 'ยินดีด้วย! คุณได้รับรางวัลสูงสุดแล้ว', $group_cart );
+
+
+
+        // --- 10. Cart Totals (กล่องสรุปยอด) ---
+        pll_register_string( 'Cart Summary Title', 'สรุปคำสั่งซื้อ', 'Gustabe Cart' );
+        pll_register_string( 'Cart Subtotal', 'ยอดรวมสินค้า', 'Gustabe Cart' );
+        pll_register_string( 'Cart Coupon', 'ส่วนลดคูปอง', 'Gustabe Cart' );
+        pll_register_string( 'Cart Total', 'ยอดสุทธิ', 'Gustabe Cart' );
+
     }
 }
 add_action( 'init', 'hello_child_register_customizer_strings' );
