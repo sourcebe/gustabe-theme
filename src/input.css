@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@source "../";
+
+@font-face {
+  font-family: 'RD CHULAJARUEK';
+  src: url('../fonts/RD CHULAJARUEK.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Roboto Mono Variable", "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "RD CHULAJARUEK", monospace;
+  --font-mono: "Roboto Mono Variable", "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "RD CHULAJARUEK", monospace;
+}
+
+@layer base {
+  body {
+    background-color: #000000 !important; /* Pure Black Background */
+    color: var(--color-slate-300);
+  }
+
+  /* -----------------------------------------
+     Geeky Terminal Scrollbar
+     ----------------------------------------- */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #020617; /* slate-950 */
+    border-left: 1px solid #1e293b; /* slate-800 */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #334155; /* slate-700 */
+    border: 1px solid #020617;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #10b981; /* emerald-500 */
+  }
+  
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #334155 #020617;
+  }
+
+  /* -----------------------------------------
+     WooCommerce Global Dark UI Styles
+     ----------------------------------------- */
+  
+  /* Inputs & Selects */
+  .woocommerce input[type="text"],
+  .woocommerce input[type="email"],
+  .woocommerce input[type="password"],
+  .woocommerce input[type="tel"],
+  .woocommerce input[type="number"],
+  .woocommerce select,
+  .woocommerce textarea {
+    @apply w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all;
+  }
+
+  /* Buttons */
+  .woocommerce button.button,
+  .woocommerce a.button,
+  .woocommerce input.button {
+    @apply bg-emerald-500 hover:bg-emerald-400 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(52,211,153,0.2)] hover:shadow-[0_0_25px_rgba(52,211,153,0.4)] border-0;
+  }
+  .woocommerce button.button:disabled,
+  .woocommerce button.button.disabled {
+    @apply bg-slate-800 text-slate-500 cursor-not-allowed shadow-none border-0;
+  }
+
+  /* Single Product Titles */
+  .woocommerce div.product .product_title {
+    @apply text-3xl font-bold text-white mb-4;
+  }
+
+  /* Prices */
+  .woocommerce div.product p.price,
+  .woocommerce div.product span.price {
+    @apply text-2xl font-bold text-emerald-400 font-mono mb-6;
+  }
+  .woocommerce div.product p.price del {
+    @apply text-slate-500 text-lg mr-2;
+  }
+
+  /* Quantity Input Wrapper */
+  .woocommerce .quantity {
+    @apply inline-flex items-center gap-2 mr-4;
+  }
+  .woocommerce .quantity input.qty {
+    @apply w-20 text-center font-mono bg-slate-900 border border-slate-700 rounded-lg py-2.5;
+  }
+
+  /* Product Tabs */
+  .woocommerce div.product .woocommerce-tabs ul.tabs {
+    @apply flex flex-wrap gap-2 border-b border-slate-800 mb-6 p-0;
+  }
+  .woocommerce div.product .woocommerce-tabs ul.tabs li {
+    @apply list-none m-0 rounded-t-lg bg-slate-900/50 border border-slate-800 border-b-0 px-6 py-3 cursor-pointer hover:bg-slate-800 transition-colors;
+  }
+  .woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+    @apply bg-slate-800 border-emerald-500/50 text-emerald-400 font-semibold;
+  }
+  .woocommerce div.product .woocommerce-tabs ul.tabs li a {
+    @apply text-slate-400 hover:text-slate-200 outline-none;
+  }
+  .woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
+    @apply text-emerald-400;
+  }
+
+  /* Notices / Alerts */
+  .woocommerce-message,
+  .woocommerce-info,
+  .woocommerce-error {
+    @apply flex items-center justify-between p-4 mb-6 rounded-lg font-mono text-sm border backdrop-blur-md;
+  }
+  .woocommerce-message {
+    @apply bg-emerald-500/10 border-emerald-500/50 text-emerald-400;
+  }
+  .woocommerce-info {
+    @apply bg-blue-500/10 border-blue-500/50 text-blue-400;
+  }
+  .woocommerce-error {
+    @apply bg-red-500/10 border-red-500/50 text-red-400 list-none;
+  }
+  
+  /* Tables (Cart, Checkout, Account) */
+  .woocommerce table.shop_table {
+    @apply w-full text-left border-collapse rounded-xl overflow-hidden mb-8 border border-slate-800;
+  }
+  .woocommerce table.shop_table th {
+    @apply bg-slate-900 text-slate-300 px-6 py-4 font-semibold text-sm uppercase tracking-wider border-b border-slate-800;
+  }
+  .woocommerce table.shop_table td {
+    @apply bg-slate-900/40 text-slate-400 px-6 py-4 border-b border-slate-800 align-middle;
+  }
+}

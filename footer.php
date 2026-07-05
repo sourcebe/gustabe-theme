@@ -1,23 +1,25 @@
 <?php
 /**
  * The template for displaying the footer.
- *
- * Contains the body & html closing tags.
- *
- * @package HelloElementor
+ * Option A: Pure Custom Engine (Zero Elementor, 100% Performance)
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'footer' ) ) {
-	if ( hello_elementor_display_header_footer() ) {
-		if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
-			get_template_part( 'template-parts/dynamic-footer' );
-		} else {
-			get_template_part( 'template-parts/footer' );
-		}
-	}
+// 1. เรียกใช้งานโครงสร้างหลัก Footer (แสดงทุกหน้า)
+get_template_part( 'template-parts/footer/terminal', 'base' );
+
+// อัญเชิญระบบ Search Command Palette
+get_template_part( 'template-parts/footer/search-palette' );
+
+// 2. Logic สลับฟีเจอร์ด้านล่างมือถือ (Mobile UI Switcher)
+$is_product = class_exists( 'WooCommerce' ) && is_product();
+
+if ( ! $is_product ) {
+    // 🟢 ถ้าไม่ใช่หน้าสินค้า -> โชว์ App Dock ปกติ (Status Bar)
+    get_template_part( 'template-parts/footer/app', 'dock' );
+} else {
+    // 🔴 ถ้าเป็นหน้าสินค้า -> โชว์ Product Bottom Sheet พร้อม Vanilla JS
+    get_template_part( 'template-parts/footer/bottom', 'sheet' );
 }
 ?>
 

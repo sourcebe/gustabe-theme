@@ -1,67 +1,90 @@
 <?php
 /**
- * Thank You Page (Fixed: Button for Everyone)
+ * Thankyou page
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/checkout/thankyou.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 8.1.0
+ *
+ * @var WC_Order $order
  */
+
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<div class="gustabe-order-received-app">
+<div class="woocommerce-order">
 
-    <div class="checkout-timeline">
-        <div class="step completed"><div class="icon"><i class="huge huge-checkmark-circle-02"></i></div><span>ตะกร้า</span></div>
-        <div class="line active"></div>
-        <div class="step completed"><div class="icon"><i class="huge huge-credit-card"></i></div><span>ชำระเงิน</span></div>
-        <div class="line active"></div>
-        <div class="step active"><div class="icon"><i class="huge huge-package-delivered"></i></div><span>สำเร็จ</span></div>
-    </div>
+	<?php
+	if ( $order ) :
 
-    <div class="thankyou-content-wrapper">
-        <?php if ( $order ) : ?>
-            
-            <?php if ( $order->has_status( 'failed' ) ) : ?>
-                <div class="gustabe-card error-card">
-                    <div class="status-icon error"><i class="huge huge-cancel-circle"></i></div>
-                    <h2>การชำระเงินล้มเหลว</h2>
-                    <p>กรุณาลองใหม่อีกครั้ง</p>
-                    <div class="actions">
-                        <a href="<?php echo esc_url( $order->get_checkout_payment_url() ); ?>" class="button pay">ชำระเงินอีกครั้ง</a>
-                    </div>
-                </div>
+		do_action( 'woocommerce_before_thankyou', $order->get_id() );
+		?>
 
-            <?php else : ?>
+		<?php if ( $order->has_status( 'failed' ) ) : ?>
 
-                <div class="gustabe-card success-card">
-                    <div class="status-icon success"><i class="huge huge-checkmark-circle-02"></i></div>
-                    <h2>ขอบคุณสำหรับการสั่งซื้อ!</h2>
-                    <p>รหัสคำสั่งซื้อ: <strong>#<?php echo $order->get_order_number(); ?></strong></p>
-                    
-                    <ul class="order-meta-list">
-                        <li class="meta-item"><span>วันที่</span><strong><?php echo wc_format_datetime( $order->get_date_created() ); ?></strong></li>
-                        <li class="meta-item"><span>ยอดรวม</span><strong class="price"><?php echo $order->get_formatted_order_total(); ?></strong></li>
-                        <li class="meta-item"><span>ชำระด้วย</span><strong><?php echo wp_kses_post( $order->get_payment_method_title() ); ?></strong></li>
-                    </ul>
+			<p class="woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed"><?php esc_html_e( 'Unfortunately your order cannot be processed as the originating bank/merchant has declined your transaction. Please attempt your purchase again.', 'woocommerce' ); ?></p>
 
-                    <div class="order-actions" style="margin-top: 25px; text-align: center;">
-                         <a href="<?php echo esc_url( home_url() ); ?>" class="button" style="border-radius: 50px; padding: 12px 30px; background: #04a39c; color: #fff; text-decoration: none;">
-                            <i class="huge huge-home-03"></i> กลับหน้าแรก
-                         </a>
-                         
-                         <?php if ( is_user_logged_in() && $order->get_user_id() === get_current_user_id() ) : ?>
-                             <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="button alt" style="border-radius: 50px; padding: 12px 30px; margin-left: 10px; background: #eee; color: #333; text-decoration: none;">
-                                สั่งซื้อเพิ่ม
-                             </a>
-                         <?php endif; ?>
-                    </div>
-                </div>
+			<p class="woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed-actions">
+				<a href="<?php echo esc_url( $order->get_checkout_payment_url() ); ?>" class="button pay"><?php esc_html_e( 'Pay', 'woocommerce' ); ?></a>
+				<?php if ( is_user_logged_in() ) : ?>
+					<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="button pay"><?php esc_html_e( 'My account', 'woocommerce' ); ?></a>
+				<?php endif; ?>
+			</p>
 
-                <div class="order-details-section">
-                    <?php do_action( 'woocommerce_thankyou', $order->get_id() ); ?>
-                </div>
+		<?php else : ?>
 
-            <?php endif; ?>
+			<?php wc_get_template( 'checkout/order-received.php', array( 'order' => $order ) ); ?>
 
-        <?php else : ?>
-            <p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">ได้รับคำสั่งซื้อแล้ว</p>
-        <?php endif; ?>
-    </div>
+			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+
+				<li class="woocommerce-order-overview__order order">
+					<?php esc_html_e( 'Order number:', 'woocommerce' ); ?>
+					<strong><?php echo $order->get_order_number(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
+				</li>
+
+				<li class="woocommerce-order-overview__date date">
+					<?php esc_html_e( 'Date:', 'woocommerce' ); ?>
+					<strong><?php echo wc_format_datetime( $order->get_date_created() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
+				</li>
+
+				<?php if ( is_user_logged_in() && $order->get_user_id() === get_current_user_id() && $order->get_billing_email() ) : ?>
+					<li class="woocommerce-order-overview__email email">
+						<?php esc_html_e( 'Email:', 'woocommerce' ); ?>
+						<strong><?php echo $order->get_billing_email(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
+					</li>
+				<?php endif; ?>
+
+				<li class="woocommerce-order-overview__total total">
+					<?php esc_html_e( 'Total:', 'woocommerce' ); ?>
+					<strong><?php echo $order->get_formatted_order_total(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
+				</li>
+
+				<?php if ( $order->get_payment_method_title() ) : ?>
+					<li class="woocommerce-order-overview__payment-method method">
+						<?php esc_html_e( 'Payment method:', 'woocommerce' ); ?>
+						<strong><?php echo wp_kses_post( $order->get_payment_method_title() ); ?></strong>
+					</li>
+				<?php endif; ?>
+
+			</ul>
+
+		<?php endif; ?>
+
+		<?php do_action( 'woocommerce_thankyou_' . $order->get_payment_method(), $order->get_id() ); ?>
+		<?php do_action( 'woocommerce_thankyou', $order->get_id() ); ?>
+
+	<?php else : ?>
+
+		<?php wc_get_template( 'checkout/order-received.php', array( 'order' => false ) ); ?>
+
+	<?php endif; ?>
+
 </div>

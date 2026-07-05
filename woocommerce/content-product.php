@@ -1,132 +1,109 @@
 <?php
 /**
- * Custom Product Card - Final Fix (Style 2 & 3) + Polylang Support
+ * The template for displaying product content within loops
+ *
+ * @see     https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 3.6.0
  */
+
 defined( 'ABSPATH' ) || exit;
+
 global $product;
 
-if ( empty( $product ) || ! $product->is_visible() ) return;
-
-// --- เตรียมคำศัพท์สำหรับแปล (Polylang) ---
-$txt_sold_label   = function_exists('pll__') ? pll__('ขายแล้ว') : 'ขายแล้ว';
-$txt_sold_unit    = function_exists('pll__') ? pll__('ชิ้น') : 'ชิ้น';
-$txt_out_stock    = function_exists('pll__') ? pll__('สินค้าหมด') : 'สินค้าหมด'; // แก้จาก "หมด" ให้เต็มยศหน่อย
-$txt_view_details = function_exists('pll__') ? pll__('ดูรายละเอียด') : 'ดูรายละเอียด';
-$txt_add_cart     = function_exists('pll__') ? pll__('ใส่ตะกร้า') : 'ใส่ตะกร้า';
-
-$card_style = get_option( 'hello_child_card_style', 'style-1' );
-$title      = $product->get_title();
-$price_html = $product->get_price_html();
-$image_url  = wp_get_attachment_image_url( $product->get_image_id(), 'woocommerce_thumbnail' );
-$add_to_cart_url = $product->add_to_cart_url();
-
-// Logic ป้าย Sale
-$sale_badge = '';
-if ( $product->is_on_sale() && $product->get_type() == 'simple' ) {
-    $regular = $product->get_regular_price();
-    $sale    = $product->get_sale_price();
-    if( $regular && $sale ) {
-        $percent = round( ( ($regular - $sale) / $regular ) * 100 );
-        $sale_badge = '<span class="mp-badge-sale">-' . $percent . '%</span>';
-    }
+// Ensure visibility.
+if ( empty( $product ) || ! $product->is_visible() ) {
+    return;
 }
 ?>
+<div <?php wc_product_class( 'group flex flex-col bg-slate-900/40 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(52,211,153,0.1)] transition-all duration-300', $product ); ?>>
 
-<li class="product-item-wrapper <?php echo esc_attr($card_style); ?>">
-    <div class="mp-card-inner">
+    <!-- Product Image (with hover zoom effect) -->
+    <a href="<?php echo esc_url( get_permalink() ); ?>" class="relative block overflow-hidden aspect-square bg-slate-800/50">
+        <?php
+        // Override default image wrapper
+        $image_id  = $product->get_image_id();
+        $image_url = wp_get_attachment_image_url( $image_id, 'woocommerce_thumbnail' );
+        if ( $image_url ) {
+            echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ease-out" />';
+        } else {
+            echo '<div class="w-full h-full flex items-center justify-center text-slate-600"><i class="huge huge-image text-4xl"></i></div>';
+        }
+        ?>
+
+        <!-- Badges (On Sale, Out of Stock) -->
+        <div class="absolute top-3 left-3 flex flex-col gap-2">
+            <?php if ( $product->is_on_sale() ) : ?>
+                <span class="bg-emerald-500/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-md">
+                    <?php esc_html_e( 'Sale', 'gustabe' ); ?>
+                </span>
+            <?php endif; ?>
+            <?php if ( ! $product->is_in_stock() ) : ?>
+                <span class="bg-red-500/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-md">
+                    <?php esc_html_e( 'Sold Out', 'gustabe' ); ?>
+                </span>
+            <?php endif; ?>
+        </div>
+    </a>
+
+    <!-- Product Details -->
+    <div class="p-5 flex flex-col flex-1">
         
-        <?php if ( 'style-1' === $card_style ) : ?>
-            <div class="mp-img-box">
-                <a href="<?php the_permalink(); ?>">
-                    <?php echo $sale_badge; ?>
-                    <?php if($image_url): ?><img src="<?php echo esc_url($image_url); ?>" loading="lazy"><?php else: ?><img src="<?php echo wc_placeholder_img_src(); ?>"><?php endif; ?>
-                </a>
-            </div>
-            <div class="mp-content">
-                <a href="<?php the_permalink(); ?>" class="mp-title-link"><h3 class="mp-title"><?php echo $title; ?></h3></a>
-                
-                <?php if($product->get_total_sales() > 0): ?>
-                    <div class="mp-sales"><?php echo esc_html($txt_sold_label . ' ' . $product->get_total_sales() . ' ' . $txt_sold_unit); ?></div>
-                <?php else: ?>
-                    <div class="mp-sales" style="opacity:0;">.</div>
-                <?php endif; ?>
-                
-                <div class="mp-footer-row">
-                    <div class="mp-price"><?php echo $product->get_price_html(); ?></div>
-                    
-                    <div class="mp-action-group">
-                        <a href="<?php the_permalink(); ?>" class="mp-view-btn circle-btn" aria-label="<?php echo esc_attr($txt_view_details); ?>">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        </a>
-                        
-                        <a href="<?php echo esc_url($add_to_cart_url); ?>" class="mp-add-btn circle-btn" aria-label="<?php echo esc_attr($txt_add_cart); ?>">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-13z"/><path d="M6 6H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <!-- Category -->
+        <div class="text-xs text-slate-500 font-mono mb-2 uppercase tracking-wide">
+            <?php echo wc_get_product_category_list( $product->get_id(), ', ' ); ?>
+        </div>
 
-        <?php elseif ( 'style-2' === $card_style ) : ?>
-            <div class="mp-img-box">
-                <a href="<?php the_permalink(); ?>">
-                    <?php if($image_url): ?><img src="<?php echo esc_url($image_url); ?>" loading="lazy"><?php else: ?><img src="<?php echo wc_placeholder_img_src(); ?>"><?php endif; ?>
-                </a>
-            </div>
-            <div class="mp-content text-center">
-                <a href="<?php the_permalink(); ?>" class="mp-title-link"><h3 class="mp-title" style="text-align:left; -webkit-line-clamp: 1; margin-bottom: 2px !important;"><?php echo $title; ?></h3></a>
-                
-                <div class="mp-price big-price" style="text-align:left; margin-bottom: 8px; font-size:16px;"><?php echo $product->get_price_html(); ?></div>
-                
-                <div class="style-2-action-row">
-                    <?php if ( $product->is_in_stock() && $product->get_type() == 'simple' ) : ?>
-                        <div class="qty-selector-compact">
-                            <button type="button" class="qty-btn minus">-</button>
-                            <input type="number" class="qty-input" value="1" min="1" max="<?php echo ($product->get_stock_quantity()) ? $product->get_stock_quantity() : ''; ?>">
-                            <button type="button" class="qty-btn plus">+</button>
-                        </div>
-                        
-                        <a href="?add-to-cart=<?php echo $product->get_id(); ?>" 
-                           data-quantity="1" 
-                           data-product_id="<?php echo $product->get_id(); ?>" 
-                           class="mp-add-btn compact-add-btn ajax_add_to_cart add_to_cart_button"
-                           aria-label="<?php echo esc_attr($txt_add_cart); ?>">
-                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9h-13z"/><path d="M6 6H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
-                        </a>
-                    <?php else: ?>
-                        <a href="<?php the_permalink(); ?>" class="mp-add-btn full-btn" style="background:#eee; color:#999; border:none; width:100%;"><?php echo esc_html($txt_out_stock); ?></a>
-                    <?php endif; ?>
-                </div>
-            </div>
+        <!-- Title -->
+        <a href="<?php echo esc_url( get_permalink() ); ?>" class="block mb-2">
+            <h2 class="text-lg font-bold text-slate-200 group-hover:text-emerald-400 transition-colors line-clamp-2 leading-snug">
+                <?php echo esc_html( $product->get_name() ); ?>
+            </h2>
+        </a>
 
-        <?php elseif ( 'style-3' === $card_style ) : ?>
-            <div class="mp-img-box portrait-img">
-                <a href="<?php the_permalink(); ?>">
-                    <?php echo $sale_badge; ?>
-                    <?php if($image_url): ?><img src="<?php echo esc_url($image_url); ?>" loading="lazy"><?php else: ?><img src="<?php echo wc_placeholder_img_src(); ?>"><?php endif; ?>
-                </a>
+        <!-- Star Rating -->
+        <?php if ( get_option( 'woocommerce_enable_review_rating' ) === 'yes' && $product->get_review_count() > 0 ) : ?>
+            <div class="mb-3 text-emerald-500 text-xs flex items-center gap-1">
+                <?php
+                $rating = $product->get_average_rating();
+                for ( $i = 1; $i <= 5; $i++ ) {
+                    if ( $i <= $rating ) {
+                        echo '<i class="huge huge-star"></i>';
+                    } else {
+                        echo '<i class="huge huge-star text-slate-700"></i>';
+                    }
+                }
+                ?>
+                <span class="text-slate-500 ml-1 font-mono">(<?php echo $product->get_review_count(); ?>)</span>
             </div>
-            <div class="mp-content">
-                <div class="fashion-meta">
-                    <div class="fashion-cat"><?php echo wc_get_product_category_list( $product->get_id(), ', ', '', '' ); ?></div>
-                    <a href="<?php the_permalink(); ?>" class="mp-title-link"><h3 class="mp-title"><?php echo $title; ?></h3></a>
-                    <div class="mp-price"><?php echo $product->get_price_html(); ?></div>
-                </div>
-            </div>
-
-        <?php else : ?>
-            <div class="mp-img-box radius-img">
-                <a href="<?php the_permalink(); ?>">
-                    <?php if($image_url): ?><img src="<?php echo esc_url($image_url); ?>" loading="lazy"><?php else: ?><img src="<?php echo wc_placeholder_img_src(); ?>"><?php endif; ?>
-                </a>
-                <div class="insta-wishlist"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-            </div>
-            <div class="mp-content">
-                <div class="mp-footer-row">
-                    <a href="<?php the_permalink(); ?>" class="mp-title-link" style="flex:1;"><h3 class="mp-title"><?php echo $title; ?></h3></a>
-                    <div class="mp-price"><?php echo $product->get_price_html(); ?></div>
-                </div>
-            </div>
+        <?php else: ?>
+            <div class="mb-3 h-4"></div> <!-- Spacer if no rating -->
         <?php endif; ?>
 
+        <!-- Price -->
+        <div class="mt-auto mb-4 font-mono">
+            <?php 
+            $price_html = $product->get_price_html();
+            // We can replace standard Woo classes with Tailwind if needed, but let's keep it simple
+            // Price usually wraps inside <span class="price">
+            echo '<div class="text-emerald-400 font-bold text-lg">' . $price_html . '</div>';
+            ?>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <div class="mt-2">
+            <?php
+            // Custom Add to Cart Button
+            echo sprintf( '<a href="%s" data-quantity="%s" class="%s %s" %s>%s</a>',
+                esc_url( $product->add_to_cart_url() ),
+                esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
+                'w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-emerald-500 text-slate-300 hover:text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition-all duration-300',
+                $product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button ajax_add_to_cart' : '',
+                isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
+                esc_html( $product->add_to_cart_text() )
+            );
+            ?>
+        </div>
+        
     </div>
-</li>
+</div>

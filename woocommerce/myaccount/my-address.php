@@ -1,7 +1,18 @@
 <?php
 /**
- * GUSTABE ADDRESS LIST (Modern Card Style V1)
- * ออกแบบใหม่: ใช้ Card Layout + Empty State + Huge Icons
+ * My Addresses
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/myaccount/my-address.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 9.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,63 +38,58 @@ if ( ! wc_ship_to_billing_address_only() && wc_shipping_enabled() ) {
 	);
 }
 
-// Helper Function: เช็คว่ามีที่อยู่จริงหรือไม่ (โดยการดึง field แรกมาเช็ค)
-function gustabe_check_address_exists($type, $customer_id) {
-    $key = ($type == 'billing') ? 'billing_address_1' : 'shipping_address_1';
-    $val = get_user_meta($customer_id, $key, true);
-    return !empty($val);
-}
+$oldcol = 1;
+$col    = 1;
 ?>
 
-<p>
-    <?php echo apply_filters( 'woocommerce_my_account_my_address_description', esc_html__( 'The following addresses will be used on the checkout page by default.', 'woocommerce' ) ); ?>
+<p class="text-slate-400 mb-8 font-mono text-sm">
+	<?php echo apply_filters( 'woocommerce_my_account_my_address_description', esc_html__( 'The following addresses will be used on the checkout page by default.', 'woocommerce' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </p>
 
-<div class="gustabe-address-grid">
+<?php if ( ! wc_ship_to_billing_address_only() && wc_shipping_enabled() ) : ?>
+	<div class="u-columns woocommerce-Addresses col2-set addresses flex flex-col lg:flex-row gap-8 w-full">
+<?php endif; ?>
 
-	<?php foreach ( $get_addresses as $name => $address_title ) : ?>
-        <?php
-            // 1. เตรียมข้อมูล
-            $address_html = wc_get_account_formatted_address( $name );
-            $has_data     = gustabe_check_address_exists($name, $customer_id);
-            $edit_url     = wc_get_endpoint_url( 'edit-address', $name );
-            
-            // 2. เลือกไอคอน
-            $icon_class = ('billing' === $name) ? 'huge-invoice-01' : 'huge-delivery-truck-02';
-        ?>
+<?php foreach ( $get_addresses as $name => $address_title ) : ?>
+	<?php
+		$address = wc_get_account_formatted_address( $name );
+		$col     = $col * -1;
+		$oldcol  = $oldcol * -1;
+	?>
 
-        <div class="gustabe-address-card <?php echo $has_data ? 'has-data' : 'is-empty'; ?>">
-            
-            <?php if ( $has_data ) : ?>
-                <div class="card-icon-wrapper">
-                    <i class="huge <?php echo $icon_class; ?>"></i>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title"><?php echo esc_html( $address_title ); ?></h3>
-                    <address class="card-address-text">
-                        <?php echo wp_kses_post( $address_html ); ?>
-                    </address>
-                </div>
-                <a href="<?php echo esc_url( $edit_url ); ?>" class="card-edit-btn" title="<?php esc_attr_e( 'Edit', 'woocommerce' ); ?>">
-                    <i class="huge huge-pencil-edit-02"></i>
-                </a>
+	<div class="u-column<?php echo $col < 0 ? 1 : 2; ?> col-<?php echo $oldcol < 0 ? 1 : 2; ?> woocommerce-Address w-full flex-1 bg-slate-900/40 border border-slate-800 rounded-2xl p-6 lg:p-8 shadow-xl backdrop-blur-xl relative group">
+		<header class="woocommerce-Address-title title flex justify-between items-center mb-6 border-b border-slate-800/50 pb-4">
+			<h3 class="text-lg md:text-xl font-bold text-emerald-400 m-0 tracking-wide"><?php echo esc_html( $address_title ); ?></h3>
+			<a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address', $name ) ); ?>" class="edit text-xs md:text-sm text-slate-400 hover:text-emerald-400 transition-colors bg-slate-950/80 px-4 py-2 rounded-lg border border-slate-800 hover:border-emerald-500/50 font-mono flex items-center gap-2">
+				<span class="text-emerald-500/50 group-hover:text-emerald-400 transition-colors">{</span>
+				<?php
+					printf(
+						/* translators: %s: Address title */
+						$address ? esc_html__( 'Edit', 'woocommerce' ) : esc_html__( 'Add', 'woocommerce' ),
+						esc_html( $address_title )
+					);
+				?>
+				<span class="text-emerald-500/50 group-hover:text-emerald-400 transition-colors">}</span>
+			</a>
+		</header>
+		<address class="not-italic text-slate-300 leading-relaxed font-mono text-sm opacity-90 group-hover:opacity-100 transition-opacity">
+			<?php
+				echo $address ? wp_kses_post( $address ) : esc_html_e( 'You have not set up this type of address yet.', 'woocommerce' );
 
-            <?php else : ?>
-                <a href="<?php echo esc_url( $edit_url ); ?>" class="empty-state-link">
-                    <div class="empty-icon-circle">
-                        <i class="huge huge-plus-sign"></i>
-                    </div>
-                    <div class="empty-text">
-                        <?php 
-                        // ข้อความรองรับการแปล (ถ้าใช้ Polylang ให้ไปเพิ่มใน String Translation)
-                        echo ('billing' === $name) ? __( 'Add Billing Address', 'woocommerce' ) : __( 'Add Shipping Address', 'woocommerce' ); 
-                        ?>
-                    </div>
-                 </a>
-            <?php endif; ?>
+				/**
+				 * Used to output content after core address fields.
+				 *
+				 * @param string $name Address type.
+				 * @since 8.7.0
+				 */
+				do_action( 'woocommerce_my_account_after_my_address', $name );
+			?>
+		</address>
+	</div>
 
-        </div>
+<?php endforeach; ?>
 
-	<?php endforeach; ?>
-
-</div>
+<?php if ( ! wc_ship_to_billing_address_only() && wc_shipping_enabled() ) : ?>
+	</div>
+	<?php
+endif;

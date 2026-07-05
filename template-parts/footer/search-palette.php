@@ -1,0 +1,88 @@
+<?php
+/**
+ * dir:  template-parts/
+ * file: search-palette.php
+ * UI สำหรับระบบ Command Palette Search (⌘K) สไตล์ The Dark IDE
+ */
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
+
+<!-- เพิ่มคลาส 'group' และใช้ Tailwind จัดการ state '.is-open' -->
+<div id="gustabe-search-palette" 
+     class="group fixed inset-0 z-[9999] flex items-start justify-center p-4 sm:p-6 md:p-20 opacity-0 pointer-events-none transition-all duration-300 [&.is-open]:opacity-100 [&.is-open]:pointer-events-auto"
+     role="dialog" aria-modal="true">
+    
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" id="search-backdrop"></div>
+
+    <!-- ดึง group-[.is-open]:scale-100 มาทำแอนิเมชันซูมเข้า -->
+    <div class="relative w-full max-w-2xl transform scale-95 group-[.is-open]:scale-100 divide-y divide-white/10 overflow-hidden rounded-xl bg-[#0d0d0d] shadow-2xl ring-1 ring-white/20 transition-all duration-300 border border-red-500/20">
+        
+        <div class="relative flex items-center px-4 py-2">
+            <i class="huge huge-search-02 text-gray-400 text-xl"></i>
+            <input type="text" id="search-input"
+                   class="h-12 w-full border-0 bg-transparent pl-4 pr-4 text-white placeholder-gray-500 focus:ring-0 sm:text-sm outline-none" 
+                   placeholder="Search projects, products, or code... (ESC to close)"
+                   autocomplete="off">
+            <kbd class="hidden sm:inline-flex items-center rounded border border-white/20 px-2 font-sans text-xs font-medium text-gray-400">
+                ESC
+            </kbd>
+        </div>
+
+        <div id="search-results-container" class="max-h-96 scroll-py-3 overflow-y-auto p-3">
+            <!-- ค้นหาส่วน #search-suggestions แล้วอัปเดตโค้ดด้านในตามนี้ครับ -->
+            <div id="search-suggestions">
+                <p class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Quick Suggestions</p>
+                <div class="space-y-1">
+                    <!-- ⚡ เพิ่ม data-prefix ให้ปุ่ม -->
+                    <a href="#" data-prefix="/products " class="suggestion-btn group/link flex items-center rounded-md px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                        <i class="huge huge-shopping-basket-01 text-emerald-500 mr-3"></i>
+                        <span>Browse Products</span>
+                    </a>
+                    <a href="#" data-prefix="/portfolio " class="suggestion-btn group/link flex items-center rounded-md px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                        <!-- ⚡ แก้เป็น huge-code-folder -->
+                        <i class="huge huge-code-folder text-red-500 mr-3"></i>
+                        <span>View Portfolio</span>
+                    </a>
+                    <a href="#" data-prefix="/blog " class="suggestion-btn group/link flex items-center rounded-md px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                        <!-- ⚡ แก้เป็น huge-book-open-01 -->
+                        <i class="huge huge-book-open-01 text-cyan-500 mr-3"></i>
+                        <span>Read Articles</span>
+                    </a>
+                </div>
+            </div>
+
+            <div id="search-loading" class="hidden py-14 text-center">
+                <div class="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-red-500 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                <p class="mt-4 text-sm text-gray-400 font-mono">Executing query...</p>
+            </div>
+
+            <div id="search-results-list" class="space-y-1"></div>
+
+            <div id="search-empty" class="hidden py-14 px-6 text-center sm:px-14">
+                <i class="huge huge-search-not-found text-gray-500 text-4xl mb-4"></i>
+                <p class="text-sm text-gray-400">No results found for "<span id="search-query-text" class="text-white"></span>"</p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between bg-black/50 px-4 py-2.5 text-[10px] text-gray-500 font-mono uppercase tracking-widest border-t border-white/5">
+            <div class="flex gap-4">
+                <span><b class="text-gray-300">ENTER</b> select</span>
+                <span><b class="text-gray-300">↑↓</b> navigate</span>
+            </div>
+            <div>
+                <span>Gustabe Engine v1.0</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* เก็บไว้แค่ส่วนของ Scrollbar เพราะ Custom Scrollbar ใน Tailwind V4 ยังต้องใช้ Plugin เสริมครับ */
+    #search-results-container::-webkit-scrollbar {
+        width: 4px;
+    }
+    #search-results-container::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+    }
+</style>

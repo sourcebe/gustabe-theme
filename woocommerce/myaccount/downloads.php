@@ -1,81 +1,47 @@
 <?php
 /**
- * GUSTABE DOWNLOADS (Style: Attachment Card + Empty State)
+ * Downloads
+ *
+ * Shows downloads on the account page.
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/myaccount/downloads.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 7.8.0
  */
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-$downloads = WC()->customer->get_downloadable_products();
+$downloads     = WC()->customer->get_downloadable_products();
 $has_downloads = (bool) $downloads;
 
 do_action( 'woocommerce_before_account_downloads', $has_downloads ); ?>
 
 <?php if ( $has_downloads ) : ?>
 
-    <div class="gustabe-download-list">
-        <?php foreach ( $downloads as $download ) : 
-            // ดึงข้อมูลสินค้าเพื่อเอารูปภาพ
-            $product = wc_get_product( $download['product_id'] );
-            $image   = $product ? $product->get_image( array( 80, 80 ) ) : ''; 
-            $prod_name = $product ? $product->get_name() : '';
-            ?>
-            
-            <div class="gustabe-download-card">
-                <div class="dl-card-img">
-                    <?php echo $image ? $image : '<div class="no-img"><i class="huge huge-image-02"></i></div>'; ?>
-                </div>
+	<?php do_action( 'woocommerce_before_available_downloads' ); ?>
 
-                <div class="dl-card-info">
-                    <h4 class="dl-name">
-                        <?php echo esc_html( $download['download_name'] ); ?>
-                    </h4>
-                    <span class="dl-product-ref">
-                        <i class="huge huge-package"></i> <?php echo esc_html( $prod_name ); ?>
-                    </span>
-                    
-                    <div class="dl-meta-group">
-                        <span class="dl-meta">
-                            <?php
-                            if ( is_numeric( $download['downloads_remaining'] ) ) {
-                                echo '<span class="status-warning">' . sprintf( esc_html__( 'เหลือ %s ครั้ง', 'gustabe' ), $download['downloads_remaining'] ) . '</span>';
-                            } else {
-                                echo '<span class="status-success"><i class="huge huge-infinity"></i> ' . esc_html__( 'ตลอดชีพ', 'gustabe' ) . '</span>';
-                            }
-                            ?>
-                        </span>
+	<?php do_action( 'woocommerce_available_downloads', $downloads ); ?>
 
-                        <?php if ( ! empty( $download['access_expires'] ) ) : ?>
-                            <span class="dl-meta dl-expire">
-                                <i class="huge huge-time-02"></i> 
-                                <?php echo esc_html( date( 'd/m/Y', strtotime( $download['access_expires'] ) ) ); ?>
-                            </span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
-                <div class="dl-card-action">
-                    <a href="<?php echo esc_url( $download['download_url'] ); ?>" class="gustabe-btn-download">
-                        <i class="huge huge-download-04"></i> 
-                        <span><?php esc_html_e( 'ดาวน์โหลด', 'gustabe' ); ?></span>
-                    </a>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-    <?php do_action( 'woocommerce_after_account_downloads', $has_downloads ); ?>
+	<?php do_action( 'woocommerce_after_available_downloads' ); ?>
 
 <?php else : ?>
 
-    <div class="gustabe-empty-state">
-        <div class="empty-icon">
-            <i class="huge huge-folder-02"></i>
-        </div>
-        <h3><?php esc_html_e( 'ยังไม่มีรายการดาวน์โหลด', 'gustabe' ); ?></h3>
-        <p><?php esc_html_e( 'ไฟล์คู่มือ หรือเอกสารดิจิทัลจากการสั่งซื้อ จะปรากฏที่นี่', 'gustabe' ); ?></p>
-        <a href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>" class="gustabe-btn primary">
-            <?php esc_html_e( 'เลือกซื้อสินค้า', 'gustabe' ); ?>
-        </a>
-    </div>
+	<?php
+
+	$wp_button_class = wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '';
+	wc_print_notice( esc_html__( 'No downloads available yet.', 'woocommerce' ) . ' <a class="button wc-forward' . esc_attr( $wp_button_class ) . '" href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '">' . esc_html__( 'Browse products', 'woocommerce' ) . '</a>', 'notice' ); // phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingHookComment 
+	?>
 
 <?php endif; ?>
+
+<?php do_action( 'woocommerce_after_account_downloads', $has_downloads ); ?>

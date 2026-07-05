@@ -1,41 +1,43 @@
 <?php
 /**
- * dir  /
- * functions.php
- * Child theme functions
- * แยกไฟล์ระบบ (Modular) เพื่อความสะอาดและดูแลง่าย
+ * dir /
+ * file functions.php
+ * ศูนย์บัญชาการหลักของธีม (Main Functions)
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
+    exit; // ป้องกันการเข้าถึงไฟล์โดยตรง
 }
 
-// 1. โหลด Text Domain (สำคัญ! ต้องอยู่บนสุด)
-function hello_child_load_textdomain() {
-    load_child_theme_textdomain( 'hello-elementor-child', get_stylesheet_directory() . '/languages' );
+// ⚠️ ซ่อน PHP Notices (เช่น จากปลั๊กอิน ACF) ที่ชอบพ่น HTML ออกมาทำลายโครงสร้าง JSON ของ Customizer
+error_reporting(E_ALL & ~E_NOTICE & ~E_USER_NOTICE & ~E_DEPRECATED);
+ini_set('display_errors', 0);
+
+// 1. ประกาศตัวแปรคงที่ (Constants) เพื่อให้เรียกใช้ Path ง่ายๆ ทั่วทั้งธีม
+if ( ! defined( 'GUSTABE_THEME_VERSION' ) ) {
+	define( 'GUSTABE_THEME_VERSION', '2.0.2' );
 }
-add_action( 'after_setup_theme', 'hello_child_load_textdomain' );
+define( 'GUSTABE_THEME_DIR', get_stylesheet_directory() );
+define( 'GUSTABE_THEME_URI', get_stylesheet_directory_uri() );
+define( 'GUSTABE_IS_DEV_MODE', true ); // 🔴 สวิตช์เปิด-ปิด โหมด Development
 
-// 2. เรียกใช้ไฟล์ย่อยจากโฟลเดอร์ /inc/
-require_once get_stylesheet_directory() . '/inc/enqueue-scripts.php'; // สคริปต์และ CSS
-require_once get_stylesheet_directory() . '/inc/theme-setup.php';     // ตั้งค่าธีม, เมนู, ค้นหา
-require_once get_stylesheet_directory() . '/inc/polylang-setup.php';  // แปลภาษา
-require_once get_stylesheet_directory() . '/inc/woocommerce-app.php'; // ฟีเจอร์ร้านค้า (Cards, Filter, Logic)
-require_once get_stylesheet_directory() . '/inc/woo-singleproduct.php'; // ปรับแต่ง (siggle-page)
-require_once get_stylesheet_directory() . '/inc/ajax-search.php'; //คันหาแบบปรับแต่ง
-require_once get_stylesheet_directory() . '/inc/gustabe-avatar.php'; // เรียกใช้ระบบ Custom Avatar
-require_once get_stylesheet_directory() . '/inc/gustabe-auto-address.php'; // เรียกใช้ระบบ auto-address
-require_once get_stylesheet_directory() . '/inc/admin-rewards.php'; // เรียกใช้ระบบตั้งค่า Rewards
+// 2. เรียกใช้ไฟล์ Setup พื้นฐาน
+require_once GUSTABE_THEME_DIR . '/inc/setup/theme-setup.php';
+require_once GUSTABE_THEME_DIR . '/inc/setup/enqueue-scripts.php';
+require_once GUSTABE_THEME_DIR . '/inc/setup/customizer.php';
 
-// 3. เรียกใช้ไฟล์ Includes เดิมของคุณ (Admin Login, CPT)
-// (ถ้าคุณย้ายไฟล์พวกนี้ไปไว้ใน inc แล้ว ก็แก้ path ให้ตรงนะครับ)
-require_once get_stylesheet_directory() . '/includes/admin-login-customizations.php';
-require_once get_stylesheet_directory() . '/includes/comment-meta-functions.php';
-require_once get_stylesheet_directory() . '/includes/media-svg-functions.php';
-require_once get_stylesheet_directory() . '/includes/security-functions.php';
-require_once get_stylesheet_directory() . '/includes/woocommerce-features.php';
+// 3. ระบบ Core Engine ที่เราตกลงกันไว้ (Zero Plugin Logic)
+require_once GUSTABE_THEME_DIR . '/inc/features/performance.php'; // กวาดล้างไฟล์ขยะของ WP
+require_once GUSTABE_THEME_DIR . '/inc/features/seo-engine.php';  // Custom Schema & TSF Hooks
 
-// Custom Post Types
-require_once get_stylesheet_directory() . '/includes/cpt/cpt-our-activity.php';
-require_once get_stylesheet_directory() . '/includes/cpt/cpt-our-factory.php';
-require_once get_stylesheet_directory() . '/includes/cpt/cpt-our-service.php';
+
+
+// 5. โหลดฟังก์ชันดัดแปลง WooCommerce (โหลดเฉพาะเมื่อติดตั้ง WooCommerce แล้ว)
+if ( class_exists( 'WooCommerce' ) ) {
+    require_once GUSTABE_THEME_DIR . '/inc/woocommerce/woo-core.php';
+    require_once GUSTABE_THEME_DIR . '/inc/woocommerce/woo-account.php';
+    require_once GUSTABE_THEME_DIR . '/inc/features/auto-address.php'; // Auto Address
+}
+
+// 6. โหลดฟีเจอร์เสริมพิเศษ
+require_once GUSTABE_THEME_DIR . '/inc/features/ajax-search.php';

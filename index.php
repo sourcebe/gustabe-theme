@@ -1,36 +1,14 @@
-<?php
-/**
- * The site's entry point.
- *
- * Loads the relevant template part,
- * the loop is executed (when needed) by the relevant template part.
- *
- * @package HelloElementor
- */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
-
-get_header();
-
-$is_elementor_theme_exist = function_exists( 'elementor_theme_do_location' );
-
-if ( is_singular() ) {
-	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'single' ) ) {
-		get_template_part( 'template-parts/single' );
-	}
-} elseif ( is_archive() || is_home() ) {
-	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'archive' ) ) {
-		get_template_part( 'template-parts/archive' );
-	}
-} elseif ( is_search() ) {
-	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'archive' ) ) {
-		get_template_part( 'template-parts/search' );
-	}
-} else {
-	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'single' ) ) {
-		get_template_part( 'template-parts/404' );
-	}
-}
-
-get_footer();
+<?php get_header(); ?>
+<div class="max-w-4xl mx-auto">
+    <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+        <article class="mb-10 border-b border-slate-800 pb-10">
+            <h2 class="text-3xl text-emerald-400 font-bold mb-4"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+            <div class="prose prose-invert prose-emerald max-w-none">
+                <?php the_excerpt(); ?>
+            </div>
+        </article>
+    <?php endwhile; else: ?>
+        <p class="text-slate-500">// No data found.</p>
+    <?php endif; ?>
+</div>
+<?php get_footer(); ?>

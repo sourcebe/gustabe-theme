@@ -1,0 +1,39 @@
+/**
+ * file: assets/css/search-engine.css
+ */
+
+/* ควบคุมการเปิด/ปิด Modal */
+#gustabe-search-palette {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#gustabe-search-palette.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#gustabe-search-palette.is-open .relative.transform {
+    transform: scale(100%) translateY(0);
+}
+
+#gustabe-search-palette:not(.is-open) .relative.transform {
+    transform: scale(95%) translateY(-20px);
+}
+
+/* Custom Scrollbar สำหรับผลลัพธ์ */
+#search-results-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+#search-results-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#search-results-container::-webkit-scrollbar-thumb {
+    background: rgba(239, 68, 68, 0.2); /* สีแดงจางๆ */
+    border-radius: 10px;
+}
+
+#search-results-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(239, 68, 68, 0.5);
+}

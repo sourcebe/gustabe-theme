@@ -1,141 +1,88 @@
 <?php
 /**
- * Customer Details (App Style - Detailed Breakdown)
- * File: woocommerce/order/order-details-customer.php
+ * Order Customer Details
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/order/order-details-customer.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 8.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_address();
-
-// ฟังก์ชันช่วยดึงชื่อจังหวัดเต็ม (ป้องกันการโชว์เป็นรหัส เช่น TH-10)
-function gustabe_get_full_state_name( $country_code, $state_code ) {
-    $countries = WC()->countries->get_states( $country_code );
-    return isset( $countries[ $state_code ] ) ? $countries[ $state_code ] : $state_code;
-}
 ?>
+<section class="woocommerce-customer-details">
 
-<section class="gustabe-customer-app-layout">
-    
-    <div class="customer-column">
-        <div class="column-header">
-            <div class="icon-box"><i class="huge huge-invoice-03"></i></div>
-            <h4>ข้อมูลใบเสร็จ</h4>
-        </div>
-        
-        <div class="column-content">
-            <div class="detail-rows">
-                
-                <div class="d-row">
-                    <span class="d-label">ชื่อ-นามสกุล:</span>
-                    <span class="d-value highlight"><?php echo esc_html( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() ); ?></span>
-                </div>
+	<?php if ( $show_shipping ) : ?>
 
-                <?php if ( $order->get_billing_company() ) : ?>
-                    <div class="d-row">
-                        <span class="d-label">บริษัท:</span>
-                        <span class="d-value"><?php echo esc_html( $order->get_billing_company() ); ?></span>
-                    </div>
-                <?php endif; ?>
+	<section class="woocommerce-columns woocommerce-columns--2 woocommerce-columns--addresses col2-set addresses">
+		<div class="woocommerce-column woocommerce-column--1 woocommerce-column--billing-address col-1">
 
-                <div class="d-row">
-                    <span class="d-label">ที่อยู่:</span>
-                    <span class="d-value"><?php echo esc_html( $order->get_billing_address_1() ); ?></span>
-                </div>
+	<?php endif; ?>
 
-                <?php if ( $order->get_billing_address_2() ) : ?>
-                    <div class="d-row">
-                        <span class="d-label">แขวง/ตำบล:</span>
-                        <span class="d-value"><?php echo esc_html( $order->get_billing_address_2() ); ?></span>
-                    </div>
-                <?php endif; ?>
+	<h2 class="woocommerce-column__title"><?php esc_html_e( 'Billing address', 'woocommerce' ); ?></h2>
 
-                <div class="d-row">
-                    <span class="d-label">เขต/อำเภอ:</span>
-                    <span class="d-value"><?php echo esc_html( $order->get_billing_city() ); ?></span>
-                </div>
+	<address>
+		<?php echo wp_kses_post( $order->get_formatted_billing_address( esc_html__( 'N/A', 'woocommerce' ) ) ); ?>
 
-                <div class="d-row two-col">
-                    <div class="sub-col">
-                        <span class="d-label">จังหวัด:</span>
-                        <span class="d-value"><?php echo esc_html( gustabe_get_full_state_name( $order->get_billing_country(), $order->get_billing_state() ) ); ?></span>
-                    </div>
-                    <div class="sub-col">
-                        <span class="d-label">รหัสไปรษณีย์:</span>
-                        <span class="d-value highlight"><?php echo esc_html( $order->get_billing_postcode() ); ?></span>
-                    </div>
-                </div>
+		<?php if ( $order->get_billing_phone() ) : ?>
+			<p class="woocommerce-customer-details--phone"><?php echo esc_html( $order->get_billing_phone() ); ?></p>
+		<?php endif; ?>
 
-            </div>
+		<?php if ( $order->get_billing_email() ) : ?>
+			<p class="woocommerce-customer-details--email"><?php echo esc_html( $order->get_billing_email() ); ?></p>
+		<?php endif; ?>
 
-            <div class="contact-section">
-                <?php if ( $order->get_billing_phone() ) : ?>
-                    <a href="tel:<?php echo esc_attr( $order->get_billing_phone() ); ?>" class="contact-pill">
-                        <i class="huge huge-smart-phone-01"></i>
-                        <span><?php echo esc_html( $order->get_billing_phone() ); ?></span>
-                    </a>
-                <?php endif; ?>
+		<?php
+			/**
+			 * Action hook fired after an address in the order customer details.
+			 *
+			 * @since 8.7.0
+			 * @param string $address_type Type of address (billing or shipping).
+			 * @param WC_Order $order Order object.
+			 */
+			do_action( 'woocommerce_order_details_after_customer_address', 'billing', $order );
+		?>
+	</address>
 
-                <?php if ( $order->get_billing_email() ) : ?>
-                    <a href="mailto:<?php echo esc_attr( $order->get_billing_email() ); ?>" class="contact-pill">
-                        <i class="huge huge-mail-02"></i>
-                        <span><?php echo esc_html( $order->get_billing_email() ); ?></span>
-                    </a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
+	<?php if ( $show_shipping ) : ?>
 
-    <?php if ( $show_shipping ) : ?>
-        <div class="customer-column">
-            <div class="column-header">
-                <div class="icon-box"><i class="huge huge-delivery-truck-02"></i></div>
-                <h4>ที่อยู่จัดส่ง</h4>
-            </div>
-            
-            <div class="column-content">
-                <div class="detail-rows">
-                    
-                    <div class="d-row">
-                        <span class="d-label">ผู้รับสินค้า:</span>
-                        <span class="d-value highlight"><?php echo esc_html( $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name() ); ?></span>
-                    </div>
+		</div><!-- /.col-1 -->
 
-                    <div class="d-row">
-                        <span class="d-label">ที่อยู่:</span>
-                        <span class="d-value"><?php echo esc_html( $order->get_shipping_address_1() ); ?></span>
-                    </div>
+		<div class="woocommerce-column woocommerce-column--2 woocommerce-column--shipping-address col-2">
+			<h2 class="woocommerce-column__title"><?php esc_html_e( 'Shipping address', 'woocommerce' ); ?></h2>
+			<address>
+				<?php echo wp_kses_post( $order->get_formatted_shipping_address( esc_html__( 'N/A', 'woocommerce' ) ) ); ?>
 
-                    <?php if ( $order->get_shipping_address_2() ) : ?>
-                        <div class="d-row">
-                            <span class="d-label">แขวง/ตำบล:</span>
-                            <span class="d-value"><?php echo esc_html( $order->get_shipping_address_2() ); ?></span>
-                        </div>
-                    <?php endif; ?>
+				<?php if ( $order->get_shipping_phone() ) : ?>
+					<p class="woocommerce-customer-details--phone"><?php echo esc_html( $order->get_shipping_phone() ); ?></p>
+				<?php endif; ?>
 
-                    <div class="d-row">
-                        <span class="d-label">เขต/อำเภอ:</span>
-                        <span class="d-value"><?php echo esc_html( $order->get_shipping_city() ); ?></span>
-                    </div>
+				<?php
+					/**
+					 * Action hook fired after an address in the order customer details.
+					 *
+					 * @since 8.7.0
+					 * @param string $address_type Type of address (billing or shipping).
+					 * @param WC_Order $order Order object.
+					 */
+					do_action( 'woocommerce_order_details_after_customer_address', 'shipping', $order );
+				?>
+			</address>
+		</div><!-- /.col-2 -->
 
-                    <div class="d-row two-col">
-                        <div class="sub-col">
-                            <span class="d-label">จังหวัด:</span>
-                            <span class="d-value"><?php echo esc_html( gustabe_get_full_state_name( $order->get_shipping_country(), $order->get_shipping_state() ) ); ?></span>
-                        </div>
-                        <div class="sub-col">
-                            <span class="d-label">รหัสไปรษณีย์:</span>
-                            <span class="d-value highlight"><?php echo esc_html( $order->get_shipping_postcode() ); ?></span>
-                        </div>
-                    </div>
-                </div>
+	</section><!-- /.col2-set -->
 
-                <div class="shipping-note">
-                    <i class="huge huge-package-delivered"></i>
-                    <span>สินค้าจะถูกจัดส่งมาที่นี่</span>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
+	<?php endif; ?>
+
+	<?php do_action( 'woocommerce_order_details_after_customer_details', $order ); ?>
 
 </section>

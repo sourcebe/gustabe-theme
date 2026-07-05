@@ -1,80 +1,103 @@
 <?php
 /**
- * My Account dashboard
+ * My Account Dashboard
+ *
+ * Shows the first intro screen on the account dashboard.
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/myaccount/dashboard.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 4.4.0
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 
-$current_user = wp_get_current_user();
+$allowed_html = array(
+	'a' => array(
+		'href' => array(),
+	),
+);
 ?>
 
-<div class="gustabe-myaccount-dashboard">
-    
-    <div class="welcome-banner mb-5 p-4 d-flex align-items-center justify-content-between bg-light rounded-4">
-        <div>
-            <h2 class="h4 mb-1 fw-bold">
-                <?php echo (function_exists('pll__') ? pll__('สวัสดี') : 'Hello') . ', ' . esc_html( $current_user->display_name ); ?>
-            </h2>
-            <p class="text-muted small mb-0">
-                <?php echo (function_exists('pll__') ? pll__('ยินดีต้อนรับสู่หน้าจัดการบัญชีของคุณ') : 'Welcome to your account dashboard.'); ?>
-            </p>
-        </div>
-        <div class="date-badge text-end d-none d-md-block">
-            <span class="text-muted small"><?php echo date_i18n( get_option( 'date_format' ) ); ?></span>
-        </div>
-    </div>
+<div class="bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl backdrop-blur-xl overflow-hidden mb-8 relative font-mono text-sm leading-relaxed">
+	<!-- Terminal Header (Mac-like dots) -->
+	<div class="bg-slate-950/50 border-b border-slate-800/80 px-4 py-3 flex items-center gap-2">
+		<div class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
+		<div class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"></div>
+		<div class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50"></div>
+		<span class="ml-4 text-xs text-slate-500">root@gustabe:~</span>
+	</div>
 
-    <div class="row g-3">
-        <?php
-        $menu_items = array(
-            'orders'    => array('label' => 'คำสั่งซื้อ', 'icon' => 'huge-shopping-basket-01', 'desc' => 'เช็คสถานะและประวัติ'),
-            'edit-address' => array('label' => 'ที่อยู่', 'icon' => 'huge-location-01', 'desc' => 'จัดการที่อยู่จัดส่ง'),
-            'edit-account' => array('label' => 'ข้อมูลส่วนตัว', 'icon' => 'huge-user-edit-01', 'desc' => 'เปลี่ยนรหัสผ่านและชื่อ'),
-            'customer-logout' => array('label' => 'ออกจากระบบ', 'icon' => 'huge-logout-01', 'desc' => 'ลงชื่อออกจากเครื่องนี้'),
-        );
+	<!-- Terminal Body -->
+	<div class="p-6 lg:p-8">
+		<div class="text-slate-300 mb-8 flex flex-col md:flex-row md:items-center gap-2">
+			<span class="text-emerald-500 font-bold">sys.login</span> 
+			<span class="text-slate-400">--user</span>
+			<?php
+			printf(
+				/* translators: 1: user display name 2: logout url */
+				wp_kses( __( '<strong class="text-white">%1$s</strong> <span class="text-slate-500 ml-2">(not %1$s? <a href="%2$s" class="text-red-400 hover:text-red-300 transition-colors underline">kill_session</a>)</span>', 'woocommerce' ), $allowed_html ),
+				esc_html( $current_user->display_name ),
+				esc_url( wc_logout_url() )
+			);
+			?>
+		</div>
 
-        foreach ( $menu_items as $endpoint => $item ) : ?>
-            <div class="col-6 col-md-3">
-                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>" class="dashboard-card text-decoration-none h-100 d-flex flex-column align-items-center text-center p-4 rounded-4 border transition-all">
-                    <div class="icon-wrap mb-3 d-flex align-items-center justify-content-center">
-                        <i class="huge <?php echo $item['icon']; ?>"></i>
-                    </div>
-                    <h3 class="h6 fw-bold mb-1 text-dark"><?php echo function_exists('pll__') ? pll__($item['label']) : $item['label']; ?></h3>
-                    <span class="text-muted small d-none d-md-block"><?php echo function_exists('pll__') ? pll__($item['desc']) : $item['desc']; ?></span>
-                </a>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
+		<div class="text-slate-400">
+			<span class="text-blue-400 font-bold mb-2 block">[SYSTEM_PROMPT] Available endpoints:</span>
+			<ul class="list-none m-0 p-0 space-y-4 mt-6">
+				<li class="flex items-center gap-4">
+					<span class="text-emerald-500/50">$</span>
+					<a href="<?php echo esc_url( wc_get_endpoint_url( 'orders' ) ); ?>" class="text-slate-300 hover:text-emerald-400 transition-colors group flex items-center gap-2">
+						cd <span class="text-blue-400 group-hover:text-emerald-400 transition-colors">/recent-orders</span>
+					</a>
+				</li>
+				<li class="flex items-center gap-4">
+					<span class="text-emerald-500/50">$</span>
+					<a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address' ) ); ?>" class="text-slate-300 hover:text-emerald-400 transition-colors group flex items-center gap-2">
+						nano <span class="text-blue-400 group-hover:text-emerald-400 transition-colors">/shipping-billing-address</span>
+					</a>
+				</li>
+				<li class="flex items-center gap-4">
+					<span class="text-emerald-500/50">$</span>
+					<a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-account' ) ); ?>" class="text-slate-300 hover:text-emerald-400 transition-colors group flex items-center gap-2">
+						passwd <span class="text-blue-400 group-hover:text-emerald-400 transition-colors">--update-details</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
 
-<style>
-    /* CSS มินิมอลสำหรับ Dashboard */
-    .gustabe-myaccount-dashboard .dashboard-card {
-        background: #fff;
-        border-color: #f0f0f0 !important;
-        transition: 0.3s ease;
-    }
-    .gustabe-myaccount-dashboard .dashboard-card:hover {
-        border-color: #04a39c !important;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(4, 163, 156, 0.08);
-    }
-    .gustabe-myaccount-dashboard .icon-wrap {
-        width: 60px;
-        height: 60px;
-        background: #f8fdfd;
-        border-radius: 50%;
-        color: #04a39c;
-        font-size: 24px;
-        transition: 0.3s;
-    }
-    .gustabe-myaccount-dashboard .dashboard-card:hover .icon-wrap {
-        background: #04a39c;
-        color: #fff;
-    }
-    .welcome-banner {
-        border-left: 5px solid #04a39c;
-    }
-</style>
+<?php
+	/**
+	 * My Account dashboard.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'woocommerce_account_dashboard' );
+
+	/**
+	 * Deprecated woocommerce_before_my_account action.
+	 *
+	 * @deprecated 2.6.0
+	 */
+	do_action( 'woocommerce_before_my_account' );
+
+	/**
+	 * Deprecated woocommerce_after_my_account action.
+	 *
+	 * @deprecated 2.6.0
+	 */
+	do_action( 'woocommerce_after_my_account' );
+
+/* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */
