@@ -18,9 +18,9 @@ if (empty($service_desc)) {
 }
 ?>
 
-<div class="group relative bg-[#0D0D0D] border border-slate-800 hover:border-green-500/50 transition-all duration-500 rounded-xl overflow-hidden flex flex-col h-full shadow-2xl">
+<div class="group relative bg-slate-900 border border-slate-800 hover:border-green-500/50 transition-all duration-500 rounded-xl overflow-hidden flex flex-col h-full shadow-2xl">
     
-    <div class="flex items-center justify-between px-4 py-2 bg-[#141414] border-b border-slate-800">
+    <div class="flex items-center justify-between px-4 py-2 bg-slate-950 border-b border-slate-800">
         <div class="flex gap-1.5">
             <div class="w-2.5 h-2.5 rounded-full bg-slate-800 group-hover:bg-[#FF5F56] transition-colors duration-500"></div>
             <div class="w-2.5 h-2.5 rounded-full bg-slate-800 group-hover:bg-[#FFBD2E] transition-colors duration-500"></div>

@@ -14,7 +14,7 @@ $display_h1 = ! empty( $hero_h1 ) ? $hero_h1 : get_the_title();
 $target_slug = urldecode( get_post_field( 'post_name', get_post() ) );
 ?>
 
-<header class="relative pt-24 pb-20 lg:pt-36 lg:pb-32 bg-[#050505] overflow-hidden border-b border-slate-900 font-sans">
+<header class="relative pt-24 pb-20 lg:pt-36 lg:pb-32 bg-black overflow-hidden border-b border-slate-900 font-sans">
     
     <!-- 🎨 Ambient Background Glow -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>

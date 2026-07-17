@@ -15,9 +15,244 @@
 }
 
 @layer base {
+  /* Default Logo Variables */
+  :root, [data-theme="normal"] {
+    --color-logo-primary: #ff0000;
+    --color-logo-secondary: #ffffff;
+    --color-logo-shadow: rgba(255, 0, 0, 0.5);
+  }
+
+  [data-theme="darkmode"] {
+    /* Neon Cyberpunk */
+    --color-black: #000000;
+    --color-slate-900: #111111;
+    --color-slate-950: #0a0a0a;
+    --color-slate-800: #047857; /* Dark Green borders */
+    --color-slate-700: #065f46;
+    --color-slate-600: #047857; /* Muted icons */
+    --color-slate-500: #6b7280; /* Gray text */
+    --color-slate-400: #9ca3af;
+    --color-slate-300: #d1d5db;
+    --color-slate-200: #f3f4f6; /* Bright text */
+    --color-emerald-500: #dc2626; /* Crimson Red accents */
+    --color-emerald-400: #ef4444;
+    --color-zinc-900: #111111;
+    --color-zinc-800: #047857;
+    --color-zinc-400: #9ca3af;
+    --color-zinc-200: #f3f4f6;
+    --color-zinc-600: #047857;
+    --color-red-500: #ef4444;
+    
+    --color-logo-primary: #00ff00;
+    --color-logo-secondary: #dc2626;
+    --color-logo-shadow: rgba(0, 255, 0, 0.5);
+  }
+
+  [data-theme="whitemode"] {
+    /* Clean IDE (Inverted) */
+    --color-black: #ffffff;
+    --color-slate-950: #f1f5f9;
+    --color-slate-900: #f8fafc;
+    --color-slate-800: #e2e8f0;
+    --color-slate-700: #cbd5e1;
+    --color-slate-600: #94a3b8;
+    --color-slate-500: #64748b;
+    --color-slate-400: #475569;
+    --color-slate-300: #334155;
+    --color-slate-200: #1e293b; /* Very dark text on light bg */
+    --color-white: #000000;
+    --color-zinc-900: #f8fafc;
+    --color-zinc-800: #e2e8f0;
+    --color-zinc-400: #475569;
+    --color-zinc-200: #1e293b;
+    --color-zinc-600: #94a3b8;
+    --color-emerald-500: #10b981; 
+    --color-emerald-400: #059669;
+    --color-red-500: #059669; 
+    
+    --color-logo-primary: #000000;
+    --color-logo-secondary: #10b981;
+    --color-logo-shadow: rgba(0, 0, 0, 0.1);
+  }
+
+  [data-theme="hackmode"] {
+    /* Matrix Terminal */
+    --color-black: #022c22;
+    --color-slate-950: #064e3b;
+    --color-slate-900: #000000; /* Pitch black cards */
+    --color-slate-800: #047857; /* Green borders */
+    --color-slate-700: #065f46;
+    --color-slate-600: #10b981;
+    --color-slate-500: #059669;
+    --color-slate-400: #34d399; /* Green text */
+    --color-slate-300: #4ade80; /* Bright green text */
+    --color-slate-200: #ffffff; /* White text for high contrast */
+    --color-white: #ffffff;
+    --color-zinc-900: #000000;
+    --color-zinc-800: #047857;
+    --color-zinc-400: #34d399;
+    --color-zinc-200: #ffffff;
+    --color-zinc-600: #10b981;
+    --color-emerald-500: #ffffff;
+    --color-emerald-400: #f8fafc;
+    --color-red-500: #ffffff;
+    
+    --color-logo-primary: #ffffff;
+    --color-logo-secondary: #4ade80;
+    --color-logo-shadow: rgba(74, 222, 128, 0.5);
+  }
+
+  [data-theme="funmode"] {
+    /* Neo-Brutalism Pop Art Theme (White, Orange, Navy Blue, Black) */
+    --color-black: #ffffff; /* White Site Background */
+    --color-slate-950: #ffffff; /* White for Card Bodies and IDE Backgrounds */
+    --color-slate-900: #ffffff; /* White for Card Bodies */
+    --color-slate-800: #0f204c; /* Navy Blue Borders */
+    
+    --color-slate-700: #111111;
+    --color-slate-600: #111111;
+    --color-slate-500: #111111; /* Black text */
+    --color-slate-400: #111111; /* Black text */
+    --color-slate-300: #111111; /* Black Body Text */
+    --color-slate-200: #0f204c; /* Navy Blue Headings */
+    --color-slate-100: #0f204c; /* Navy Blue Headings */
+    --color-slate-50: #0f204c; /* Navy Blue Headings */
+    --color-white: #111111; /* White text becomes Black on white backgrounds */
+    
+    --color-zinc-900: #ff6f00; /* Command Palette BG - Orange */
+    --color-zinc-800: #0f204c; /* Command Palette Border - Navy */
+    --color-zinc-400: #0f204c; /* Command Palette Subtext - Navy */
+    --color-zinc-200: #111111; /* Command Palette Text - Black */
+    --color-zinc-600: #e66400; /* Command Palette Hover */
+    
+    --color-emerald-500: #ff6f00; /* Orange Accents */
+    --color-emerald-400: #ff6f00;
+    --color-green-500: #ff6f00; /* Map matrix green to orange */
+    --color-green-400: #ff6f00;
+    --color-green-600: #ff6f00;
+    --color-green-900: #0f204c; /* Dark green borders become navy */
+    
+    --color-blue-400: #0f204c;
+    --color-blue-500: #0f204c;
+    --color-blue-600: #0f204c; /* Navy Blue Accents */
+    --color-red-500: #ff6f00;
+    
+    --color-logo-primary: #ff6f00; /* Orange Logo */
+    --color-logo-secondary: #0f204c; /* Navy Blue Logo */
+    --color-logo-shadow: rgba(255, 111, 0, 0.4);
+  }
+
+  /* Neo-Brutalism Box Shadows for Cards! (Fixed targeting) */
+  [data-theme="funmode"] .rounded-xl.border,
+  [data-theme="funmode"] .rounded-2xl.border,
+  [data-theme="funmode"] .rounded-xl.border-slate-800,
+  [data-theme="funmode"] .rounded-2xl.border-white\/10 {
+    border-color: #0f204c !important;
+    border-width: 3px !important;
+    box-shadow: 8px 8px 0px #ff6f00 !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  [data-theme="funmode"] .rounded-xl.border:hover,
+  [data-theme="funmode"] .rounded-2xl.border:hover,
+  [data-theme="funmode"] .rounded-xl.border-slate-800:hover {
+    transform: translate(4px, 4px) !important;
+    box-shadow: 4px 4px 0px #ff6f00 !important;
+  }
+  
+  /* Ensure backgrounds with opacity become solid white in funmode */
+  [data-theme="funmode"] .bg-slate-900\/50,
+  [data-theme="funmode"] .bg-slate-900\/80,
+  [data-theme="funmode"] .bg-slate-950\/50,
+  [data-theme="funmode"] .bg-slate-950\/80 {
+    background-color: #ffffff !important;
+    backdrop-filter: none !important;
+  }
+  
+  /* Reset Header to be clean */
+  [data-theme="funmode"] header {
+    background-color: #ffffff !important;
+    border-bottom: 3px solid #0f204c !important;
+  }
+  
+  [data-theme="funmode"] header a:hover,
+  [data-theme="funmode"] header button:hover {
+    color: #ff6f00 !important;
+  }
+  
+  /* Fix Search Palette Hover States */
+  [data-theme="funmode"] .suggestion-btn:hover {
+    background-color: #0f204c !important;
+    color: #ffffff !important;
+  }
+  
+  [data-theme="funmode"] .search-result-item:hover {
+    background-color: #ff6f00 !important;
+  }
+  
+  [data-theme="funmode"] .search-result-item:hover h4,
+  [data-theme="funmode"] .search-result-item:hover span {
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+  
+  /* Highlight Code Blocks inside Funmode */
+  [data-theme="funmode"] #code-target .text-blue-400 { color: #0f204c !important; font-weight: bold; }
+  [data-theme="funmode"] #code-target .text-emerald-400 { color: #ff6f00 !important; }
+  [data-theme="funmode"] #code-target .text-yellow-300 { color: #0f204c !important; }
+  [data-theme="funmode"] #code-target .text-purple-400 { color: #111111 !important; }
+
+  /* Editor Line Numbers for Single Post */
+  .editor-line-numbers .prose {
+    counter-reset: editor-line;
+  }
+  .editor-line-numbers .prose > p,
+  .editor-line-numbers .prose > h1,
+  .editor-line-numbers .prose > h2,
+  .editor-line-numbers .prose > h3,
+  .editor-line-numbers .prose > h4,
+  .editor-line-numbers .prose > ul,
+  .editor-line-numbers .prose > ol,
+  .editor-line-numbers .prose > blockquote,
+  .editor-line-numbers .prose > figure,
+  .editor-line-numbers .prose > pre {
+    position: relative;
+    counter-increment: editor-line;
+  }
+  .editor-line-numbers .prose > p::before,
+  .editor-line-numbers .prose > h1::before,
+  .editor-line-numbers .prose > h2::before,
+  .editor-line-numbers .prose > h3::before,
+  .editor-line-numbers .prose > h4::before,
+  .editor-line-numbers .prose > ul::before,
+  .editor-line-numbers .prose > ol::before,
+  .editor-line-numbers .prose > blockquote::before,
+  .editor-line-numbers .prose > figure::before,
+  .editor-line-numbers .prose > pre::before {
+    content: counter(editor-line);
+    position: absolute;
+    left: -2.5rem; /* Matches the left padding of the editor body */
+    top: 0;
+    color: var(--color-slate-600, #475569);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.75rem;
+    line-height: inherit;
+    text-align: right;
+    width: 1.5rem;
+    opacity: 0.5;
+  }
+  
+  /* Responsive adjustment for line numbers */
+  @media (min-width: 768px) {
+    .editor-line-numbers .prose > *::before {
+        left: -3.5rem;
+    }
+  }
+
   body {
-    background-color: #000000 !important; /* Pure Black Background */
+    background-color: var(--color-black) !important;
     color: var(--color-slate-300);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* -----------------------------------------
@@ -43,6 +278,22 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: #334155 #020617;
+  }
+
+  /* Funmode Scrollbar Override */
+  [data-theme="funmode"] ::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-left: 1px solid #e2e8f0;
+  }
+  [data-theme="funmode"] ::-webkit-scrollbar-thumb {
+    background-color: #ff6f00;
+    border: 1px solid #ffffff;
+  }
+  [data-theme="funmode"] ::-webkit-scrollbar-thumb:hover {
+    background-color: #e66400;
+  }
+  [data-theme="funmode"] * {
+    scrollbar-color: #ff6f00 #ffffff;
   }
 
   /* -----------------------------------------

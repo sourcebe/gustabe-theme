@@ -7,7 +7,7 @@
 if ( ! get_the_ID() ) return;
 ?>
 
-<section id="core-capabilities" class="relative py-24 bg-[#050505] border-b border-slate-900 overflow-hidden font-sans">
+<section id="core-capabilities" class="relative py-24 bg-black border-b border-slate-900 overflow-hidden font-sans">
     
     <!-- ⚡ Grid Pattern Background -->
     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjMTEzMzFmIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik00MCAwaC00MHY0MGg0MHoiLz48L2c+PC9zdmc+')] opacity-[0.05] pointer-events-none"></div>
@@ -40,10 +40,10 @@ if ( ! get_the_ID() ) return;
             ?>
                 
                 <!-- 💻 Snippet Window -->
-                <div class="<?php echo esc_attr( $bento_class ); ?> group relative rounded-xl bg-[#0D0D0D] border border-slate-800 hover:border-green-500/50 transition-all duration-500 flex flex-col shadow-2xl">
+                <div class="<?php echo esc_attr( $bento_class ); ?> group relative rounded-xl bg-slate-900 border border-slate-800 hover:border-green-500/50 transition-all duration-500 flex flex-col shadow-2xl">
                     
                     <!-- Header Bar -->
-                    <div class="flex items-center justify-between px-4 py-2 border-b border-slate-800 bg-[#141414]">
+                    <div class="flex items-center justify-between px-4 py-2 border-b border-slate-800 bg-slate-950">
                         <div class="flex gap-1.5">
                             <div class="w-2.5 h-2.5 rounded-full bg-slate-800 group-hover:bg-[#FF5F56] transition-colors"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-slate-800 group-hover:bg-[#FFBD2E] transition-colors"></div>

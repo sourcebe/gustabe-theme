@@ -13,7 +13,7 @@ $price_value = get_post_meta( get_the_ID(), '_starting_price_value', true );
 $display_price = ! empty( $price_label ) ? $price_label : 'ประเมินราคาตาม Scope งาน';
 ?>
 
-<section id="pricing-section" class="py-24 bg-[#050505] relative overflow-hidden font-sans border-b border-slate-900">
+<section id="pricing-section" class="py-24 bg-black relative overflow-hidden font-sans border-b border-slate-900">
     
     <!-- Matrix Glow (สีเขียวตามธีมหลัก) -->
     <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-green-500/5 blur-[120px] rounded-full pointer-events-none"></div>
@@ -29,10 +29,10 @@ $display_price = ! empty( $price_label ) ? $price_label : 'ประเมิน
         </div>
 
         <!-- 🚀 Investment Card: สไตล์ System Module -->
-        <div class="bg-[#0D0D0D] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row relative">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row relative">
             
             <!-- ✅ ฝั่งซ้าย: Price & CTA (The "Execute" Zone) -->
-            <div class="p-8 md:p-12 lg:w-2/5 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-800 bg-[#0A0A0A]">
+            <div class="p-8 md:p-12 lg:w-2/5 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-800 bg-slate-950">
                 <div class="font-mono text-xs text-slate-500 mb-6 flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></span>
                     INSTANCE_READY

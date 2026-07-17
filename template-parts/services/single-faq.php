@@ -11,7 +11,7 @@ if ( empty( $faqs ) || ! is_array( $faqs ) ) {
 }
 ?>
 
-<section id="faq-section" class="py-24 bg-[#050505] border-t border-slate-900 relative">
+<section id="faq-section" class="py-24 bg-black border-t border-slate-900 relative">
     
     <!-- ⚡ Subtle Scanline Effect -->
     <div class="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%] pointer-events-none z-10"></div>

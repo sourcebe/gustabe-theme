@@ -15,14 +15,14 @@
             
             <!-- Terminal Command อุ่นเครื่อง -->
             <div class="flex items-center gap-2 text-emerald-500 text-sm font-bold mb-6">
-                <i class="huge huge-terminal"></i>
+                <i class="huge huge-command-line"></i>
                 <span class="opacity-80">~/gustabe/agency</span>
                 <span class="text-slate-500">$</span>
                 <span class="typing-effect animate-pulse">ls -la portfolio/</span>
             </div>
 
             <!-- SEO H1: แท็กสำคัญที่สุดที่ Google ใช้จัดอันดับ -->
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-white tracking-tight mb-6">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-slate-200 tracking-tight mb-6">
                 Crafting <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Digital</span> Experiences.
             </h1>
             

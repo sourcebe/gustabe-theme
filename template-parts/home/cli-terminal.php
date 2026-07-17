@@ -14,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     <h2 class="sr-only">ทำไมต้องเลือก Gustabe รับทำเว็บไซต์ - จุดแข็งและบริการหลังการขายของเรา</h2>
 
     <!-- The Terminal Window -->
-    <div class="bg-[#0a0a0a] rounded-xl border border-slate-800 shadow-[0_0_40px_rgba(16,185,129,0.05)] overflow-hidden">
+    <div class="bg-black rounded-xl border border-slate-800 shadow-[0_0_40px_rgba(16,185,129,0.05)] overflow-hidden">
         
         <!-- Terminal Header -->
         <div class="flex items-center justify-between px-4 py-2 bg-slate-900 border-b border-slate-800">
             <div class="text-xs text-slate-500 font-mono flex items-center">
-                <i class="huge huge-terminal mr-2"></i> root@gustabe-server:~
+                <i class="huge huge-command-line mr-2"></i> root@gustabe-server:~
             </div>
             <div class="text-xs text-slate-600 font-mono">
                 bash - 80x24

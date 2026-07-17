@@ -11,6 +11,15 @@ $site_name = get_bloginfo( 'name' );
 $announcement_text = get_theme_mod( 'announcement_text', 'system.log("ให้บริการ 24 ชั่วโมง");' );
 ?>
 
+<script>
+    (function() {
+        try {
+            var theme = localStorage.getItem('gustabeTheme') || 'normal';
+            document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+    })();
+</script>
+
 <header id="site-header" class="w-full bg-slate-950/80 backdrop-blur-xl text-slate-300 border-b border-white/10 sticky top-0 z-50 transition-all duration-300 ease-in-out font-sans">
     
     <!-- Top Announcement Bar (AI Processing Vibe) -->
@@ -48,9 +57,9 @@ $announcement_text = get_theme_mod( 'announcement_text', 'system.log("ให้�
         
         <!-- Logo -->
         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center gap-3 group no-underline" aria-label="Go to homepage">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" class="w-10 h-10 rounded-2xl transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_8px_rgba(255,0,0,0.5)]">
-                <path fill="#FF0000" d="M0,0v1080l306.6,0.8c0.1-118,0.4-292.5,1.1-417.7c0-82.2,19.6-155.8,58.8-220.6c39.2-64.8,93.9-115.2,164.1-151.3c53.6-27.5,112.5-44.5,176.8-51.1c3.3-0.3,6.5-0.6,9.8-0.9h105.2h259.5V0H0z M845.8,468.1H716.4c-30.5,8.7-56.6,24-78.1,46c-35.7,36.5-53.5,86.1-53.5,149c0,61.3,17.6,110.6,53,147.8c35.3,37.2,82.4,55.9,141.4,55.9c34.9,0,68.3-6.6,100.1-19.8V641h202.7V468.1h-24.6H845.8z"/>
-                <path fill="#FFFFFF" d="M717.2,239.3c-3.3,0.3-6.6,0.6-9.8,0.9c-64.2,6.5-123.2,23.5-176.8,51.1c-70.2,36.1-124.9,86.5-164.1,151.3c-39.2,64.8-58.3,138.3-58.8,220.6c-0.7,125.1-1,299.7-1.1,417.7H684h397.9V641H879.3v206c-31.8,13.2-65.2,19.8-100.1,19.8c-59,0-106.1-18.6-141.4-55.9c-35.3-37.2-53-86.5-53-147.8c0-62.9,17.8-112.5,53.5-149c21.5-22,47.5-37.3,78.1-46h129.4h211.5h24.6V239.3H822.4H717.2z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" class="w-10 h-10 rounded-2xl transition-transform duration-300 group-hover:scale-110" style="filter: drop-shadow(0 0 8px var(--color-logo-shadow));">
+                <path fill="var(--color-logo-primary)" d="M0,0v1080l306.6,0.8c0.1-118,0.4-292.5,1.1-417.7c0-82.2,19.6-155.8,58.8-220.6c39.2-64.8,93.9-115.2,164.1-151.3c53.6-27.5,112.5-44.5,176.8-51.1c3.3-0.3,6.5-0.6,9.8-0.9h105.2h259.5V0H0z M845.8,468.1H716.4c-30.5,8.7-56.6,24-78.1,46c-35.7,36.5-53.5,86.1-53.5,149c0,61.3,17.6,110.6,53,147.8c35.3,37.2,82.4,55.9,141.4,55.9c34.9,0,68.3-6.6,100.1-19.8V641h202.7V468.1h-24.6H845.8z"/>
+                <path fill="var(--color-logo-secondary)" d="M717.2,239.3c-3.3,0.3-6.6,0.6-9.8,0.9c-64.2,6.5-123.2,23.5-176.8,51.1c-70.2,36.1-124.9,86.5-164.1,151.3c-39.2,64.8-58.3,138.3-58.8,220.6c-0.7,125.1-1,299.7-1.1,417.7H684h397.9V641H879.3v206c-31.8,13.2-65.2,19.8-100.1,19.8c-59,0-106.1-18.6-141.4-55.9c-35.3-37.2-53-86.5-53-147.8c0-62.9,17.8-112.5,53.5-149c21.5-22,47.5-37.3,78.1-46h129.4h211.5h24.6V239.3H822.4H717.2z"/>
             </svg>
             <span class="text-xl font-bold text-white tracking-tight group-hover:text-red-400 transition-colors font-mono">
                 <?php echo esc_html( $site_name ); ?>

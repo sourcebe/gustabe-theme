@@ -12,16 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyState = document.getElementById('search-empty');
     const queryText = document.getElementById('search-query-text');
 
-    // ดึงปุ่ม Quick Suggestions ทั้งหมด (ที่เพิ่งเติมคลาส suggestion-btn เข้าไป)
     const suggestionBtns = document.querySelectorAll('.suggestion-btn');
 
-    // ตรวจสอบความพร้อมของ Element สำคัญ
     if (!palette || !input) {
         console.warn('Gustabe Search: Required elements not found in DOM.');
         return;
     }
 
     let debounceTimer;
+    let selectedIndex = -1;
+    let currentResults = []; // Store rendered result DOM elements
 
     // 1. ฟังก์ชันเปิด/ปิด Modal
     const togglePalette = (show) => {
@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 input.value = '';
                 input.focus();
+                showRecentSearches();
             }, 200);
             document.body.style.overflow = 'hidden';
         } else {
@@ -44,10 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
         suggestions?.classList.remove('hidden');
         loading?.classList.add('hidden');
         emptyState?.classList.add('hidden');
+        selectedIndex = -1;
+        currentResults = Array.from(suggestionBtns); // นำปุ่ม Suggestion เข้าไปให้ลูกศรเลื่อนมาโดนได้
     };
 
     // ---------------------------------------------------
-    // ⚡ 2. ระบบ Keyboard Shortcuts (The Interceptor)
+    // ⚡ 2. ระบบ Keyboard Shortcuts (The Interceptor & Navigation)
     // ---------------------------------------------------
     window.addEventListener('keydown', (e) => {
         const isK = e.key?.toLowerCase() === 'k' || e.code === 'KeyK';
@@ -63,7 +66,62 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape' && palette.classList.contains('is-open')) {
             togglePalette(false);
         }
+
+        // Keyboard Navigation (Up/Down/Enter)
+        if (palette.classList.contains('is-open')) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                navigateResults(1);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                navigateResults(-1);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                let link = null;
+                if (selectedIndex >= 0 && currentResults[selectedIndex]) {
+                    link = currentResults[selectedIndex];
+                } else if (currentResults.length > 0 && selectedIndex === -1) {
+                    link = currentResults[0];
+                }
+
+                if (link) {
+                    if (link.classList.contains('suggestion-btn')) {
+                        link.click(); // จำลองการคลิกเพื่อรัน Hybrid Logic
+                    } else if (link.getAttribute('data-action') === 'set-theme') {
+                        const theme = link.getAttribute('data-value');
+                        document.documentElement.setAttribute('data-theme', theme);
+                        localStorage.setItem('gustabeTheme', theme);
+                        togglePalette(false);
+                    } else {
+                        const url = link.getAttribute('href');
+                        const title = link.querySelector('.result-title')?.innerText || 'Link';
+                        saveRecentSearch(title, url);
+                        window.location.href = url;
+                    }
+                }
+            }
+        }
     }, true);
+
+    const navigateResults = (direction) => {
+        if (currentResults.length === 0) return;
+        
+        if (selectedIndex >= 0) {
+            currentResults[selectedIndex].classList.remove('bg-white/10', 'border-white/20');
+        }
+        
+        selectedIndex += direction;
+        
+        if (selectedIndex >= currentResults.length) {
+            selectedIndex = 0; // loop back to top
+        } else if (selectedIndex < 0) {
+            selectedIndex = currentResults.length - 1; // loop to bottom
+        }
+        
+        const activeItem = currentResults[selectedIndex];
+        activeItem.classList.add('bg-white/10', 'border-white/20');
+        activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    };
 
     // 3. ระบบคลิก (Event Delegation)
     document.addEventListener('click', (e) => {
@@ -74,6 +132,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.id === 'search-backdrop' || e.target.closest('#search-backdrop')) {
             togglePalette(false);
         }
+        
+        // บันทึกประวัติเมื่อคลิกผลลัพธ์
+        const resultLink = e.target.closest('.search-result-item');
+        if (resultLink) {
+            if (resultLink.getAttribute('data-action') === 'set-theme') {
+                e.preventDefault();
+                const theme = resultLink.getAttribute('data-value');
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('gustabeTheme', theme);
+                togglePalette(false);
+                return;
+            }
+
+            const url = resultLink.getAttribute('href');
+            const title = resultLink.querySelector('.result-title')?.innerText || 'Link';
+            saveRecentSearch(title, url);
+        }
     });
 
     // ---------------------------------------------------
@@ -83,11 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
         suggestionBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                const prefix = btn.getAttribute('data-prefix'); // ดึงค่าเช่น "/products "
+                const prefix = btn.getAttribute('data-prefix'); 
                 if (prefix) {
                     input.value = prefix;
                     input.focus();
-                    // บังคับให้ระบบคิดว่า User กำลังพิมพ์ เพื่อสั่งรัน Event 'input' ด้านล่าง
                     input.dispatchEvent(new Event('input', { bubbles: true }));
                 }
             });
@@ -98,23 +172,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🧠 5. The Command Parser: ชำแหละคำสั่งจาก Input
     // ---------------------------------------------------
     input.addEventListener('input', (e) => {
-        let rawText = e.target.value.trimLeft(); // ใช้ trimLeft เพื่อเก็บสเปซบาร์ด้านหลังไว้เผื่อพิมพ์ต่อ
+        let rawText = e.target.value.trimLeft(); 
         clearTimeout(debounceTimer);
+        selectedIndex = -1; // Reset selection on new input
+        currentResults = [];
         
+        // ว่างเปล่า = แสดง Recent
+        if (rawText === '') {
+            showRecentSearches();
+            return;
+        }
+
+        // ระบบโหมด System Commands (>)
+        if (rawText.startsWith('>')) {
+            handleSystemCommands(rawText.substring(1).trim().toLowerCase());
+            return;
+        }
+
         let searchType = 'all';
         let searchKeyword = rawText;
 
-        // ดักจับ Prefix สไตล์ Terminal
         const prefixes = ['/products', '/portfolio', '/blog'];
         for (let p of prefixes) {
             if (rawText.toLowerCase().startsWith(p)) {
-                searchType = p.replace('/', ''); // ตัดเครื่องหมาย / ออก เหลือแค่ชื่อ Type
-                searchKeyword = rawText.substring(p.length).trim(); // หั่นเอาเฉพาะคำค้นหาด้านหลัง
+                searchType = p.replace('/', ''); 
+                searchKeyword = rawText.substring(p.length).trim(); 
                 break;
             }
         }
 
-        // ถ้าคำค้นหาสั้นเกินไป และไม่ได้ระบุ Type ให้โชว์หน้า Suggestion ปกติ
         if (searchKeyword.length < 2 && searchType === 'all') {
             resetSearch();
             return;
@@ -126,7 +212,59 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ---------------------------------------------------
-    // 📡 6. The API Fetcher (เชื่อมต่อสมองกลหลังบ้าน)
+    // ⚙️ System Commands Handler
+    // ---------------------------------------------------
+    function handleSystemCommands(keyword) {
+        suggestions.classList.add('hidden');
+        loading.classList.add('hidden');
+        emptyState?.classList.add('hidden');
+        
+        const commands = [
+            // Theme Group
+            { id: 'normal', title: 'Theme: Normal Mode', action: 'set-theme', value: 'normal', icon: 'huge-code', color: 'var(--color-zinc-200)' },
+            { id: 'darkmode', title: 'Theme: Neon Cyberpunk', action: 'set-theme', value: 'darkmode', icon: 'huge-laptop-programming', color: 'var(--color-zinc-200)' },
+            { id: 'whitemode', title: 'Theme: Clean IDE', action: 'set-theme', value: 'whitemode', icon: 'huge-code-square', color: 'var(--color-zinc-200)' },
+            { id: 'hackmode', title: 'Theme: Matrix Terminal', action: 'set-theme', value: 'hackmode', icon: 'huge-command-line', color: 'var(--color-zinc-200)' },
+            { id: 'funmode', title: 'Theme: Fun Mode', action: 'set-theme', value: 'funmode', icon: 'huge-sparkles', color: '#ea580c' },
+            
+            // Navigation Group
+            { id: 'home', title: 'Go to Homepage', url: '/', icon: 'huge-home-01', color: 'var(--color-zinc-200)' },
+            { id: 'contact', title: 'Contact Us', url: '/contact/', icon: 'huge-mail-01', color: 'var(--color-zinc-200)' },
+            { id: 'login', title: 'Login / Account', url: '/my-account/', icon: 'huge-user-circle', color: 'var(--color-zinc-200)' },
+            { id: 'cart', title: 'View Cart', url: '/cart/', icon: 'huge-shopping-cart-01', color: 'var(--color-zinc-200)' }
+        ];
+
+        const matched = keyword === '' ? commands : commands.filter(cmd => cmd.title.toLowerCase().includes(keyword) || cmd.id.includes(keyword));
+
+        if (matched.length > 0) {
+            resultsList.innerHTML = matched.map(cmd => {
+                const attrs = cmd.action 
+                    ? `href="#" data-action="${cmd.action}" data-value="${cmd.value}"` 
+                    : `href="${cmd.url}"`;
+                return `
+                <a ${attrs} class="search-result-item flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group border border-transparent hover:border-white/10 no-underline">
+                    <div class="w-12 h-12 rounded bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                        <i class="huge ${cmd.icon} text-xl" style="color: ${cmd.color};"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2">
+                            <span class="result-title text-sm font-medium text-slate-200 group-hover:text-zinc-200 transition-colors">${cmd.title}</span>
+                            <span class="text-[10px] px-1.5 py-0.5 rounded border border-white/20 bg-white/5 text-slate-400 font-mono uppercase">Command</span>
+                        </div>
+                    </div>
+                    <i class="huge huge-arrow-right-01 text-slate-500 group-hover:text-zinc-200 transition-all transform group-hover:translate-x-1"></i>
+                </a>
+            `}).join('');
+            currentResults = Array.from(resultsList.querySelectorAll('.search-result-item'));
+        } else {
+            resultsList.innerHTML = '';
+            if (queryText) queryText.innerHTML = `<span class="text-zinc-200/50">&gt;</span> ${keyword}`;
+            emptyState?.classList.remove('hidden');
+        }
+    }
+
+    // ---------------------------------------------------
+    // 📡 6. The API Fetcher
     // ---------------------------------------------------
     async function performSearch(keyword, type) {
         if (!suggestions || !loading || !resultsList) return;
@@ -135,15 +273,14 @@ document.addEventListener('DOMContentLoaded', () => {
         loading.classList.remove('hidden');
         emptyState?.classList.add('hidden');
         resultsList.innerHTML = '';
+        currentResults = [];
 
         try {
-            // ดึงค่า URL จากตัวแปรที่ส่งมาจาก PHP (enqueue-scripts.php)
             if (typeof gustabeData === 'undefined' || !gustabeData.root_url) {
                 console.error('Gustabe Search: gustabeData.root_url is not defined.');
                 return;
             }
 
-            // ประกอบ URL ใหม่ โดยเพิ่ม Parameter "type" เข้าไป
             const url = `${gustabeData.root_url}gustabe/v1/search?keyword=${encodeURIComponent(keyword)}&type=${encodeURIComponent(type)}`;
             
             const response = await fetch(url);
@@ -154,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (results && results.length > 0) {
                 renderResults(results);
             } else {
-                // อัปเดตข้อความหาไม่เจอ ให้โชว์คำสั่งที่เราพิมพ์เข้าไปด้วย
                 if (queryText) {
                     const typeDisplay = type !== 'all' ? `<span class="text-emerald-500">[${type.toUpperCase()}]</span> ` : '';
                     queryText.innerHTML = typeDisplay + keyword;
@@ -168,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------------------------------------------------
-    // 🎨 7. Render UI (วาดผลลัพธ์ลงจอ)
+    // 🎨 7. Render UI
     // ---------------------------------------------------
     function renderResults(results) {
         const typeLabels = {
@@ -185,20 +321,72 @@ document.addEventListener('DOMContentLoaded', () => {
                 : `<div class="w-full h-full flex items-center justify-center text-zinc-600 text-[10px]">N/A</div>`;
 
             return `
-                <a href="${item.url}" class="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group border border-transparent hover:border-white/10 no-underline">
+                <a href="${item.url}" class="search-result-item flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group border border-transparent hover:border-white/10 no-underline">
                     <div class="w-12 h-12 rounded bg-zinc-900 overflow-hidden flex-shrink-0 border border-zinc-800">
                         ${imgHtml}
                     </div>
                     <div class="flex-grow">
                         <div class="flex items-center gap-2">
-                            <span class="text-sm font-medium text-zinc-200 group-hover:text-red-500 transition-colors">${item.title}</span>
+                            <span class="result-title text-sm font-medium text-zinc-200 group-hover:text-red-500 transition-colors">${item.title}</span>
                             <span class="text-[10px] px-1.5 py-0.5 rounded border ${type.color} font-mono uppercase">${type.label}</span>
                         </div>
                         ${priceHtml}
                     </div>
-                    <i class="huge huge-arrow-right-01 text-zinc-600 group-hover:text-white transition-all transform group-hover:translate-x-1"></i>
+                    <i class="huge huge-arrow-right-01 text-zinc-600 group-hover:text-zinc-200 transition-all transform group-hover:translate-x-1"></i>
                 </a>
             `;
         }).join('');
+        
+        currentResults = Array.from(resultsList.querySelectorAll('.search-result-item'));
+    }
+
+    // ---------------------------------------------------
+    // 🕰️ 8. Recent Searches (LocalStorage)
+    // ---------------------------------------------------
+    function saveRecentSearch(title, url) {
+        if (!title || !url) return;
+        let recents = JSON.parse(localStorage.getItem('gustabeRecentSearches') || '[]');
+        
+        // Remove existing if duplicate url
+        recents = recents.filter(item => item.url !== url);
+        
+        // Add to front
+        recents.unshift({ title, url });
+        
+        // Keep only top 5
+        if (recents.length > 5) recents.pop();
+        
+        localStorage.setItem('gustabeRecentSearches', JSON.stringify(recents));
+    }
+
+    function showRecentSearches() {
+        let recents = JSON.parse(localStorage.getItem('gustabeRecentSearches') || '[]');
+        if (recents.length === 0) {
+            resetSearch();
+            return;
+        }
+        
+        suggestions.classList.add('hidden');
+        loading.classList.add('hidden');
+        emptyState?.classList.add('hidden');
+        
+        let html = '<p class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Recent Searches</p>';
+        html += recents.map(item => `
+            <a href="${item.url}" class="search-result-item flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group border border-transparent hover:border-white/10 no-underline">
+                <div class="w-10 h-10 rounded bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                    <i class="huge huge-time-02 text-zinc-500 text-lg"></i>
+                </div>
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2">
+                        <span class="result-title text-sm font-medium text-zinc-300 group-hover:text-zinc-200 transition-colors">${item.title}</span>
+                    </div>
+                </div>
+                <i class="huge huge-arrow-right-01 text-zinc-600 group-hover:text-zinc-200 transition-all transform group-hover:translate-x-1"></i>
+            </a>
+        `).join('');
+        
+        resultsList.innerHTML = html;
+        currentResults = Array.from(resultsList.querySelectorAll('.search-result-item'));
+        selectedIndex = -1;
     }
 });

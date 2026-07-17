@@ -30,7 +30,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         <!-- ⭐️ Box 1: Web Development -->
-        <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all duration-300 group flex flex-col h-full">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all duration-300 group flex flex-col h-full">
             <div class="flex justify-between items-start mb-3">
                 <a href="#" class="text-blue-400 text-lg font-semibold font-sans hover:underline flex items-center gap-2">
                     <i class="huge huge-laptop-programming"></i> Web-Development
@@ -54,7 +54,7 @@
         </div>
 
         <!-- 🎯 Box 2: SEO Optimization -->
-        <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all duration-300 group flex flex-col h-full">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all duration-300 group flex flex-col h-full">
             <div class="flex justify-between items-start mb-3">
                 <a href="#" class="text-blue-400 text-lg font-semibold font-sans hover:underline flex items-center gap-2">
                     <i class="huge huge-seo"></i> SEO-Optimization
@@ -76,7 +76,7 @@
         </div>
 
         <!-- 🚀 Box 3: Digital Marketing -->
-        <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all duration-300 group flex flex-col h-full md:col-span-2 lg:col-span-1">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all duration-300 group flex flex-col h-full md:col-span-2 lg:col-span-1">
             <div class="flex justify-between items-start mb-3">
                 <a href="#" class="text-blue-400 text-lg font-semibold font-sans hover:underline flex items-center gap-2">
                     <i class="huge huge-target-02"></i> Digital-Marketing

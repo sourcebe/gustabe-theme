@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
                 <div class="flex-1 space-y-2">
                     <div class="text-slate-300 font-sans text-lg font-medium leading-relaxed">
-                        <span id="prompt-text" class="text-white"></span>
+                        <span id="prompt-text" class="text-slate-200"></span>
                         <span class="inline-block w-1.5 h-5 bg-blue-500 animate-pulse align-middle ml-1" id="prompt-cursor"></span>
                     </div>
                 </div>
