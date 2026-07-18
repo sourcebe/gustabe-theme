@@ -5,17 +5,17 @@
  * Style: The IDE Grid (Bento Box)
  */
 
-get_header(); 
+get_header();
 ?>
 
 <!-- Main tag removed, handled by header.php Window Shell -->
-    
+
     <!-- ชิ้นส่วนที่ 1: The Hero Header (ดึงไฟล์แยกมาเพื่อความคลีน) -->
     <?php get_template_part( 'template-parts/portfolio/archive', 'header' ); ?>
 
     <!-- โซน Grid สำหรับแสดงผลงาน -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        
+
         <!-- ⚡ ชิ้นส่วนใหม่: The Hacker Radio Buttons (Filter UI) -->
         <!-- ⚡ แผงควบคุม The IDE Control Panel -->
         <?php
@@ -77,7 +77,7 @@ get_header();
 
         <!-- ⚡ สร้างกล่อง ID ให้ JS ใช้ DOM Parser สับเปลี่ยนข้อมูล -->
         <div id="gustabe-portfolio-engine" class="transition-opacity duration-300">
-            
+
             <?php if ( have_posts() ) : ?>
                 <!-- ตะแกรง Grid: มือถือ 1 แถว, แท็บเล็ต 2 แถว, จอใหญ่ 3 แถว -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -85,6 +85,12 @@ get_header();
                         <!-- เรียกไฟล์การ์ดมาแสดงซ้ำๆ -->
                         <?php get_template_part( 'template-parts/portfolio/card', 'ide' ); ?>
                     <?php endwhile; ?>
+                </div>
+
+                <!-- P2: พื้นที่แสดงผลเมื่อ Filter แล้วไม่เจอผลงาน (JS จะสลับให้แสดงถ้ากรองไม่เจอ) -->
+                <div id="no-results-state" class="hidden text-center py-20 border border-dashed border-slate-800 rounded-xl bg-black/20 mt-8">
+                    <i class="huge huge-search-minus text-6xl text-slate-600 mb-4 inline-block"></i>
+                    <p class="text-slate-500 font-mono">// Error 404: No items match your filter criteria.</p>
                 </div>
 
                 <!-- ระบบแบ่งหน้า (Pagination) สไตล์ Terminal -->
@@ -96,7 +102,7 @@ get_header();
             <?php else : ?>
                 <!-- กรณีไม่มีผลงาน -->
                 <div class="text-center py-20 border border-dashed border-slate-800 rounded-xl bg-black/20">
-                    <i class="huge huge-folder-not-found text-5xl text-slate-600 mb-4 block"></i>
+                    <i class="huge huge-search-minus text-6xl text-slate-600 mb-4 inline-block"></i>
                     <p class="text-slate-500">// Error 404: No projects found in this directory.</p>
                 </div>
             <?php endif; ?>
@@ -106,5 +112,5 @@ get_header();
     </section>
 <!-- Main tag removed, handled by header.php Window Shell -->
 
-<?php 
+<?php
 get_footer();

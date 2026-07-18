@@ -39,7 +39,7 @@ if (!function_exists('my_pll')) { function my_pll($text) { return function_exist
 
 <!-- ⚡ 2. Hacker Modal (Bottom Sheet) -->
 <div id="terminal-bottom-sheet" class="fixed inset-0 z-[9999] hidden flex-col justify-end pointer-events-none font-mono">
-    
+
     <!-- พื้นหลังสีดำเบลอ (Overlay) -->
     <div id="sheet-overlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
 
@@ -96,10 +96,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const originalForm = document.querySelector('form.cart');
     let isSheetOpen = false;
 
-    if (!triggerBtn || !sheet || !originalForm) return; // ถ้าไม่มีให้หยุดการทำงาน
+    if (!triggerBtn || !sheet || !originalForm) {
+        // P2: ซ่อนปุ่ม Trigger หากไม่มีฟอร์มตะกร้า (เช่น External Product)
+        if (triggerBtn) triggerBtn.parentElement.style.display = 'none';
+        return;
+    }
 
-    // [Safe Relocation] ย้ายฟอร์มเข้ามาใน Bottom Sheet อย่างปลอดภัยตั้งแต่หน้าเว็บโหลดเสร็จ
-    contentArea.appendChild(originalForm);
+    // [Safe Relocation] ย้ายฟอร์มเข้ามาใน Bottom Sheet เฉพาะ Mobile (lg:hidden)
+    const originalParent = originalForm.parentElement;
+    const originalNextSibling = originalForm.nextElementSibling;
+    const mql = window.matchMedia('(max-width: 1023px)'); // < 1024px (lg breakpoint in Tailwind)
 
     // --- ควบคุมการเปิด/ปิด (Vanilla JS Animation) ---
     const openSheet = () => {
@@ -125,6 +131,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300); // 300ms ตรงกับค่า duration-300 ของ Tailwind
     };
 
+    const handleFormRelocation = (e) => {
+        if (e.matches) {
+            contentArea.appendChild(originalForm);
+        } else {
+            if (originalNextSibling) {
+                originalParent.insertBefore(originalForm, originalNextSibling);
+            } else {
+                originalParent.appendChild(originalForm);
+            }
+            if (isSheetOpen) closeSheet();
+        }
+    };
+
+    mql.addEventListener('change', handleFormRelocation);
+    handleFormRelocation(mql); // ทำงานครั้งแรกตอนโหลดหน้าเว็บ
+
+
+
     triggerBtn.addEventListener('click', openSheet);
     overlay.addEventListener('click', closeSheet);
     closeBtn.addEventListener('click', closeSheet);
@@ -147,6 +171,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalDisplay = document.getElementById('sheet-total');
         const thumbDisplay = document.getElementById('sheet-thumb');
 
+        // ฟังก์ชันอัปเดตสถานะปุ่ม CONFIRM ให้ตรงกับปุ่ม Submit ของจริง (P2)
+        const realSubmit = originalForm.querySelector('button[type="submit"]');
+        const syncConfirmButton = () => {
+            if (realSubmit && (realSubmit.disabled || realSubmit.classList.contains('disabled'))) {
+                confirmBtn.setAttribute('disabled', 'disabled');
+                confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                confirmBtn.removeAttribute('disabled');
+                confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        };
+
         // เมื่อลูกค้าเลือกตัวเลือกสี/ไซส์สำเร็จ
         $form.on('found_variation', (e, variation) => {
             if (variation.price_html) {
@@ -157,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 thumbDisplay.src = variation.image.src;
                 thumbDisplay.classList.remove('grayscale'); // เอฟเฟกต์ปลดล็อกสีรูป
             }
+            syncConfirmButton();
         });
 
         // เมื่อลูกค้ากดล้างค่าตัวเลือก (Clear)
@@ -165,7 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
             totalDisplay.innerHTML = '<?php echo wp_kses_post($prod_price); ?>';
             thumbDisplay.src = '<?php echo esc_url($prod_img); ?>';
             thumbDisplay.classList.add('grayscale');
+            syncConfirmButton();
         });
+
+        // Initial sync ตอนโหลดครั้งแรก
+        setTimeout(syncConfirmButton, 100);
     }
 });
 </script>
@@ -182,11 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ปรับหน้าตาปุ่มเพิ่มลดจำนวน (Quantity) ให้เข้ากับตีม Hacker */
     #terminal-bottom-sheet .quantity {
-        display: flex !important; align-items: center; border: 1px solid #334155; 
+        display: flex !important; align-items: center; border: 1px solid #334155;
         background: #020617; border-radius: 4px; overflow: hidden; width: max-content;
     }
     #terminal-bottom-sheet input.qty {
-        width: 50px; height: 35px; background: transparent; border: none; 
+        width: 50px; height: 35px; background: transparent; border: none;
         text-align: center; color: #34d399; font-weight: bold; font-family: monospace;
     }
 }
