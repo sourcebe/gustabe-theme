@@ -22,7 +22,7 @@
 
 /* Custom Scrollbar สำหรับผลลัพธ์ */
 #search-results-container::-webkit-scrollbar {
-    width: 5px;
+    width: 4px;
 }
 
 #search-results-container::-webkit-scrollbar-track {
@@ -30,10 +30,10 @@
 }
 
 #search-results-container::-webkit-scrollbar-thumb {
-    background: rgba(239, 68, 68, 0.2); /* สีแดงจางๆ */
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
 }
 
 #search-results-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(239, 68, 68, 0.5);
+    background: rgba(255, 255, 255, 0.3);
 }

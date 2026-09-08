@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <!-- เพิ่มคลาส 'group' และใช้ Tailwind จัดการ state '.is-open' -->
 <div id="gustabe-search-palette" 
      class="group fixed inset-0 z-[9999] flex items-start justify-center p-4 sm:p-6 md:p-20 opacity-0 pointer-events-none transition-all duration-300 [&.is-open]:opacity-100 [&.is-open]:pointer-events-auto"
-     role="dialog" aria-modal="true">
+     role="dialog" aria-modal="true" aria-label="Search Command Palette">
     
     <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" id="search-backdrop"></div>
 
@@ -59,7 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div id="search-results-list" class="space-y-1"></div>
 
             <div id="search-empty" class="hidden py-14 px-6 text-center sm:px-14">
-                <i class="huge huge-search-not-found text-slate-500 text-4xl mb-4"></i>
+                <i class="huge huge-search-minus text-5xl mb-4 text-slate-700"></i>
                 <p class="text-sm text-slate-400">No results found for "<span id="search-query-text" class="text-slate-200"></span>"</p>
             </div>
         </div>
@@ -75,14 +75,3 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </div>
     </div>
 </div>
-
-<style>
-    /* เก็บไว้แค่ส่วนของ Scrollbar เพราะ Custom Scrollbar ใน Tailwind V4 ยังต้องใช้ Plugin เสริมครับ */
-    #search-results-container::-webkit-scrollbar {
-        width: 4px;
-    }
-    #search-results-container::-webkit-scrollbar-thumb {
-        background: rgba(255,255,255,0.1);
-        border-radius: 10px;
-    }
-</style>

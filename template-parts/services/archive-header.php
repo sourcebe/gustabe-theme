@@ -18,7 +18,7 @@ global $wp_query;
             <h1 class="text-4xl md:text-6xl font-bold text-slate-200 tracking-tighter">
                 Available <span class="text-emerald-500">Modules</span>
             </h1>
-            <p class="mt-4 text-slate-500 max-w-2xl text-sm md:text-base italic">
+            <p class="mt-4 text-slate-400 max-w-2xl text-sm md:text-base italic">
                 // [SYSTEM_LOG] Scanning active service nodes... Found <?php echo $wp_query->found_posts; ?> modules ready for deployment.
             </p>
         </div>

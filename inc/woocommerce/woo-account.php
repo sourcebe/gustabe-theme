@@ -43,7 +43,7 @@ function gustabe_add_custom_account_fields() {
 add_action( 'woocommerce_save_account_details', 'gustabe_save_custom_account_fields' );
 function gustabe_save_custom_account_fields( $user_id ) {
     if ( isset( $_POST['gustabe_line_id'] ) ) {
-        // ใช้ sanitize_text_field เพื่อล้างข้อมูลให้สะอาดก่อนลงฐานข้อมูล (ป้องกันโดนแฮก)
-        update_user_meta( $user_id, 'gustabe_line_id', sanitize_text_field( $_POST['gustabe_line_id'] ) );
+        // P3: ใช้ wp_unslash() เพื่อป้องกันปัญหา Slash ตกค้าง และ sanitize_text_field เพื่อล้างข้อมูลให้สะอาดก่อนลงฐานข้อมูล (ป้องกันโดนแฮก)
+        update_user_meta( $user_id, 'gustabe_line_id', sanitize_text_field( wp_unslash( $_POST['gustabe_line_id'] ) ) );
     }
 }

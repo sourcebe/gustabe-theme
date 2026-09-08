@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <?php else : ?>
         <!-- กรณีไม่มีผลงานในระบบ (Fallback) -->
         <div class="text-center py-20 border border-dashed border-slate-800 rounded-xl bg-slate-900/50">
-            <i class="huge huge-folder-not-found text-4xl text-slate-600 mb-4 block"></i>
+            <i class="huge huge-search-minus text-4xl text-slate-700 mb-3 block"></i>
             <p class="text-slate-500 font-mono">// ERR_NO_COMMITS_FOUND: ยังไม่มีผลงานในระบบ</p>
         </div>
     <?php endif; ?>

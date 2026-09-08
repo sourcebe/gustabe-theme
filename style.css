@@ -4,7 +4,7 @@ Theme URI: https://gustabe.com/
 Description: Custom built high-performance standalone theme for Gustabe. Pure Custom Engine (Zero Elementor, Tailwind V4).
 Author: Gustabe
 Author URI: https://gustabe.com
-Version: 2.0.0
+Version: 2.0.3
 Text Domain: gustabe
 Domain Path: /languages
 */
@@ -31,4 +31,142 @@ a {
 }
 a:hover {
     opacity: 0.8; 
+}
+
+
+/* ==========================================================================
+   HACKER CHECKOUT UI (Select2 & Thailand.js Dropdowns)
+   ========================================================================== */
+
+/* 1. Select2 Overrides (WooCommerce Dropdowns) */
+.woocommerce-checkout .select2-container--default .select2-selection--single {
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #475569 !important;
+    border-radius: 0 !important;
+    height: auto !important;
+    padding: 8px 0 !important;
+}
+.woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #34d399 !important; /* emerald-400 */
+    font-family: monospace !important;
+    font-size: 0.875rem !important; /* text-sm */
+    padding-left: 0 !important;
+    line-height: 1.5 !important;
+}
+.woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100% !important;
+    right: 0 !important;
+}
+.woocommerce-checkout .select2-dropdown {
+    background-color: #020617 !important; /* slate-950 */
+    border: 1px solid #34d399 !important; /* emerald-400 */
+    border-radius: 0 !important;
+    font-family: monospace !important;
+}
+.woocommerce-checkout .select2-results__option {
+    color: #94a3b8 !important; /* slate-400 */
+    background-color: transparent !important;
+    padding: 8px 12px !important;
+}
+.woocommerce-checkout .select2-container--default .select2-results__option--highlighted[aria-selected],
+.woocommerce-checkout .select2-container--default .select2-results__option--highlighted[data-selected] {
+    background-color: rgba(52, 211, 153, 0.1) !important; /* emerald-400/10 */
+    color: #34d399 !important; /* emerald-400 */
+}
+.woocommerce-checkout .select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: transparent !important;
+    border: 1px solid #475569 !important;
+    color: #34d399 !important;
+    font-family: monospace !important;
+}
+
+/* 2. Thailand.js Dropdowns (Auto Address) */
+.tt-menu {
+    background-color: #020617 !important; /* slate-950 */
+    border: 1px solid #34d399 !important; /* emerald-400 */
+    border-radius: 0 !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+    font-family: monospace !important;
+    margin-top: 2px !important;
+    width: 100% !important;
+}
+.tt-suggestion {
+    color: #94a3b8 !important; /* slate-400 */
+    padding: 8px 12px !important;
+    border-bottom: 1px solid #1e293b !important;
+    cursor: pointer !important;
+}
+.tt-suggestion:hover, .tt-suggestion.tt-cursor {
+    background-color: rgba(52, 211, 153, 0.1) !important; /* emerald-400/10 */
+    color: #34d399 !important; /* emerald-400 */
+}
+/* 3. Checkout Form Layout (Horizontal Row) */
+.woocommerce-billing-fields__field-wrapper,
+.woocommerce-shipping-fields__field-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem;
+}
+.woocommerce-checkout .form-row-wide,
+.woocommerce-checkout .form-row-first,
+.woocommerce-checkout .form-row-last,
+.woocommerce-checkout .form-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+    gap: 1rem;
+}
+.woocommerce-checkout .form-row label {
+    width: 140px;
+    flex-shrink: 0;
+    text-align: left;
+    margin-bottom: 0 !important;
+}
+.woocommerce-checkout .form-row .woocommerce-input-wrapper {
+    flex-grow: 1;
+}
+
+/* 4. Payment Box Styling (Hacker Theme) */
+.woocommerce-checkout #payment div.payment_box {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    line-height: 1.6;
+    background-color: rgba(2, 6, 23, 0.6) !important; /* slate-950 with opacity */
+    border: 1px dashed #34d399 !important; /* emerald-400 dashed border */
+    color: #94a3b8 !important; /* slate-400 */
+    font-family: monospace;
+}
+/* Triangle arrow for payment box */
+.woocommerce-checkout #payment div.payment_box::before {
+    content: "";
+    display: block;
+    border: 1rem solid transparent;
+    border-bottom-color: rgba(2, 6, 23, 0.6);
+    position: absolute;
+    top: -2rem;
+    left: 2rem;
+}
+
+/* 5. Hacker Labels & Asterisk */
+.woocommerce-checkout .form-row label {
+    position: relative;
+    color: #cbd5e1 !important; /* slate-300 for better readability */
+}
+.woocommerce-checkout .form-row label::after {
+    content: " :";
+    color: #34d399 !important; /* emerald-400 */
+    font-weight: bold;
+}
+.woocommerce-checkout .form-row label .required {
+    color: #ef4444 !important; /* red-500 */
+    text-decoration: none !important;
+    font-weight: bold;
 }

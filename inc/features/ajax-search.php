@@ -55,9 +55,9 @@ function gustabe_rest_search_handler( WP_REST_Request $request ) {
             $item = [
                 'id'    => get_the_ID(),
                 'title' => get_the_title(),
-                'url'   => get_permalink(),
-                'type'  => $pt,
-                'image' => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ) ?: '',
+                'url'   => esc_url( get_permalink() ),
+                'type'  => esc_html( $pt ),
+                'image' => esc_url( get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ) ?: '' ),
                 'price' => '',
             ];
 

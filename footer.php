@@ -4,6 +4,12 @@
  * Option A: Pure Custom Engine (Zero Elementor, 100% Performance)
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
+?>
+
+<!-- ปิดแท็ก Main Landmark -->
+</main>
+
+<?php
 
 // 1. เรียกใช้งานโครงสร้างหลัก Footer (แสดงทุกหน้า)
 get_template_part( 'template-parts/footer/terminal', 'base' );

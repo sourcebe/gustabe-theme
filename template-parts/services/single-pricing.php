@@ -49,7 +49,7 @@ $display_price = ! empty( $price_label ) ? $price_label : 'ประเมิน
                 </div>
 
                 <!-- ปุ่ม Call to Action: สไตล์ EXECUTE -->
-                <a href="#contact-form" class="group relative inline-flex justify-center items-center px-8 py-4 rounded bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-lg transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] w-full font-mono overflow-hidden uppercase tracking-wider">
+                <a href="<?php echo esc_url( gustabe_get_line_url() ); ?>" class="group relative inline-flex justify-center items-center px-8 py-4 rounded bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-lg transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] w-full font-mono overflow-hidden uppercase tracking-wider">
                     <i class="huge huge-bubble-chat-done mr-3 text-xl"></i> 
                     Initialize_Contact()
                 </a>

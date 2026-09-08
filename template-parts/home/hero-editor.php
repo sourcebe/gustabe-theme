@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="flex items-start gap-4">
                 <!-- User Avatar (Simulation) -->
                 <div class="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center shrink-0">
-                    <i class="huge huge-user text-slate-400"></i>
+                    <i class="huge huge-tick-04 text-emerald-500"></i>
                 </div>
                 <div class="flex-1 space-y-2">
                     <div class="text-slate-300 font-sans text-lg font-medium leading-relaxed">
@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="bg-slate-900 px-4 py-2 flex items-center justify-between border-t border-white/10 text-[11px] font-mono text-slate-500">
                 <div class="flex items-center gap-4">
                     <span class="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition-colors"><i class="huge huge-code"></i> TypeScript</span>
-                    <span class="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition-colors"><i class="huge huge-check-circle"></i> Compiled</span>
+                    <span class="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition-colors"><i class="huge huge-tick-04"></i> Compiled</span>
                 </div>
                 <div>Ready in <span id="compile-time" class="text-emerald-400">0.00ms</span></div>
             </div>
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 clearInterval(stateInterval);
                 gustabeStatus.innerHTML = '<span class="text-emerald-400">Generation Complete!</span>';
-                gustabeActions.querySelector('i').classList.replace('huge-sparkles', 'huge-check-circle');
+                gustabeActions.querySelector('i').classList.replace('huge-sparkles', 'huge-tick-04');
                 gustabeActions.querySelector('i').classList.replace('text-blue-500', 'text-emerald-400');
                 gustabeActions.querySelector('i').classList.remove('animate-spin-slow');
                 

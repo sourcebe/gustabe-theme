@@ -179,8 +179,6 @@ input:-webkit-autofill:active {
 
 		</form>
 
-		</form>
-
 <?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
 
 	</div>
@@ -188,7 +186,7 @@ input:-webkit-autofill:active {
 	<div class="u-column2 col-2 bg-slate-900/40 border border-slate-800 rounded-2xl p-6 lg:p-10 shadow-xl backdrop-blur-xl">
 
 		<h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
-			<i class="huge huge-user-add-01 text-blue-400"></i>
+			<i class="huge huge-login-01 text-emerald-400"></i>
 			<?php esc_html_e( 'Register', 'woocommerce' ); ?>
 		</h2>
 

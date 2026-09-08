@@ -87,7 +87,7 @@ $target_slug = urldecode( get_post_field( 'post_name', get_post() ) );
             </a>
             
             <!-- Secondary Action -->
-            <a href="#contact" class="flex items-center gap-2 px-8 py-4 rounded-md border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-300 font-mono transition-all w-full sm:w-auto justify-center">
+            <a href="<?php echo esc_url( gustabe_get_line_url() ); ?>" class="flex items-center gap-2 px-8 py-4 rounded-md border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-300 font-mono transition-all w-full sm:w-auto justify-center">
                 <i class="huge huge-chat-bot text-xl"></i>
                 INITIATE_CONSULT
             </a>

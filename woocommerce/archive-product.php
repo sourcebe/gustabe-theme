@@ -14,7 +14,7 @@ get_header( 'shop' );
 
 <div class="min-h-screen bg-black pt-32 pb-24 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
-        
+
         <!-- Shop Header -->
         <header class="mb-12 border-b border-slate-800/50 pb-8">
             <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
@@ -31,35 +31,33 @@ get_header( 'shop' );
 
         <!-- Main Content -->
         <?php if ( woocommerce_product_loop() ) : ?>
-            
+
             <!-- Toolbar (Sorting & Results) -->
             <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 mb-8 backdrop-blur-xl">
                 <div class="text-slate-400 text-sm font-mono w-full flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <?php 
+                    <?php
                     // Let WooCommerce render result count and sorting
-                    do_action( 'woocommerce_before_shop_loop' ); 
+                    do_action( 'woocommerce_before_shop_loop' );
                     ?>
                 </div>
             </div>
 
             <!-- The Grid -->
             <?php woocommerce_product_loop_start(); ?>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <?php
-                if ( wc_get_loop_prop( 'total' ) ) {
-                    while ( have_posts() ) {
-                        the_post();
-                        
-                        /**
-                         * Hook: woocommerce_shop_loop.
-                         */
-                        do_action( 'woocommerce_shop_loop' );
+            <?php
+            if ( wc_get_loop_prop( 'total' ) ) {
+                while ( have_posts() ) {
+                    the_post();
 
-                        wc_get_template_part( 'content', 'product' );
-                    }
+                    /**
+                     * Hook: woocommerce_shop_loop.
+                     */
+                    do_action( 'woocommerce_shop_loop' );
+
+                    wc_get_template_part( 'content', 'product' );
                 }
-                ?>
-            </div>
+            }
+            ?>
             <?php woocommerce_product_loop_end(); ?>
 
             <!-- Pagination -->
@@ -68,7 +66,7 @@ get_header( 'shop' );
             </div>
 
         <?php else : ?>
-            
+
             <!-- No Products Found -->
             <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-12 text-center">
                 <i class="huge huge-search-minus text-6xl text-slate-600 mb-4 inline-block"></i>

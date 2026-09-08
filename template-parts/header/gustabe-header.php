@@ -29,7 +29,7 @@ $announcement_text = get_theme_mod( 'announcement_text', 'system.log("ให้�
             <div class="flex items-center gap-2 text-blue-400">
                 <div class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]"></div>
                 <span class="select-none text-blue-300/80">
-                    <?php echo esc_html( function_exists('pll__') ? pll__( $announcement_text ) : $announcement_text ); ?>
+                    <?php echo esc_html( my_pll( $announcement_text ) ); ?>
                 </span>
             </div>
 
@@ -99,7 +99,7 @@ $announcement_text = get_theme_mod( 'announcement_text', 'system.log("ให้�
                 </a>
             <?php endif; ?>
 
-            <a href="<?php echo esc_url( get_permalink( get_option('woocommerce_myaccount_page_id') ) ); ?>" aria-label="Account" class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors no-underline">
+            <a href="<?php echo esc_url( class_exists('WooCommerce') ? wc_get_page_permalink('myaccount') : wp_login_url() ); ?>" aria-label="Account" class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors no-underline">
                 <i class="huge huge-user-circle text-xl hover:text-blue-400 transition-colors"></i>
             </a>
 
@@ -123,7 +123,7 @@ $announcement_text = get_theme_mod( 'announcement_text', 'system.log("ให้�
             <span class="text-white font-semibold text-sm">Menu</span>
         </div>
         <button id="close-mobile-menu" aria-label="Close Mobile Menu" class="text-slate-500 hover:text-white transition-colors w-8 h-8 rounded hover:bg-white/10 flex items-center justify-center focus:outline-none">
-            <i class="huge huge-cancel"></i>
+            <i class="huge huge-cancel-01"></i>
         </button>
     </div>
     

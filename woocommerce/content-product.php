@@ -16,7 +16,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
     return;
 }
 ?>
-<div <?php wc_product_class( 'group flex flex-col bg-slate-900/40 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(52,211,153,0.1)] transition-all duration-300', $product ); ?>>
+<li <?php wc_product_class( 'group flex flex-col bg-slate-900/40 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(52,211,153,0.1)] transition-all duration-300', $product ); ?>>
 
     <!-- Product Image (with hover zoom effect) -->
     <a href="<?php echo esc_url( get_permalink() ); ?>" class="relative block overflow-hidden aspect-square bg-slate-800/50">
@@ -27,7 +27,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
         if ( $image_url ) {
             echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ease-out" />';
         } else {
-            echo '<div class="w-full h-full flex items-center justify-center text-slate-600"><i class="huge huge-image text-4xl"></i></div>';
+            echo '<div class="w-full h-full flex items-center justify-center text-slate-600"><i class="huge huge-image-01 text-4xl"></i></div>';
         }
         ?>
 
@@ -93,17 +93,17 @@ if ( empty( $product ) || ! $product->is_visible() ) {
         <!-- Add to Cart Button -->
         <div class="mt-2">
             <?php
-            // Custom Add to Cart Button
-            echo sprintf( '<a href="%s" data-quantity="%s" class="%s %s" %s>%s</a>',
-                esc_url( $product->add_to_cart_url() ),
-                esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
-                'w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-emerald-500 text-slate-300 hover:text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition-all duration-300',
-                $product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button ajax_add_to_cart' : '',
-                isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
-                esc_html( $product->add_to_cart_text() )
-            );
+            // P1: ใช้ฟังก์ชันของ WooCommerce เพื่อให้แนบ data-product_id, SKU, etc. มาด้วยอย่างถูกต้อง
+            woocommerce_template_loop_add_to_cart( array(
+                'class' => implode( ' ', array_filter( array(
+                    'button',
+                    'w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-emerald-500 text-slate-300 hover:text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition-all duration-300',
+                    $product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
+                    $product->supports( 'ajax_add_to_cart' ) && $product->is_purchasable() && $product->is_in_stock() ? 'ajax_add_to_cart' : '',
+                ) ) )
+            ) );
             ?>
         </div>
         
     </div>
-</div>
+</li>

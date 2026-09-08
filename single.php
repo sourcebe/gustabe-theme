@@ -25,7 +25,7 @@
                         <div class="w-3 h-3 rounded-full bg-slate-700"></div>
                     </div>
                     <div class="text-xs text-slate-500 font-mono">
-                        ~/workspace/post_<?php echo the_ID(); ?>.md
+                        ~/workspace/post_<?php echo get_the_ID(); ?>.md
                     </div>
                 </div>
 

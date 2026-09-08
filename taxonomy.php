@@ -21,7 +21,7 @@ if ( $current_term->taxonomy === 'tech_stack' ) {
 }
 ?>
 
-<main class="min-h-screen bg-black text-slate-300 font-mono selection:bg-emerald-500 selection:text-white">
+<div class="min-h-screen bg-black text-slate-300 font-mono selection:bg-emerald-500 selection:text-white">
     
     <!-- Header สไตล์ Terminal (ปรับ Dynamic ตาม Taxonomy) -->
     <header class="relative bg-black border-b border-slate-800 pt-32 pb-20 overflow-hidden">
@@ -30,7 +30,7 @@ if ( $current_term->taxonomy === 'tech_stack' ) {
             <div class="max-w-3xl">
                 
                 <div class="flex items-center gap-2 text-emerald-500 text-sm font-bold mb-6">
-                    <i class="huge huge-terminal"></i>
+                    <i class="huge huge-command-line text-emerald-400"></i>
                     <span class="opacity-80">~/gustabe/filter/</span>
                     <span class="text-slate-500">$</span>
                     <span class="typing-effect animate-pulse">grep "<?php echo esc_html( $current_term->slug ); ?>"</span>
@@ -68,12 +68,12 @@ if ( $current_term->taxonomy === 'tech_stack' ) {
 
         <?php else : ?>
             <div class="text-center py-20 border border-dashed border-slate-800 rounded-xl bg-black/20">
-                <i class="huge huge-folder-not-found text-5xl text-slate-600 mb-4 block"></i>
+                <i class="huge huge-search-minus text-6xl text-slate-600 mb-4 inline-block"></i>
                 <p class="text-slate-500">// Error 404: No projects found matching this term.</p>
             </div>
         <?php endif; ?>
     </section>
-</main>
+</div>
 
 <?php 
 get_footer();

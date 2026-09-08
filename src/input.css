@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@source "../";
+@source "..";
+@source "../**/*.php";
+@source "../**/*.js";
 
 @font-face {
   font-family: 'RD CHULAJARUEK';

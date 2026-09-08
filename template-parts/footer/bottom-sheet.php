@@ -25,9 +25,6 @@ if ( ! $product->is_in_stock() ) {
     $btn_disabled = 'disabled';
     $pulse_effect = '';
 }
-
-// 3. Helper แปลภาษา (Polylang)
-if (!function_exists('my_pll')) { function my_pll($text) { return function_exists('pll__') ? pll__($text) : $text; } }
 ?>
 
 <!-- ⚡ 1. ปุ่ม Trigger ด้านล่าง (แสดงเฉพาะมือถือ) -->

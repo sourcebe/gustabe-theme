@@ -47,11 +47,11 @@ function gustabe_setup_thailand_auto_address_fields( $fields ) {
  */
 add_filter( 'woocommerce_form_field_args', 'gustabe_apply_tailwind_to_checkout_fields', 10, 3 );
 function gustabe_apply_tailwind_to_checkout_fields( $args, $key, $value ) {
-    // คลาสสำหรับกล่อง Input
-    $args['input_class'][] = 'w-full bg-gray-50 border border-gray-200 text-gray-800 text-md rounded-xl focus:ring-2 focus:ring-[#04a39c] focus:border-[#04a39c] block px-4 py-3 transition-all outline-none';
+    // คลาสสำหรับกล่อง Input (Hacker Style: โปร่งใส, ขอบล่าง, สีเขียว, ฟอนต์ Monospace)
+    $args['input_class'][] = 'w-full bg-transparent border-0 border-b border-slate-600 text-emerald-400 font-mono text-sm rounded-none focus:ring-0 focus:border-emerald-400 block px-0 py-2 transition-all outline-none shadow-none';
     
-    // คลาสสำหรับ Label
-    $args['label_class'][] = 'block text-sm font-medium text-gray-700 mb-1';
+    // คลาสสำหรับ Label (Hacker Style: สีเทาดำ, ฟอนต์ Monospace, ตัวพิมพ์ใหญ่)
+    $args['label_class'][] = 'text-xs font-mono text-slate-400 uppercase tracking-widest';
     
     return $args;
 }

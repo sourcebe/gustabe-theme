@@ -33,6 +33,8 @@ if ( ! function_exists( 'gustabe_theme_setup' ) ) {
         register_nav_menus([
             'menu-1' => __( 'เมนูหลัก (Primary Menu)', 'gustabe' ),
             'menu-2' => __( 'เมนูส่วนท้าย (Footer Menu)', 'gustabe' ),
+            'footer-quick-links'      => __( 'Footer Quick Links', 'gustabe' ),
+            'footer-customer-service' => __( 'Footer Customer Service', 'gustabe' ),
         ]);
     }
 }
@@ -86,14 +88,25 @@ function gustabe_admin_enqueue_gallery_scripts( $hook_suffix ) {
         // โหลดระบบ Media ของ WordPress (จำเป็นสำหรับ popup อัปโหลดรูป)
         wp_enqueue_media();
         
-        // โหลด Vanilla JS ของเรา
+        // โหลด Vanilla JS ของเรา (ใช้ filemtime ป้องกันบราวเซอร์แคชไฟล์เก่า)
+        $gallery_js_file = get_stylesheet_directory() . '/assets/js/admin/portfolio-gallery.js';
+        $gallery_js_ver  = file_exists( $gallery_js_file ) ? filemtime( $gallery_js_file ) : '1.2.0';
+
         wp_enqueue_script( 
             'gustabe-portfolio-gallery-js', 
             get_stylesheet_directory_uri() . '/assets/js/admin/portfolio-gallery.js', 
             [], 
-            '1.0.0', 
+            $gallery_js_ver, 
             true 
         );
+
+        // ส่งตัวแปร AJAX และ Nonce ให้ JavaScript
+        global $post;
+        wp_localize_script( 'gustabe-portfolio-gallery-js', 'gustabeAdminData', [
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'nonce'    => wp_create_nonce( 'gustabe_auto_screenshot_nonce' ),
+            'post_id'  => $post ? $post->ID : 0,
+        ] );
     }
 }
 add_action( 'admin_enqueue_scripts', 'gustabe_admin_enqueue_gallery_scripts' );
@@ -110,20 +123,3 @@ if ( file_exists( $meta_services ) ) {
 
 
 
-// -----------------------------------------------------------------------------
-// ⚡ Load Frontend Scripts & Styles (สำหรับหน้าบ้าน)
-// -----------------------------------------------------------------------------
-function gustabe_frontend_assets() {
-    
-    // โหลดไฟล์ Vanilla JS ควบคุม Header (Mobile Menu & Smart Sticky)
-    wp_enqueue_script( 
-        'gustabe-header-js', 
-        get_stylesheet_directory_uri() . '/assets/js/modules/gustabe-header.js', 
-        [], // ไม่พึ่งพา jQuery (Zero Plugin)
-        '1.0.0', 
-        true // ค่า true คือสั่งให้ไปโหลดที่ Footer (ก่อนปิด </body>) เพื่อให้เว็บโหลด UI เสร็จก่อน ไม่บล็อก Render
-    );
-
-    // อนาคตถ้านายมีไฟล์ JS/CSS สำหรับหน้าบ้านตัวอื่นๆ เช่น search-palette.js ก็เอามาใส่ต่อในฟังก์ชันนี้ได้เลยครับ
-}
-add_action( 'wp_enqueue_scripts', 'gustabe_frontend_assets' );

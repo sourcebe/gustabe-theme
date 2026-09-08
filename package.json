@@ -2,10 +2,12 @@
   "scripts": {
     "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/tailwind-build.css --watch",
     "watch": "npm run dev",
-    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/tailwind-build.css --minify"
+    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/tailwind-build.css --minify",
+    "purge-icons": "purgecss --css ./assets/huge-icons/huge-icons.min.css --content \"./**/*.php\" \"./**/*.js\" --output ./assets/huge-icons/huge-icons-purged.min.css && python build-inline-icons.py"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.4",
+    "purgecss": "^8.0.0",
     "tailwindcss": "^4.2.4"
   }
 }

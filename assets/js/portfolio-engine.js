@@ -57,6 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => { card.style.opacity = '1'; }, 50); // Animation นุ่มๆ
         });
 
+        // P2: ถ้ายอด filteredCards เป็น 0 ให้แสดง noResultsState
+        if (noResultsState) {
+            if (filteredCards.length === 0) {
+                noResultsState.classList.remove('hidden');
+                noResultsState.classList.add('block');
+            } else {
+                noResultsState.classList.add('hidden');
+                noResultsState.classList.remove('block');
+            }
+        }
+
         // วาดปุ่ม Pagination ใหม่
         renderPagination(totalPages);
     };

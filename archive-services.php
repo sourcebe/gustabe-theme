@@ -25,7 +25,7 @@ get_header(); ?>
 
             </div>
 
-            <div class="mt-16 pt-12 border-t border-slate-900 flex justify-between items-center font-mono text-xs uppercase tracking-widest text-slate-600">
+            <div class="mt-16 pt-12 border-t border-slate-900 flex justify-between items-center font-mono text-xs uppercase tracking-widest text-slate-400">
                 <span>> End of registry</span>
                 <div class="flex gap-4">
                     <?php echo get_the_posts_pagination(array(

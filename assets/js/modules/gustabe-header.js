@@ -3,7 +3,7 @@
  * หน้าที่: ควบคุม Mobile Menu และ Smart Sticky Header (Zero Plugin)
  */
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // ==========================================
     // 1. Mobile Menu Controller
     // ==========================================
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('mobile-menu-overlay');
 
     if (openBtn && closeBtn && menu && overlay) {
-        
+
         const openMobileMenu = () => {
             // 1. เปิด Overlay
             overlay.classList.remove('hidden');
@@ -64,33 +64,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Smart Sticky Header Controller
     // ==========================================
     const header = document.getElementById('site-header');
-    
+
     if (header) {
         let lastScrollY = window.scrollY;
-        
+
         // เพิ่ม Transition ให้ Header ขยับแบบสมูทๆ
         header.style.transition = 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out';
 
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            
-            // ใส่เงาให้ Header เมื่อเริ่มไถหน้าจอลงมา
-            if (currentScrollY > 50) {
-                header.classList.add('shadow-lg', 'shadow-black/50');
-            } else {
-                header.classList.remove('shadow-lg', 'shadow-black/50');
-            }
+        let ticking = false;
 
-            // ซ่อน/แสดง Header ตามทิศทางการ Scroll
-            if (currentScrollY > lastScrollY && currentScrollY > 150) {
-                // ไถลง (Scroll Down) -> ซ่อน Header ดันขึ้นไป 100%
-                header.style.transform = 'translateY(-100%)';
-            } else {
-                // ไถขึ้น (Scroll Up) หรืออยู่บนสุด -> ดึง Header กลับลงมา
-                header.style.transform = 'translateY(0)';
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY;
+
+                    // ใส่เงาให้ Header เมื่อเริ่มไถหน้าจอลงมา
+                    if (currentScrollY > 50) {
+                        header.classList.add('shadow-lg', 'shadow-black/50');
+                    } else {
+                        header.classList.remove('shadow-lg', 'shadow-black/50');
+                    }
+
+                    // ซ่อน/แสดง Header ตามทิศทางการ Scroll
+                    if (currentScrollY > lastScrollY && currentScrollY > 150) {
+                        // ไถลง (Scroll Down) -> ซ่อน Header ดันขึ้นไป 100%
+                        header.style.transform = 'translateY(-100%)';
+                    } else {
+                        // ไถขึ้น (Scroll Up) หรืออยู่บนสุด -> ดึง Header กลับลงมา
+                        header.style.transform = 'translateY(0)';
+                    }
+
+                    lastScrollY = currentScrollY;
+                    ticking = false;
+                });
+                ticking = true;
             }
-            
-            lastScrollY = currentScrollY;
         }, { passive: true }); // passive: true ช่วยให้ Performance การไถหน้าจอลื่นขึ้น (ไม่บล็อก Main Thread)
     }
 });

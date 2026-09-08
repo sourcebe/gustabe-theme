@@ -15,7 +15,7 @@ ini_set('display_errors', 0);
 
 // 1. ประกาศตัวแปรคงที่ (Constants) เพื่อให้เรียกใช้ Path ง่ายๆ ทั่วทั้งธีม
 if ( ! defined( 'GUSTABE_THEME_VERSION' ) ) {
-	define( 'GUSTABE_THEME_VERSION', '2.0.2' );
+	define( 'GUSTABE_THEME_VERSION', '2.0.3' );
 }
 define( 'GUSTABE_THEME_DIR', get_stylesheet_directory() );
 define( 'GUSTABE_THEME_URI', get_stylesheet_directory_uri() );
@@ -41,3 +41,36 @@ if ( class_exists( 'WooCommerce' ) ) {
 
 // 6. โหลดฟีเจอร์เสริมพิเศษ
 require_once GUSTABE_THEME_DIR . '/inc/features/ajax-search.php';
+
+// -----------------------------------------------------------------------------
+// ⚡ Helper Function: สร้าง LINE Link แบบฉลาด (แยกระหว่าง Personal กับ Official)
+// -----------------------------------------------------------------------------
+function gustabe_get_line_url( $line_id = '' ) {
+    if ( empty( $line_id ) ) {
+        $line_id = get_theme_mod( 'gustabe_social_line', '' );
+    }
+
+    if ( empty( $line_id ) ) {
+        return '#';
+    }
+
+    $line_id = trim( $line_id );
+
+    // ถ้าขึ้นต้นด้วย @ แปลว่าเป็น LINE OA
+    if ( strpos( $line_id, '@' ) === 0 ) {
+        return 'https://line.me/R/ti/p/' . urlencode( $line_id );
+    }
+
+    // ถ้าไม่มี @ แปลว่าเป็นไลน์ส่วนตัว
+    return 'https://line.me/ti/p/~' . urlencode( $line_id );
+}
+
+// -----------------------------------------------------------------------------
+// ⚡ Helper Function: Polylang Translator with Fallback (Centralized DRY)
+// -----------------------------------------------------------------------------
+if ( ! function_exists( 'my_pll' ) ) {
+    function my_pll( $text ) {
+        return function_exists( 'pll__' ) ? pll__( $text ) : $text;
+    }
+}
+
